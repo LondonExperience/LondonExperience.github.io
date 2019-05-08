@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" type="text/css" href="src/fullpage.css" />
+  <script src="vendors/easings.min.js"></script>
+  <script type="text/javascript" src="vendors/scrolloverflow.min.js"></script>
+  <script type="text/javascript" src="src/fullpage.js"></script>
+
+
+  <title>Experience Of London</title>
+</head>
+<body>
+  <div id="fullpage">
+  	<div class="section active" id="section0">
+      <iframe id="intro" src="intro/firstpage.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+
+    </div>
+    <div class="section" id="section1">
+      <div class="slide">
+        <iframe id="paygap" src="PayGap/Map1.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+      </div>
+      <div class="slide">
+        <iframe id="paygap2" src="PayGap/Map 2/index.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+      </div>
+      <div class="slide">
+        <iframe id="paygap3" src="PayGap/Map 3/index.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+      </div>
+      <div class="slide">
+        <iframe id="paygap4" src="PayGap/Map 4/index.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+      </div>
+
+    </div>
+
+    <div class="section" id="section2">
+  	    <div class="slide active">
+          <iframe id="tfl" src="tubeEE/line_station.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+        </div>
+  	    <div class="slide">
+          <iframe id="tfl" src="tubeEE/tubeline01.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
+
+        </div>
+  	    <div class="slide"><h1>3</h1></div>
+
+  	</div>
+
+  	<div class="section" id="section3">
+      <div class="slide"><h1>Pub Map</h1></div>
+      <div class="slide"><h1>Explaination</h1></div>
+    </div>
+
+    <div class="section" id="section4">
+      <div class="slide"><h1>Music Map</h1></div>
+      <div class="slide"><h1>Explaination</h1></div>
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+  	var myFullpage = new fullpage('#fullpage', {
+  		sectionsColor: ['#f2f2f2', 'rgb(175, 175, 175)', '#7BAABE', 'rgb(54, 99, 176)', '#ccddff'],
+
+
+
+      navigation: true,
+      navigationPosition: 'left',
+
+      showActiveTooltip: true,
+      slidesNavigation: true,
+      slidesNavPosition: 'bottom',
+
+      easing: 'easeInOutCubic',
+      scrollBar: false,
+
+      keyboardScrolling: true,
+      animateAnchor: true,
+      recordHistory: true,
+  	});
+  </script>
+</body>
+</html>

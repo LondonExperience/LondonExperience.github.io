@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Display a map</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+    #features {
+      left: 0;
+      margin-left: 20px;
+      top: 0;
+      height: 80px;
+      margin-top: 20px;
+      width: 400px;
+    }
+    .map-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.8);
+      margin-right: 20px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+<div id='map'></div>
+
+<div class='map-overlay' id='features'><h1>People flow of Stations</h1></div>
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3o4ODg4OCIsImEiOiJjanF6M2swOGwwOWV4NDNsaHdhZ3MzbTFoIn0.ievxxD6kN_LI6EcayNO1UA';
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/sz88888/cjve9f9vv0ilr1fqmvix1zei6',
+  center: [-0.135077, 51.573552],
+  pitch: 60,
+  zoom: 9.2
+});
+
+
+
+</script>
+
+</body>
+</html>

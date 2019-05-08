@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Display a map</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+</head>
+
+
+<body>
+
+<div id='map'></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3o4ODg4OCIsImEiOiJjanF6M2swOGwwOWV4NDNsaHdhZ3MzbTFoIn0.ievxxD6kN_LI6EcayNO1UA';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/sz88888/cjv4zxezs1h181fthospm26aq',
+  center: [-0.117029, 51.547908],
+  zoom: 10.2,
+  pitch:70
+});
+
+
+
+map.on('load', function() {
+ // Add the circle layer to the map
+map.addLayer({
+ id: 'TubeEntryExit',
+ type: 'circle',
+ source: {
+ type: 'vector',
+ url: 'mapbox://sz88888.53e6czu6' // Your Mapbox tileset Map ID
+ },
+ 'source-layer': 'TubeEntryExit-c07i6i', // name of tilesets
+ 'layout': {
+ 'visibility': 'visible'
+ },
+ paint: {
+ 'circle-color': 'rgba(38, 100, 237, 0.72)',
+ 'circle-opacity': 0.4,
+ 'circle-stroke-width': {
+stops: [[8, 1], [13, 1], [16, 1]] //width at different zoom levels
+},
+ 'circle-stroke-color': '#000',
+ 'circle-stroke-opacity': 1,
+ 'circle-radius': {
+ property: 'EE2016', //attribute that is being visualised
+ stops: [
+ [{zoom: 9, value: 0}, 1],
+ [{zoom: 9, value: 100}, 5],
+ [{zoom: 12, value: 0}, 3],
+ [{zoom: 12, value: 100}, 40],
+ [{zoom: 16, value: 0}, 4],
+ [{zoom: 16, value: 100}, 150],
+ ]
+ }}
+ });
+17
+map.addLayer({
+'id': 'labels',
+'type': 'symbol',
+'source': 'TubeEntryExit',
+'source-layer': 'TubeEntryExit-c07i6i', // name of tilesets
+'layout': {
+'text-field': '{EE2016}m',
+
+'text-size': {
+stops: [[8, 11], [12.5,10], [12.6, 12], [16, 20]]
+}
+},
+'paint': {
+'text-color': 'rgba(0,0,0,0.6)'
+}
+ });
+});
+
+
+</script>
+
+</body>
+
+</html>

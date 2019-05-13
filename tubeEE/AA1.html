@@ -73,6 +73,7 @@
     top: 0;
     left: 0;
     padding: 10px;
+    opacity: 0.9;
 }
 
 .map-overlay .map-overlay-inner {
@@ -114,21 +115,108 @@
         border: none;
         width: 100%;
     }
+    .legend {
+    background-color: #fff;
+    border-radius: 3px;
+    bottom: 30px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    z-index: 1;
+    opacity: 0.7;
+        }
+
+    .legend h2 {
+    margin: 0 0 10px;
+    }
+
+    .legend div span {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+    }
   </style>
 </head>
 <body>
 
 <div id='map'></div>
-<div class='map-overlay'>
+
+<div id='alls1' class='legend'>
+<h2>2017 Sum of Entry & Exit  </h2>
+<div><span style='background-color: rgb(233, 220, 246)'></span>0 - 5 million</div>
+<div><span style='background-color: rgb(196, 149, 244)'></span>5 - 20 million</div>
+<div><span style='background-color: rgb(163, 81, 245)'></span>20 - 50 million</div>
+<div><span style='background-color: rgb(116, 8, 224)'></span>50 - 100 million</div>
+<div><span style='background-color: rgb(75, 4, 147)'></span>> 100 million</div>
+</div>
+<div id='wdin' class='legend'>
+<h2>Average Weekdays Entry  </h2>
+<div><span style='background-color: rgb(192, 221, 245)'></span>0 - 1500 people</div>
+<div><span style='background-color: rgb(89, 171, 238)'></span>1500 - 7500 people</div>
+<div><span style='background-color: rgb(8, 134, 237)'></span>7500 - 75000 people</div>
+<div><span style='background-color: rgb(32, 96, 237)'></span>75000 - 150000 people</div>
+<div><span style='background-color: rgb(7, 46, 150)'></span>> 150000 people</div>
+</div>
+<div id='wdout' class='legend'>
+<h2>Average Weekdays Exit  </h2>
+<div><span style='background-color: rgb(249, 209, 199)'></span>0 - 1500 people</div>
+<div><span style='background-color: rgb(246, 125, 92)'></span>1500 - 7500 people</div>
+<div><span style='background-color: rgb(241, 62, 14)'></span>7500 - 75000 people</div>
+<div><span style='background-color: rgb(177, 41, 4)'></span>75000 - 150000 people</div>
+<div><span style='background-color: rgb(113, 27, 3)'></span>> 150000 people</div>
+</div>
+<div id='stin' class='legend'>
+<h2>Average Saturdays Entry  </h2>
+<div><span style='background-color: rgb(192, 221, 245)'></span>0 - 1500 people</div>
+<div><span style='background-color: rgb(89, 171, 238)'></span>1500 - 7500 people</div>
+<div><span style='background-color: rgb(8, 134, 237)'></span>7500 - 75000 people</div>
+<div><span style='background-color: rgb(32, 96, 237)'></span>75000 - 150000 people</div>
+<div><span style='background-color: rgb(7, 46, 150)'></span>> 150000 people</div>
+</div>
+<div id='stout' class='legend'>
+<h2>Average Saturdays Exit  </h2>
+<div><span style='background-color: rgb(249, 209, 199)'></span>0 - 1500 people</div>
+<div><span style='background-color: rgb(246, 125, 92)'></span>1500 - 7500 people</div>
+<div><span style='background-color: rgb(241, 62, 14)'></span>7500 - 75000 people</div>
+<div><span style='background-color: rgb(177, 41, 4)'></span>75000 - 150000 people</div>
+<div><span style='background-color: rgb(113, 27, 3)'></span>> 150000 people</div>
+</div>
+<div id='sdin' class='legend'>
+<h2>Average Sundays Entry  </h2>
+<div><span style='background-color: rgb(192, 221, 245)'></span>0 - 1500 people</div>
+<div><span style='background-color: rgb(89, 171, 238)'></span>1500 - 7500 people</div>
+<div><span style='background-color: rgb(8, 134, 237)'></span>7500 - 75000 people</div>
+<div><span style='background-color: rgb(32, 96, 237)'></span>75000 - 150000 people</div>
+<div><span style='background-color: rgb(7, 46, 150)'></span>> 150000 people</div>
+</div>
+<div id='sdout' class='legend'>
+<h2>Average Sundays Exit  </h2>
+<div><span style='background-color: rgb(249, 209, 199)'></span>0 - 1500 people</div>
+<div><span style='background-color: rgb(246, 125, 92)'></span>1500 - 7500 people</div>
+<div><span style='background-color: rgb(241, 62, 14)'></span>7500 - 75000 people</div>
+<div><span style='background-color: rgb(177, 41, 4)'></span>75000 - 150000 people</div>
+<div><span style='background-color: rgb(113, 27, 3)'></span>> 150000 people</div>
+</div>
+
+<div class='map-overlay' id='features'>
     <div class='map-overlay-inner'>
     <div id='week_event'>
     <h1>Entry and Exit People Flow of London Underground Stations, 2017</h1>
-    <p>Datasource: <a href='https://www.eventbrite.co.uk/platform/docs/by-date'>TfL</a> of London</p>
+    <p>Datasource: <a href='https://tfl.gov.uk/info-for/open-data-users/'>TfL</a> of London</p>
         <table><tr><td>
         <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
-        <input type="radio" name="layers" id="layer1" value="worddata"checked><label>Wordle events<br></label>
-        <input type="radio" name="layers" id="layer2" value="week_count"><label>weekly event count<br></label>
-        <input type="radio" name="layers" id="layer3" value="event"><label>Day of Week<br></label>
+        <input type="radio" name="layers" id="layer1" value="allstationEE"checked><label>All Entry<br></label>
+        <input type="radio" name="layers" id="layer2" value="weekdayentry"><label>Weekdays Entry<br></label>
+        <input type="radio" name="layers" id="layer3" value="weekdayexit"><label>Weekdays Exit<br></label>
+        <input type="radio" name="layers" id="layer4" value="saturdayentry"><label>Saturday Entry<br></label>
+        <input type="radio" name="layers" id="layer5" value="saturdayexit"><label>Saturday Exit<br></label>
+        <input type="radio" name="layers" id="layer6" value="sundayentry"><label>Sunday Entry<br></label>
+        <input type="radio" name="layers" id="layer7" value="sundayexit"><label>Sunday Exit<br></label>
+
         </td>
         </tr>
         </table>
@@ -136,7 +224,23 @@
 
 
 <script>
+
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3o4ODg4OCIsImEiOiJjanF6M2swOGwwOWV4NDNsaHdhZ3MzbTFoIn0.ievxxD6kN_LI6EcayNO1UA';
+var alls = document.getElementById('alls1');
+var wdin = document.getElementById('wdin');
+var wdout = document.getElementById('wdout');
+var stin = document.getElementById('stin');
+var stout = document.getElementById('stout');
+var sdin = document.getElementById('sdin');
+var sdout = document.getElementById('sdout');
+alls.style.display = 'block';
+wdin.style.display = 'none';
+wdout.style.display = 'none';
+stin.style.display = 'none';
+stout.style.display = 'none';
+sdin.style.display = 'none';
+sdout.style.display = 'none';
 var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/sz88888/cjv4zxezs1h181fthospm26aq',
@@ -146,6 +250,7 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function(){
+
   map.addLayer({
     id:'allstationEE',
     type:'fill-extrusion',
@@ -155,19 +260,33 @@ map.on('load', function(){
     },
     'source-layer':'NewOutput-amevhe',
     paint:{
-      'fill-extrusion-color':'rgb(242, 240, 244)',
-      'fill-extrusion-opacity': 0.8,
+      'fill-extrusion-color':{
+          property: 'million_Su',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(233, 220, 246)'],
+              [5, 'rgb(196, 149, 244)'],
+              [20, 'rgb(163, 81, 245)'],
+              [50, 'rgb(116, 8, 224)'],
+              [100, 'rgb(75, 4, 147)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0.9,
 
 
       'fill-extrusion-height': {
         property: 'million_Su',
         type: 'exponential',
         stops: [
-            [0,10],
-            [1, 20],
-            [5, 100],
-            [50, 1000],
-            [100, 2000],
+            [0,20],
+            [1, 40],
+            [5, 200],
+            [50, 2000],
+            [100, 4000],
 
         ]
 
@@ -176,7 +295,580 @@ map.on('load', function(){
 
 
   })
-})
+});
+function as1(e) {
+       coordinates = e.lngLat;
+       var features = map.queryRenderedFeatures(e.point, {
+         layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+       });
+        var station = features[0].properties.Station;
+        var borough = features[0].properties.Borough;
+        var count = features[0].properties.million_Su;
+             new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>2017 Entry & Exit Sum Count: <strong>'+count+' million people</strong><p>')
+           .addTo(map);
+
+
+}
+
+map.on('click',as1);
+
+
+map.on('load', function(){
+  map.addLayer({
+    id:'weekdayentry',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':{
+          property: 'Weekday_En',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(192, 221, 245)'],
+              [1500, 'rgb(89, 171, 238)'],
+              [7500, 'rgb(8, 134, 237)'],
+              [75000, 'rgb(32, 96, 237)'],
+              [150000, 'rgb(7, 46, 150)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0,
+
+
+      'fill-extrusion-height': {
+        property: 'Weekday_En',
+        type: 'exponential',
+        stops: [
+          [0,10],
+          [1500, 20],
+          [7500, 100],
+          [75000, 1000],
+          [150000, 2000],
+
+        ]
+
+      },
+    }
+
+
+  })
+
+
+
+  map.addLayer({
+    id:'weekdayexit',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':{
+          property: 'Weekday_En',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(249, 209, 199)'],
+              [1500, 'rgb(246, 125, 92)'],
+              [7500, 'rgb(241, 62, 14)'],
+              [75000, 'rgb(177, 41, 4)'],
+              [150000, 'rgb(113, 27, 3)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0,
+      'fill-extrusion-height': {
+        property: 'Weekday_Ex',
+        type: 'exponential',
+        stops: [
+          [0,10],
+          [1500, 20],
+          [7500, 100],
+          [75000, 1000],
+          [150000, 2000],
+
+        ]
+
+      },
+    }
+
+
+  });
+
+  map.addLayer({
+    id:'saturdayentry',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':{
+          property: 'Saturday_E',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(192, 221, 245)'],
+              [1500, 'rgb(89, 171, 238)'],
+              [7500, 'rgb(8, 134, 237)'],
+              [75000, 'rgb(32, 96, 237)'],
+              [150000, 'rgb(7, 46, 150)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0,
+      'fill-extrusion-height': {
+        property: 'Saturday_E',
+        type: 'exponential',
+        stops: [
+          [0,10],
+          [1500, 20],
+          [7500, 100],
+          [75000, 1000],
+          [150000, 2000],
+
+        ]
+
+      },
+    }
+
+
+  });
+  map.addLayer({
+    id:'saturdayexit',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':{
+          property: 'Saturday_1',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(249, 209, 199)'],
+              [1500, 'rgb(246, 125, 92)'],
+              [7500, 'rgb(241, 62, 14)'],
+              [75000, 'rgb(177, 41, 4)'],
+              [150000, 'rgb(113, 27, 3)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0,
+      'fill-extrusion-height': {
+        property: 'Saturday_1',
+        type: 'exponential',
+        stops: [
+          [0,10],
+          [1500, 20],
+          [7500, 100],
+          [75000, 1000],
+          [150000, 2000],
+
+        ]
+
+      },
+    }
+
+
+  });
+  map.addLayer({
+    id:'sundayentry',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':{
+          property: 'Sunday_Ent',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(192, 221, 245)'],
+              [1500, 'rgb(89, 171, 238)'],
+              [7500, 'rgb(8, 134, 237)'],
+              [75000, 'rgb(32, 96, 237)'],
+              [150000, 'rgb(7, 46, 150)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0,
+      'fill-extrusion-height': {
+        property: 'Sunday_Ent',
+        type: 'exponential',
+        stops: [
+          [0,10],
+          [1500, 20],
+          [7500, 100],
+          [75000, 1000],
+          [150000, 2000],
+
+        ]
+
+      },
+    }
+
+
+  });
+  map.addLayer({
+    id:'sundayexit',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':{
+          property: 'Sunday_Exi',
+          type: 'interval',
+          stops: [
+              // all values that had string "Below 5" were in python set to 0.
+              // only showing colour from 5 onwards
+              // http://www.0to255.com/17146E for scale
+              [0, 'rgb(249, 209, 199)'],
+              [1500, 'rgb(246, 125, 92)'],
+              [7500, 'rgb(241, 62, 14)'],
+              [75000, 'rgb(177, 41, 4)'],
+              [150000, 'rgb(113, 27, 3)']
+
+          ]
+      },
+      'fill-extrusion-opacity': 0,
+      'fill-extrusion-height': {
+        property: 'Sunday_Exi',
+        type: 'exponential',
+        stops: [
+          [0,10],
+          [1500, 20],
+          [7500, 100],
+          [75000, 1000],
+          [150000, 2000],
+
+        ]
+
+      },
+    }
+
+
+  });
+});
+
+
+
+function as2(e) {
+
+       coordinates = e.lngLat;
+       var features = map.queryRenderedFeatures(e.point, {
+         layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+       });
+        var station = features[0].properties.Station;
+        var borough = features[0].properties.Borough;
+        var count = features[0].properties.million_Su;
+             new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>2017 Entry & Exit Sum Count: <strong>'+count+' million people</strong><p>')
+           .addTo(map);
+
+
+};
+function wki(e) {
+       coordinates = e.lngLat;
+       var features = map.queryRenderedFeatures(e.point, {
+         layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+       });
+        var station = features[0].properties.Station;
+        var borough = features[0].properties.Borough;
+        var count = features[0].properties.Weekday_En;
+             new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>Weekdays Entry Count: <strong>'+count+' people</strong><p>')
+           .addTo(map);
+
+};
+function wko(e) {
+       coordinates = e.lngLat;
+       var features = map.queryRenderedFeatures(e.point, {
+         layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+       });
+        var station = features[0].properties.Station;
+        var borough = features[0].properties.Borough;
+        var count = features[0].properties.Weekday_Ex;
+             new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>Weekdays Exit Count: <strong>'+count+' people</strong><p>')
+           .addTo(map);
+
+};
+function sti(e) {
+        coordinates = e.lngLat;
+        var features = map.queryRenderedFeatures(e.point, {
+          layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+        });
+         var station = features[0].properties.Station;
+         var borough = features[0].properties.Borough;
+         var count = features[0].properties.Saturday_E;
+              new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>Saturday Entry Count: <strong>'+count+' people</strong><p>')
+            .addTo(map);
+
+};
+function sto(e) {
+       coordinates = e.lngLat;
+       var features = map.queryRenderedFeatures(e.point, {
+         layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+       });
+        var station = features[0].properties.Station;
+        var borough = features[0].properties.Borough;
+        var count = features[0].properties.Saturday_1;
+             new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>Saturday Exit Count: <strong>'+count+' people</strong><p>')
+           .addTo(map);
+
+};
+function sdi(e) {
+        coordinates = e.lngLat;
+        var features = map.queryRenderedFeatures(e.point, {
+          layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+        });
+         var station = features[0].properties.Station;
+         var borough = features[0].properties.Borough;
+         var count = features[0].properties.Sunday_Ent;
+              new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>Sunday Entry Count: <strong>'+count+' people</strong><p>')
+            .addTo(map);
+
+};
+function sdo(e) {
+       coordinates = e.lngLat;
+       var features = map.queryRenderedFeatures(e.point, {
+         layers: ['allstationEE'] // replace this with the name of the layer as shown in the style editor
+       });
+
+        var station = features[0].properties.Station;
+        var borough = features[0].properties.Borough;
+        var count = features[0].properties.Sunday_Exi;
+             new mapboxgl.Popup()
+           .setLngLat(coordinates)
+           .setHTML("Station: <strong>"+ station+ '</strong><p>'+"Borough: <strong>"+borough+'</strong></p><p>Sunday Exit Count: <strong>'+count+' people</strong><p>')
+           .addTo(map);
+
+};
+
+document.getElementById("layer1").addEventListener("click",function(){
+        map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('allstationEE','fill-extrusion-opacity',0.9);
+        map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayexit','fill-extrusion-opacity',0);
+        alls.style.display = 'block';
+        wdin.style.display = 'none';
+        wdout.style.display = 'none';
+        stin.style.display = 'none';
+        stout.style.display = 'none';
+        sdin.style.display = 'none';
+        sdout.style.display = 'none';
+
+
+        map.off('click', as1);
+        map.off('click', wki);
+        map.off('click', wko);
+        map.off('click', sti);
+        map.off('click', sto);
+        map.off('click', sdi);
+        map.off('click', sdo);
+
+
+        map.on('click',as2);
+
+        map.flyTo({
+                    center: [-0.102714,51.522579],
+                    zoom: 9.3, bearing:-38.4,pitch:60,speed: 0.5
+                });
+        });
+document.getElementById("layer2").addEventListener("click",function(){
+        map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0.9);
+        map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayexit','fill-extrusion-opacity',0);
+        alls.style.display = 'none';
+        wdin.style.display = 'block';
+        wdout.style.display = 'none';
+        stin.style.display = 'none';
+        stout.style.display = 'none';
+        sdin.style.display = 'none';
+        sdout.style.display = 'none';
+
+       map.off('click', as1);
+       map.off('click', as2);
+       map.off('click', wko);
+       map.off('click', sti);
+       map.off('click', sto);
+       map.off('click', sdi);
+       map.off('click', sdo);
+        map.on('click',wki);
+
+
+        });
+        document.getElementById("layer3").addEventListener("click",function(){
+                map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
+                map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0);
+                map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0.9);
+                map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0);
+                map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0);
+                map.setPaintProperty('sundayentry','fill-extrusion-opacity',0);
+                map.setPaintProperty('sundayexit','fill-extrusion-opacity',0);
+                alls.style.display = 'none';
+                wdin.style.display = 'none';
+                wdout.style.display = 'block';
+                stin.style.display = 'none';
+                stout.style.display = 'none';
+                sdin.style.display = 'none';
+                sdout.style.display = 'none';
+
+               map.off('click', as1);
+               map.off('click', wki);
+               map.off('click', as2);
+               map.off('click', sti);
+               map.off('click', sto);
+               map.off('click', sdi);
+               map.off('click', sdo);
+                map.on('click',wko);
+});
+document.getElementById("layer4").addEventListener("click",function(){
+        map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0.9);
+        map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayexit','fill-extrusion-opacity',0);
+        alls.style.display = 'none';
+        wdin.style.display = 'none';
+        wdout.style.display = 'none';
+        stin.style.display = 'block';
+        stout.style.display = 'none';
+        sdin.style.display = 'none';
+        sdout.style.display = 'none';
+
+        map.off('click', as1);
+        map.off('click', wki);
+        map.off('click', wko);
+        map.off('click', as2);
+        map.off('click', sto);
+        map.off('click', sdi);
+        map.off('click', sdo);
+        map.on('click',sti );
+});
+document.getElementById("layer5").addEventListener("click",function(){
+        map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0.9);
+        map.setPaintProperty('sundayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayexit','fill-extrusion-opacity',0);
+        alls.style.display = 'none';
+        wdin.style.display = 'none';
+        wdout.style.display = 'none';
+        stin.style.display = 'none';
+        stout.style.display = 'block';
+        sdin.style.display = 'none';
+        sdout.style.display = 'none';
+
+       map.off('click', as1);
+       map.off('click', wki);
+       map.off('click', wko);
+       map.off('click', sti);
+       map.off('click', as2);
+       map.off('click', sdi);
+       map.off('click', sdo);
+        map.on('click',sto);
+});
+document.getElementById("layer6").addEventListener("click",function(){
+        map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayentry','fill-extrusion-opacity',0.9);
+        map.setPaintProperty('sundayexit','fill-extrusion-opacity',0);
+        alls.style.display = 'none';
+        wdin.style.display = 'none';
+        wdout.style.display = 'none';
+        stin.style.display = 'none';
+        stout.style.display = 'none';
+        sdin.style.display = 'block';
+        sdout.style.display = 'none';
+
+        map.off('click', as1);
+        map.off('click', wki);
+        map.off('click', wko);
+        map.off('click', sti);
+        map.off('click', sto);
+        map.off('click', as2);
+        map.off('click', sdo);
+        map.on('click', sdi);
+});
+document.getElementById("layer7").addEventListener("click",function(){
+        map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('weekdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('saturdayexit','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayentry','fill-extrusion-opacity',0);
+        map.setPaintProperty('sundayexit','fill-extrusion-opacity',0.9);
+        alls.style.display = 'none';
+        wdin.style.display = 'none';
+        wdout.style.display = 'none';
+        stin.style.display = 'none';
+        stout.style.display = 'none';
+        sdin.style.display = 'none';
+        sdout.style.display = 'block';
+
+       map.off('click', as1);
+       map.off('click', wki);
+       map.off('click', wko);
+       map.off('click', sti);
+       map.off('click', sto);
+       map.off('click', sdi);
+       map.off('click', as2);
+        map.on('click',sdo);
+});
+
+
+
+
 
 
 </script>

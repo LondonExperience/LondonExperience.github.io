@@ -4,8 +4,8 @@
     <meta charset='utf-8' />
     <title>Display a map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet'/>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
     
     <style>
         body {
@@ -150,28 +150,81 @@
 		    margin: 0 0 10px;
             
 }
-        .session {
-          margin-bottom: 20px;
-        }
-        .row {
-          height: 12px;
-          width: 100%;
-        }
-
-        .colors {
-          background-image: url("/Users/zhaoyijin/Desktop/colorscheme.png");
-            background-size: 100px 80px;
-          margin-bottom: 5px;
-        }
+       
+        
     </style>
 </head>
 <body>
 
+<style>
+    
 
+     .legend2 {
+        background-color: #fff;
+        border-radius: 3px;
+        bottom: 30px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 10px;
+        position: absolute;
+        right: 10px;
+        z-index: 1;
+            }
+        
+        .legend2 h2 {
+        margin: 0 0 10px;
+        }
+
+        .legend2 div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-right: 5px;
+        width: 10px;
+        }
+    </style>
     
 
     
- <div id='map'></div>   
+ <div id='map'></div>
+        <div id='list' class='legend2'>
+        <h2>Event categories </h2>
+            <div><span style='background-color: #FFC0CB'></span>Business & Professional</div>
+            <div><span style='background-color: #FFA07A'></span>Science & Technology</div>
+            <div><span style='background-color: #DB7093'></span>Music</div>
+            <div><span style='background-color: #CD5C5C'></span>Film, Media & Entertainment</div>
+            <div><span style='background-color: #FF4500'></span>Performing & Visual Arts</div>
+            <div><span style='background-color: #FFD700'></span>Fashion & Beauty</div>
+            <div><span style='background-color: #FFFF00'></span>Health & Wellness</div>
+            <div><span style='background-color: #FAFAD2'></span>Sports & Fitness</div>
+            <div><span style='background-color: #EEE8AA'></span>Travel & Outdoor</div>
+            <div><span style='background-color: #BDB76B'></span>Food & Drink</div>
+            <div><span style='background-color: #8FBC8B'></span>Charity & Causes</div>
+            <div><span style='background-color: #20B2AA'></span>Government & Politics</div>
+            <div><span style='background-color: #AFEEEE'></span>Community & Culture</div>
+            <div><span style='background-color: #B0C4DE'></span>Religion & Spirituality</div>
+            <div><span style='background-color: #E6E6FA'></span>Family & Education</div>
+            <div><span style='background-color: #D8BFD8'></span>Seasonal & Holiday</div>
+            <div><span style='background-color: #BA55D3'></span>Home & Lifestyle</div>
+            <div><span style='background-color: #663399'></span>Auto, Boat & Air</div>
+            <div><span style='background-color: #DAA520'></span>Hobbies & Special Interest</div>
+            <div><span style='background-color: #A9A9A9'></span>School Activities</div>
+            <div><span style='background-color: #708090'></span>Other</div>   
+            
+        </div>
+<!--
+<form id='category' class="legend2">
+     <table><tr><td>
+         <div><input type='radio' id='layer5' value='week_count' name = "layers" > Business & Professional</div>
+  <div><input type='radio' id='101' value='101' name = "layers" > Business & Professional    <span style='background-color: #dbf7a6'></span></div>
+  <div><input type='radio' id='102' value='102' name = "layers"> Science & Technology</div>
+  <div><input type='radio' id='103' value='103' name = "layers"> Music</div>
+  <div><input type='radio' id='104' value='104' name = "layers"> Film, Media & Entertainment</div>
+  <div><input type='radio' id='105' value='105' name = "layers"> Performing & Visual Arts</div>
+         </td></tr></table>
+</form>
+-->
+    
 <div class='map-overlay-right' id='features'><h2>Weekly borough events</h2><div id='laname'><p>Hover over a borough</p></div>
     
     </div>
@@ -190,27 +243,23 @@
         <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
         <input type="radio" name="layers" id="layer1" value="worddata"checked><label>Wordle events<br></label>
         <input type="radio" name="layers" id="layer2" value="week_count"><label>weekly event count<br></label>
-        <input type="radio" name="layers" id="layer3" value="event"><label>Day of Week<br></label>
+        <input type="radio" name="layers" id="layer3" value="event"><label>Day of May<br></label>
         </td>
         </tr>
         </table>
         
         
-    <div class='session'>
-    <h2>Category</h2>
-    <div class='row colors'></div>
-    </div>
 <div id='sliderbar' class='legend'>
-    <h2>Day: <label id='active-week'>1</label></h2>
+    <h2>May: <label id='active-week'>1</label></h2>
     <input id='slider' class='row' type='range' min='1' max='7' step='1' value='1' />
          
 </div>
-    
-    <fieldset>
-    <label>Select Category</label>
-    <select id='layers' name='layers'>
-    <option value='103'>Music</option>
-    <option value='110'>Food & Drink</option>
+    <div id = "layer4" name="layers"> 
+    <h2>select categery</h2>
+    <fieldset> 
+    <select id='category' class='legend'>
+        <option value='103'>Music</option>
+        <option value='110'>Food & Drink</option>
         <option value='101'>Business & Professional</option>
         <option value='113'>Community & Culture</option>
         <option value='105'>Performing & Visual Arts</option>
@@ -221,7 +270,9 @@
         <option value='109'>Travel & Outdoor</option>
         
     </select>
+     
     </fieldset>
+        </div>  
 	</div>
 </div> 
     </div>
@@ -232,6 +283,10 @@
 
     var worddataLegendEl = document.getElementById('worddata');
     var sliderbarLegendEl = document.getElementById('sliderbar');
+    var categoryLegendEl = document.getElementById('layer4');
+    
+  
+    categoryLegendEl.style.display = 'none';
     sliderbarLegendEl.style.display = 'none';
     
     // Load a new map in the 'map' HTML div
@@ -241,7 +296,13 @@
     center: [-0.083098, 51.499274], // starting position [lng, lat]
     zoom: 9.3 // starting zoom
     });
-            
+    
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+    closeButton: false
+    });
+    
+    
     
 map.on('load', function() {
       // Add the circle layer to the map
@@ -267,43 +328,49 @@ map.addLayer({
           "circle-color":  [
               "step",
             ["get", "category_id"],
-            "#DAF7A6",
+            "#FFC0CB",
             101,
-            "#DAF7A6",
+            "#FFC0CB",
             102,
-            "#FCF3CF",
+            "#FFA07A",
             103,
-            "#FFC300",
+            "#DB7093",
             104,
-            "#E6E6FA",
+            "#CD5C5C",
             105,
-            "#F5CBA7",
+            "#FF4500",
             106,
-            "#9370DB",
+            "#FFD700",
             107,
-            "#DDA0DD",
+            "#FFFF00",
+            108,
+            "#FAFAD2",  
+            109,
+            "#EEE8AA",
             110,
-            "#FF5733",
+            "#BDB76B",
             111,
             "#8FBC8B",
             112,
-            "#00FFFF",
+            "#20B2AA",
             113,
-            "#DC143C",
+            "#AFEEEE",
             114,
-            "#C0C0C0",
+            "#B0C4DE",
             115,
-            "#FFFF00",
+            "#E6E6FA",
             116,
-            "#006400",
+            "#D8BFD8",
             117,
-            "#008B8B",
+            "#BA55D3",
             118,
-            "#4682B4",
+            "#663399",
             119,
-            "#A9CCE3",
+            "#DAA520",
             120,
-            "#FAFAD2"
+            "#A9A9A9",
+            199,
+              "#708090",
            
             
             ],
@@ -316,6 +383,10 @@ map.addLayer({
         },
           
       });
+    //var filters = document.getElementById('category').filters;
+
+      // update text in the UI
+ 
     map.addLayer({
       id:'event',
       type:'circle',
@@ -345,44 +416,49 @@ map.addLayer({
               
               "step",
             ["get", "category_id"],
-            "#DAF7A6",
+            "#FFC0CB",
             101,
-            "#DAF7A6",
+            "#FFC0CB",
             102,
-            "#FCF3CF",
+            "#FFA07A",
             103,
-            "#FFC300",
+            "#DB7093",
             104,
-            "#E6E6FA",
+            "#CD5C5C",
             105,
-            "#F5CBA7",
+            "#FF4500",
             106,
-            "#9370DB",
+            "#FFD700",
             107,
-            "#DDA0DD",
+            "#FFFF00",
+            108,
+            "#FAFAD2",  
+            109,
+            "#EEE8AA",
             110,
-            "#FF5733",
+            "#BDB76B",
             111,
             "#8FBC8B",
             112,
-            "#00FFFF",
+            "#20B2AA",
             113,
-            "#DC143C",
+            "#AFEEEE",
             114,
-            "#C0C0C0",
+            "#B0C4DE",
             115,
-            "#FFFF00",
+            "#E6E6FA",
             116,
-            "#006400",
+            "#D8BFD8",
             117,
-            "#008B8B",
+            "#BA55D3",
             118,
-            "#4682B4",
+            "#663399",
             119,
-            "#A9CCE3",
+            "#DAA520",
             120,
-            "#FAFAD2"
-           
+            "#A9A9A9",
+            199,
+              "#708090",
             ],
 
         'circle-opacity': 0,
@@ -404,6 +480,9 @@ map.addLayer({
       document.getElementById('active-week').innerText = week;
     });
     
+    
+    
+
 
 map.addLayer({
         id: 'LocalAuthorities',
@@ -472,6 +551,7 @@ document.getElementById('laname').innerHTML = "Hover over a local authority";
             map.setPaintProperty('event','circle-opacity',0);
             worddataLegendEl.style.display = 'block';
             sliderbarLegendEl.style.display = 'none';
+        categoryLegendEl.style.display = 'none';
 //            publicLegendEl.style.display = 'none';
             map.flyTo({
                         center: [-0.121126,51.494914],
@@ -481,10 +561,12 @@ document.getElementById('laname').innerHTML = "Hover over a local authority";
         
         });
 document.getElementById("layer2").addEventListener("click",function(){
-            map.setPaintProperty('week_count','circle-opacity',0.8);
+            map.setPaintProperty('week_count','circle-opacity',0.9);
              map.setPaintProperty('event','circle-opacity',0);
             worddataLegendEl.style.display = 'none';
             sliderbarLegendEl.style.display = 'none';
+            categoryLegendEl.style.display = 'block';
+
      })
 
 document.getElementById("layer3").addEventListener("click",function(){
@@ -492,7 +574,15 @@ document.getElementById("layer3").addEventListener("click",function(){
             map.setPaintProperty('event','circle-opacity',0.6);
             worddataLegendEl.style.display = 'none';
             sliderbarLegendEl.style.display = 'block';
+            categoryLegendEl.style.display = 'none';
+    
      })
+
+    document.getElementById('category').addEventListener('input', function(e) {
+      var categories = parseInt(e.target.value);
+      // update the map
+      map.setFilter('week_count', ['==', ['number', ['get', 'category_id']], categories]);
+    })
 //
 //map.on('mousemove', function(e) {
 //  var borough = map.queryRenderedFeatures(e.point, {

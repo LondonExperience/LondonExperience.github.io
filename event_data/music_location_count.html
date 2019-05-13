@@ -91,6 +91,24 @@
 
     </style>
 <div id='map'></div>
+    
+    <div class='map-overlay'>
+    <div class='map-overlay-inner'>
+    <div id='week_event'>
+    <h1>cultural map</h1>
+    <p>Data:<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>London datastore</a> culture and social activities for London</p>
+        <table><tr><td>
+        <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
+        <input type="radio" name="layers" id="layer1" value="Music_location"checked><label>Music location count by hexagon<br></label>
+        <input type="radio" name="layers" id="layer2" value="community_centre"><label>community centre count by hexagon<br></label>
+        <input type="radio" name="layers" id="layer3" value="ciname"><label>cinames location count by hexagon<br></label>
+        </td>
+        </tr>
+        </table>
+        </div>
+        </div>
+    </div>
+    
     <div id='Music_location' class='legend'>
     <h2>Music locatin counts </h2>
     <div><span style='background-color: #e6e6fa'></span>1</div>
@@ -143,11 +161,93 @@ var map = new mapboxgl.Map({
             'fill-extrusion-opacity': 0.95,
             'fill-extrusion-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
                  duration: 1000,
-                 delay: 0
+                 delay: 3
+             }
+            }
+      });
+              map.addLayer({
+        id: 'ciname',
+        type: 'fill-extrusion',
+        source: {
+          type: 'vector',
+          url: 'mapbox://madao2333.adb2ftn0' 
+        },
+        'source-layer': 'cinames-0eof11', // name of tileset
+        paint: {
+            'fill-extrusion-color': {
+                property: 'height',
+                type: 'exponential',
+                stops: [
+                    [0, '#ffffff'],
+                    [100, '#e6e6fa'],
+                    [300, '#d8bfd8'],
+                    [500, '#dda0dd'],
+                    [1000, '#ee82ee'],
+                    [1500, '#ba55d3'],
+                    [1800, '#9470db'],
+                ]
+            },
+            'fill-extrusion-height': ['number', ['get', 'height']],  
+            'fill-extrusion-opacity': 0,
+            'fill-extrusion-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 3
+             }
+            }
+      });
+              map.addLayer({
+        id: 'community_centre',
+        type: 'fill-extrusion',
+        source: {
+          type: 'vector',
+          url: 'mapbox://madao2333.2qyxwlw6' 
+        },
+        'source-layer': 'community-djexr4', // name of tileset
+        paint: {
+            'fill-extrusion-color': {
+                property: 'height',
+                type: 'exponential',
+                stops: [
+                    [0, '#ffffff'],
+                    [100, '#e6e6fa'],
+                    [300, '#d8bfd8'],
+                    [500, '#dda0dd'],
+                    [800, '#ee82ee'],
+                    [1000, '#ba55d3'],
+                    [1800, '#9470db'],
+                ]
+            },
+            'fill-extrusion-height': ['number', ['get', 'height']],  
+            'fill-extrusion-opacity': 0,
+            'fill-extrusion-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 3
              }
             }
       });
     })
+    
+    
+    // below is the code of chenge layers
+    
+    document.getElementById("layer1").addEventListener("click",function(){
+            map.setPaintProperty('music_all','fill-extrusion-opacity',0.8);
+            map.setPaintProperty('ciname','fill-extrusion-opacity',0);
+            map.setPaintProperty('community_centre','fill-extrusion-opacity',0);
+
+     })
+    document.getElementById("layer2").addEventListener("click",function(){
+            map.setPaintProperty('music_all','fill-extrusion-opacity',0);
+            map.setPaintProperty('ciname','fill-extrusion-opacity',0);
+            map.setPaintProperty('community_centre','fill-extrusion-opacity',0.8);
+
+     })
+    document.getElementById("layer3").addEventListener("click",function(){
+            map.setPaintProperty('music_all','fill-extrusion-opacity',0);
+            map.setPaintProperty('ciname','fill-extrusion-opacity',0.8);
+            map.setPaintProperty('community_centre','fill-extrusion-opacity',0);
+
+     })
 </script>
 
 </body>

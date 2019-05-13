@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>London's Pubs - Story</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+      
+    .mapboxgl-popup {
+        max-width: 250px;
+        font: 12px/20px 'Helvetica';
+        } 
+  </style>
+</head>
+<body>
+    
+<style>
+#map {
+position: fixed;
+width: 75%;
+}
+#features {
+width: 25%;
+margin-left: 75%;
+font-family: 'Helvetica';
+overflow-y: scroll;
+background-color: #fafafa;
+}
+section {
+padding:  25px 50px;
+line-height: 25px;
+border-bottom: 1px solid #ddd;
+opacity: 0.25;
+font-size: 13px;
+}
+section.active {
+opacity: 1;
+}
+
+.legend {
+background-color: #808080;
+border-radius: 3px; 
+bottom: 30px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+padding: 10px;
+position: fixed;
+margin-left: 10px;
+}
+
+.legend h4 {
+margin: 0 0 10px;
+}
+ 
+.legend div span {
+border-radius: 50%;
+display: inline-block;
+height: 10px;
+margin-right: 5px;
+width: 10px;
+}
+
+    
+
+</style>   
+ 
+    
+<div id='map'></div>
+<div id='features'>
+<section id='london' class='active'>
+<h3>All Work and No Play Makes London a Dull City...</h3>
+<p>As of 2018, London had nearly 4,100 pubs throughout the boroughs. As a unique and intrisic part of British living, the London Mayor's New Draft Plan includes a policy protecting public houses as cultural, social, and economic heritage sites comparable to a Parisian cafe or Neapolitan pizza. </p>
+</section>
+<section id='london-top'>
+<h3>"To write of the English inn is to write of England itself..."<br>  - Thomas Burke (1930) </h3>
+<p>Pubs are one of Britain's oldest and most valued social institutions; an integral part of an area's day, evening, and night culture with few institutions so central to its culture. London pubs, in particular, played important roles throughout history - from Marx and Engel drafting their Manifesto at the Red Lion, the French Resistance meeting at the French House, and SoHo's Newman House inspiring the underclass pub in George Orwell's 1984. <br><br> Pubs continue to play a role in daily life and the experience of London's city living. Five tube stops are named after pubs, and according to one survey, the pub is the most popular place for people of all ages and classes to relax and socialise. </p>
+</section>
+<section id='west'>
+<h3>Westminster</h3>
+<p> With 457 pubs, the City of Westminster significantly has the most pubs in the city. Tourism likely plays a part - a recent survey of international visitors to London revealed 54% visited a pub during their stay in the capital. This further highlights the importantance of pubs in the London experience for both locals and visitors. </p>
+</section>
+<section id='city'>
+<h3>The City</h3>
+<p>However, if a tourist wants a spatially-dense pub experience, the City is the place to be. With the highest number of pubs per capita (182 per 10,000 people), the City might just be the epicenter of England's pubs. Many pubs in the City also have historic cache, from Ye Olde Watling being built in 1666 for St. Paul's Cathedral construction workers to Twain and Dickens frequenting Ye Olde Cheshire Cheese. </p>
+</section>
+<section id='hack'>
+<h3>Build it, and they will come...?</h3>
+<p>One of London's largest population increases of the last decade is occuring in Hackney. As the population increased, so did the pubs. Between 2001-2017 Hackney had the greatest percentage increase in pubs (12.9%) of all the boroughs. Shoreditch, in particular, is a focal point of Hackney's pubs. The increase of liveability have spurred much of the growth.</p>
+</section>
+<section id='soho'>
+<h3>SoHo</h3>
+<p>Of course, the traditional center of London's nightlife is still a vibrant area for pubs. Pubs in SoHo exist on seemingly every street, corner, and even alley! For better or worse, a night in SoHo is a spectacle to behold and very much a part of the London experience.</p>
+</section>
+<section id='outer'>
+<h3>Outer Boroughs</h3>
+<p>Despite the great extent of pubs across the city, it is not an even spread. While central London seemingly packs pubs into every nook and cranny, outer London's pub locations are more spread out. There are fewer in general, and they mostly cluster along high streets. </p>
+</section>
+<section id='dag'>
+<h3>Last Call?</h3>
+<p>However, all is not well with London's pubs. Between 2001-2016 over 25% of London's pubs have closed. One of the hardest hit, Barking and Dagenham, have the fewest amount of open pubs (20) and pubs per capita (0.96 per 10,000) than any London borough. It has experienced a 55.6% decrease in pubs since 2001. The spatial paucity of pubs is quite drastic.<br><br>Dwindling pub numbers will likely affect the cultural experience of London. Changes in drinking habits, tastes, and demographics all have a role in the decline, and London's pub heritage is under threat. Although virtually all boroughs experienced declines, their degree varies geographically...
+ </p>
+</section>
+<section id='cite'>
+<p>References</p>
+<small id="citation"> Referenced statistics come from <a href='https://www.ons.gov.uk/businessindustryandtrade/business/activitysizeandlocation/articles/economiesofalesmallpubscloseaschainsfocusonbigbars/2018-11-26'>Office of National Statistics</a>, <a href='https://www.economist.com/britain/2017/08/24/why-londons-pubs-are-disappearing'>The Economist</a>, and <a href='https://www.london.gov.uk/press-releases/mayoral/number-of-pubs-in-london-fell-by-25-since-2001'>The Mayor of London</a> </small>
+</section>     
+</div>
+
+
+<div id='pop-legend' class='legend'>
+<h4>Pubs per 10,000 Residents</h4>
+<div><span style='background-color: #252525'></span>More than 5.57</div>
+<div><span style='background-color: #636363'></span>5.57</div>
+<div><span style='background-color: #969696'></span>2.82</div>
+<div><span style='background-color: #cccccc'></span>2.6</div>
+<div><span style='background-color: #f7f7f7'></span>Less than 1</div>
+</div>
+    
+    
+    
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoicnVzc2hvd2QiLCJhIjoiY2puOTJpNmh5MHZjdTNwbXNxdDlyYTdmciJ9.C_p9lRLmh_J50bLDr2eScA';
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/russhowd/cjvdpogce1e251fmhvnglkwdv',
+  bearing: -13.18,
+  center: [-0.034291, 51.432661],
+  zoom: 9.7,
+  pitch: 56.00
+});
+    
+    
+
+    
+var chapters = {
+'london': {
+bearing: -13.18,
+center: [-0.034291, 51.432661],
+zoom: 9.7,
+pitch: 56.00
+},
+'london-top': {
+speed: 0.3,
+center: [-0.113029, 51.519623],
+bearing: -13.60,
+zoom: 10.71,
+pitch: 0
+},
+'west': {
+bearing: -24.00,
+center: [-0.139258, 51.504777],
+zoom: 12.98,
+speed: 0.6,
+pitch: 60
+},
+'city': {
+bearing: 0,
+center: [-0.093040, 51.513913],
+zoom: 12.9,
+pitch: 0,
+speed: 0.6
+},
+'hack': {
+bearing: -63.20,
+center: [-0.070371, 51.540675],
+zoom: 12.98,
+pitch: 60,
+speed: 0.6
+},
+'soho': {
+bearing: 8.01,
+center: [-0.134449, 51.513731],
+zoom: 15.00,
+pitch: 0,
+speed: 0.6
+},
+'outer': {
+speed: 0.6,
+center: [-0.262214, 51.609790],
+bearing: 72.80,
+zoom: 10.95,
+pitch: 60
+},
+'dag': {
+speed: 0.6,
+center: [0.140125, 51.541880],
+bearing: -67.56,
+zoom: 12.24,
+pitch: 58
+},
+};
+    
+    
+    
+// On every scroll event, check which element is on screen
+window.onscroll = function() {
+var chapterNames = Object.keys(chapters);
+for (var i = 0; i < chapterNames.length; i++) {
+var chapterName = chapterNames[i];
+if (isElementOnScreen(chapterName)) {
+setActiveChapter(chapterName);
+break;
+}
+}
+};
+    
+    
+    
+var activeChapterName = 'london';
+function setActiveChapter(chapterName) {
+if (chapterName === activeChapterName) return;
+ 
+map.flyTo(chapters[chapterName]);
+ 
+document.getElementById(chapterName).setAttribute('class', 'active');
+document.getElementById(activeChapterName).setAttribute('class', '');
+ 
+activeChapterName = chapterName;
+}
+ 
+function isElementOnScreen(id) {
+var element = document.getElementById(id);
+var bounds = element.getBoundingClientRect();
+return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+    
+    
+    
+    
+map.on('load', function() {
+
+  // Create a popup, but don't add it to the map yet.
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  function showPopup(e) {
+    // Updates the cursor to a hand (interactivity)
+    map.getCanvas().style.cursor = 'pointer';
+
+    // Show the popup at the coordinates with some data
+    popup.setLngLat(e.features[0].geometry.coordinates)
+      .setHTML(checkEmpty('<h3><strong>' + e.features[0].properties.name + '</strong></h3><p><strong><em>' +  e.features[0].properties.address1 + '</strong> </em></p>'))
+      .addTo(map);
+  } 
+
+    
+    
+  function hidePopup() {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  }
+
+  function checkEmpty(info) {
+    return (info) ? info : "No data";
+  }
+
+// Add layer names that need to be interactive
+
+  map.on('mouseenter', 'borough checks', showPopup);
+  map.on('mouseleave', 'borough checks', hidePopup);
+
+});    
+    
+    
+    
+</script>
+
+</body>
+</html>

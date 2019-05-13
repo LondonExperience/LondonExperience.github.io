@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Display a map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet'/>
+    
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        h2,
+        h3 {
+          margin: 10px;
+          font-size: 1.2em;
+        }
+
+        h3 {
+          font-size: 1em;
+        }
+
+        p {
+          font-size: 0.85em;
+          margin: 10px;
+          text-align: left;
+        }
+
+        /**
+        * Create a position for the map
+        * on the page */
+        #map {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 100%;
+        }
+        .map-overlay-2{
+          position: absolute;
+          top: 0;
+          left: 310px;
+          bottom: 0;
+          width: 100%;
+        }
+        
+        .map-overlay-right {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.8);
+          margin-right: 20px;
+          font-family: Arial, sans-serif;
+          overflow: auto;
+          border-radius: 3px;
+        }
+
+        #features {
+          top: 0;
+          height: 120px;
+          margin-top: 20px;
+          width: 250px;
+        }
+
+        #legend {
+          padding: 20px;
+          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+          line-height: 18px;
+          height: 150px;
+          margin-bottom: 40px;
+          width: 100px;
+        }
+
+            .legend-key {
+              display: inline-block;
+              border-radius: 20%;
+              width: 10px;
+              height: 10px;
+              margin-right: 5px;
+            }
+
+            .legend h2 {
+            margin: 0 0 10px;
+            }
+
+            .legend div span {
+            border-radius: 50%;
+            display: inline-block;
+            height: 10px;
+            margin-right: 5px;
+            width: 10px;
+            }
+
+        
+        .map-overlay {
+		    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		    position: absolute;
+		    width: 17%;
+		    top: 0;
+		    left: 0;
+		    padding: 10px;
+		}
+
+		.map-overlay .map-overlay-inner {
+		    background-color: #fff;
+		    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+		    border-radius: 3px;
+		    padding: 10px;
+		    margin-bottom: 10px;
+		}
+        .map-overlay-inner fieldset {
+        border: none;
+        padding: 0;
+        margin: 0 0 10px;
+        }
+        .map-overlay-inner select {
+        width: 100%;
+        }
+
+        .map-overlay-inner button {
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        border: none;
+        cursor: pointer;
+        }
+
+        .map-overlay-inner button:focus {
+        outline: none;
+        }
+
+        .map-overlay-inner button:hover {
+        box-shadow:inset 0 0 0 3px rgba(0, 0, 0, 0.10);
+        }
+
+        .map-overlay-inner fieldset:last-child {
+        margin: 0;
+        }
+		.map-overlay table {
+		    border: none;
+		    width: 100%;
+		}
+
+		.map-overlay h2 {
+		    line-height: 24px;
+		    display: block;
+		    margin: 0 0 10px;
+            
+}
+        .session {
+          margin-bottom: 20px;
+        }
+        .row {
+          height: 12px;
+          width: 100%;
+        }
+
+        .colors {
+          background-image: url("/Users/zhaoyijin/Desktop/colorscheme.png");
+            background-size: 100px 80px;
+          margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+
+    
+
+    
+ <div id='map'></div>   
+<div class='map-overlay-right' id='features'><h2>Weekly borough events</h2><div id='laname'><p>Hover over a borough</p></div>
+    
+    </div>
+    
+    <div id='worddata' class='map-overlay-2'>
+    
+    <h2>word event </h2><img src="Word%20Art.svg" alt="wardart" align = middle width="800"/>
+        </div>
+    
+<div class='map-overlay'>
+    <div class='map-overlay-inner'>
+    <div id='week_event'>
+    <h1>Weekly New Added Events in London</h1>
+    <p>Data:<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite</a> for London, May 2019</p>
+        <table><tr><td>
+        <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
+        <input type="radio" name="layers" id="layer1" value="worddata"checked><label>Wordle events<br></label>
+        <input type="radio" name="layers" id="layer2" value="week_count"><label>weekly event count<br></label>
+        <input type="radio" name="layers" id="layer3" value="event"><label>Day of Week<br></label>
+        </td>
+        </tr>
+        </table>
+        
+        
+    <div class='session'>
+    <h2>Category</h2>
+    <div class='row colors'></div>
+    </div>
+<div id='sliderbar' class='legend'>
+    <h2>Day: <label id='active-week'>1</label></h2>
+    <input id='slider' class='row' type='range' min='1' max='7' step='1' value='1' />
+         
+</div>
+    
+    <fieldset>
+    <label>Select Category</label>
+    <select id='layers' name='layers'>
+    <option value='103'>Music</option>
+    <option value='110'>Food & Drink</option>
+        <option value='101'>Business & Professional</option>
+        <option value='113'>Community & Culture</option>
+        <option value='105'>Performing & Visual Arts</option>
+        <option value='104'>Film, Media & Entertainment</option>
+        <option value='108'>Sports & Fitness</option>
+        <option value='107'>Health & Wellness</option>
+        <option value='102'>Science & Technology</option>
+        <option value='109'>Travel & Outdoor</option>
+        
+    </select>
+    </fieldset>
+	</div>
+</div> 
+    </div>
+    
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFkYW8yMzMzIiwiYSI6ImNqYzh5aXk0cjA0cDAyd281cm0wc3J0YzAifQ.9dICOu1KU_JZdW8tBxNChg'; // Put your Mapbox Public Access token here
+
+    var worddataLegendEl = document.getElementById('worddata');
+    var sliderbarLegendEl = document.getElementById('sliderbar');
+    sliderbarLegendEl.style.display = 'none';
+    
+    // Load a new map in the 'map' HTML div
+    var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/madao2333/cjvaugf6104yb1gqfszwbm259', // stylesheet location
+    center: [-0.083098, 51.499274], // starting position [lng, lat]
+    zoom: 9.3 // starting zoom
+    });
+            
+    
+map.on('load', function() {
+      // Add the circle layer to the map
+    
+map.addLayer({
+      id:'week_count',
+      type:'circle',
+      source:{
+            type:'vector',
+            url:'mapbox://madao2333.bfv6nlak'//my url of the tilesets
+
+            },
+        'source-layer':'MayWeek1borough2-70dg7q', //name of the tilesets
+        
+        paint: {
+          "circle-radius":{ // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
+              stops: [
+                [12, 3],
+                [22, 180]
+              ],
+              base: 3
+            },
+          "circle-color":  [
+              "step",
+            ["get", "category_id"],
+            "#DAF7A6",
+            101,
+            "#DAF7A6",
+            102,
+            "#FCF3CF",
+            103,
+            "#FFC300",
+            104,
+            "#E6E6FA",
+            105,
+            "#F5CBA7",
+            106,
+            "#9370DB",
+            107,
+            "#DDA0DD",
+            110,
+            "#FF5733",
+            111,
+            "#8FBC8B",
+            112,
+            "#00FFFF",
+            113,
+            "#DC143C",
+            114,
+            "#C0C0C0",
+            115,
+            "#FFFF00",
+            116,
+            "#006400",
+            117,
+            "#008B8B",
+            118,
+            "#4682B4",
+            119,
+            "#A9CCE3",
+            120,
+            "#FAFAD2"
+           
+            
+            ],
+        
+          'circle-opacity': 0,
+        'circle-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 5
+             },
+        },
+          
+      });
+    map.addLayer({
+      id:'event',
+      type:'circle',
+      source:{
+            type:'vector',
+            url:'mapbox://madao2333.bfv6nlak'//my url of the tilesets
+
+            },
+        'source-layer':'MayWeek1borough2-70dg7q', //name of the tilesets
+        
+        paint: {
+//          'circle-radius': [
+//            'interpolate',
+//            ['linear'],
+//            ['number', ['get', 'Casualty']],
+//            0, 4,
+//            5, 24
+//          ],
+          "circle-radius":{ // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
+              stops: [
+                [12, 10],
+                [22, 180]
+              ],
+              base: 3
+            },
+          "circle-color":  [
+              
+              "step",
+            ["get", "category_id"],
+            "#DAF7A6",
+            101,
+            "#DAF7A6",
+            102,
+            "#FCF3CF",
+            103,
+            "#FFC300",
+            104,
+            "#E6E6FA",
+            105,
+            "#F5CBA7",
+            106,
+            "#9370DB",
+            107,
+            "#DDA0DD",
+            110,
+            "#FF5733",
+            111,
+            "#8FBC8B",
+            112,
+            "#00FFFF",
+            113,
+            "#DC143C",
+            114,
+            "#C0C0C0",
+            115,
+            "#FFFF00",
+            116,
+            "#006400",
+            117,
+            "#008B8B",
+            118,
+            "#4682B4",
+            119,
+            "#A9CCE3",
+            120,
+            "#FAFAD2"
+           
+            ],
+
+        'circle-opacity': 0,
+        'circle-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 5
+             },
+        },
+
+          'filter': ['==', ['number', ['get', 'Day_of_May']], 1]
+      });
+        
+      document.getElementById('slider').addEventListener('input', function(e) {
+      var week = parseInt(e.target.value);
+      // update the map
+      map.setFilter('event', ['==', ['number', ['get', 'Day_of_May']],week]);
+
+      // update text in the UI
+      document.getElementById('active-week').innerText = week;
+    });
+    
+
+map.addLayer({
+        id: 'LocalAuthorities',
+        type: 'fill',
+        source: {
+          type: 'vector',
+          url: 'mapbox://madao2333.a4na0jju' // Your Mapbox tileset Map ID
+        },
+        'source-layer': 'borough_count-d18859', // name of tilesets
+        'layout': {
+            'visibility': 'visible'
+        },
+        paint: {
+            'fill-color': '#fff',
+            'fill-opacity': 0
+            }
+      });
+
+map.addLayer({
+        id: 'lahighlight',
+        type: 'line',
+        source: {
+          type: 'vector',
+          url: 'mapbox://madao2333.a4na0jju' // Your Mapbox tileset Map ID
+        },
+        'source-layer': 'borough_count-d18859', // name of tilesets
+        'layout': {
+            'visibility': 'visible'
+        },
+        paint: {
+            'line-color': '#adf',
+            'line-width': 4
+            },
+        filter: ['==','NAME','empty']
+      });
+
+
+map.on('mousemove', function(e) {
+  var la = map.queryRenderedFeatures(e.point, {
+    layers: ['LocalAuthorities']
+  });
+
+
+if (la.length==1) {
+
+map.setFilter('lahighlight', ['==','NAME',la[0].properties.NAME]);
+console.log(la[0].properties.NAME);
+document.getElementById('laname').innerHTML = '<h3><strong>' + la[0].properties.NAME + '</strong></h3><p><strong><em>' + la[0].properties.count + '</strong> events in borough form 1st-7th May 2019</em></p>'; 
+console.log(la[0].id);
+console.log(la);
+
+} else {
+map.setFilter('lahighlight', ['==','NAME','null']);
+console.log('No features');
+document.getElementById('laname').innerHTML = "Hover over a local authority";
+}
+
+
+});
+    
+
+
+});
+    document.getElementById("layer1").addEventListener("click",function(){
+            map.setPaintProperty('week_count','circle-opacity',0);
+            map.setPaintProperty('event','circle-opacity',0);
+            worddataLegendEl.style.display = 'block';
+            sliderbarLegendEl.style.display = 'none';
+//            publicLegendEl.style.display = 'none';
+            map.flyTo({
+                        center: [-0.121126,51.494914],
+                        zoom: 9.3, speed: 0.6
+                    });
+
+        
+        });
+document.getElementById("layer2").addEventListener("click",function(){
+            map.setPaintProperty('week_count','circle-opacity',0.8);
+             map.setPaintProperty('event','circle-opacity',0);
+            worddataLegendEl.style.display = 'none';
+            sliderbarLegendEl.style.display = 'none';
+     })
+
+document.getElementById("layer3").addEventListener("click",function(){
+            map.setPaintProperty('week_count','circle-opacity',0);
+            map.setPaintProperty('event','circle-opacity',0.6);
+            worddataLegendEl.style.display = 'none';
+            sliderbarLegendEl.style.display = 'block';
+     })
+//
+//map.on('mousemove', function(e) {
+//  var borough = map.queryRenderedFeatures(e.point, {
+//    layers: ['LocalAuthorities']
+//  });
+//
+//  if (states.length > 0) {
+//    document.getElementById('laname').innerHTML = '<h3><strong>' + borough[0].properties.NAME + '</strong></h3><p><strong><em>' + borough[0].properties.bike_numbe + '</strong> people per square mile</em></p>';
+//  } else {
+//    document.getElementById('laname').innerHTML = '<p>Hover over a state!</p>';
+//  }
+//});
+//            map.transition({  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+//                 duration: 1000,
+//                 delay: 5
+//             });
+</script>
+
+</body>
+</html>

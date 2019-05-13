@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Display a map</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+    .map-overlay-2{
+      position: absolute;
+      top: 0;
+      left: 310px;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .map-overlay-right {
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.8);
+      margin-right: 20px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      border-radius: 3px;
+    }
+
+    #features {
+      top: 0;
+      height: 120px;
+      margin-top: 20px;
+      width: 250px;
+    }
+
+    #legend {
+      padding: 20px;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+      line-height: 18px;
+      height: 150px;
+      margin-bottom: 40px;
+      width: 100px;
+    }
+
+        .legend-key {
+          display: inline-block;
+          border-radius: 20%;
+          width: 10px;
+          height: 10px;
+          margin-right: 5px;
+        }
+
+        .legend h2 {
+        margin: 0 0 10px;
+        }
+
+        .legend div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-right: 5px;
+        width: 10px;
+        }
+
+
+    .map-overlay {
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    position: absolute;
+    width: 17%;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
+
+.map-overlay .map-overlay-inner {
+    background-color: #fff;
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+    .map-overlay-inner fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 10px;
+    }
+    .map-overlay-inner select {
+    width: 100%;
+    }
+
+    .map-overlay-inner button {
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+    }
+
+    .map-overlay-inner button:focus {
+    outline: none;
+    }
+
+    .map-overlay-inner button:hover {
+    box-shadow:inset 0 0 0 3px rgba(0, 0, 0, 0.10);
+    }
+
+    .map-overlay-inner fieldset:last-child {
+    margin: 0;
+    }
+    .map-overlay table {
+        border: none;
+        width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div id='map'></div>
+<div class='map-overlay'>
+    <div class='map-overlay-inner'>
+    <div id='week_event'>
+    <h1>Entry and Exit People Flow of London Underground Stations, 2017</h1>
+    <p>Datasource: <a href='https://www.eventbrite.co.uk/platform/docs/by-date'>TfL</a> of London</p>
+        <table><tr><td>
+        <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
+        <input type="radio" name="layers" id="layer1" value="worddata"checked><label>Wordle events<br></label>
+        <input type="radio" name="layers" id="layer2" value="week_count"><label>weekly event count<br></label>
+        <input type="radio" name="layers" id="layer3" value="event"><label>Day of Week<br></label>
+        </td>
+        </tr>
+        </table>
+
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3o4ODg4OCIsImEiOiJjanF6M2swOGwwOWV4NDNsaHdhZ3MzbTFoIn0.ievxxD6kN_LI6EcayNO1UA';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/sz88888/cjv4zxezs1h181fthospm26aq',
+  center: [-0.117029, 51.547908],
+  zoom: 10.2,
+  pitch: 60,
+});
+
+map.on('load', function(){
+  map.addLayer({
+    id:'allstationEE',
+    type:'fill-extrusion',
+    source:{
+      type:'vector',
+      url:'mapbox://sz88888.3gp8y5rj'
+    },
+    'source-layer':'NewOutput-amevhe',
+    paint:{
+      'fill-extrusion-color':'rgb(242, 240, 244)',
+      'fill-extrusion-opacity': 0.8,
+
+
+      'fill-extrusion-height': {
+        property: 'million_Su',
+        type: 'exponential',
+        stops: [
+            [0,10],
+            [1, 20],
+            [5, 100],
+            [50, 1000],
+            [100, 2000],
+
+        ]
+
+      },
+    }
+
+
+  })
+})
+
+
+</script>
+
+</body>
+</html>

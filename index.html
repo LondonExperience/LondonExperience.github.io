@@ -9,11 +9,53 @@
   <script src="vendors/easings.min.js"></script>
   <script type="text/javascript" src="vendors/scrolloverflow.min.js"></script>
   <script type="text/javascript" src="src/fullpage.js"></script>
+  <style>
+      ul1{
+          list-style: none;
+          list-style-type: none;
+          margin-left: 60%;
+          padding: 0;
+          height:10px;
+          max-width:1000px
+      }
+      li1 a{
+          float: left;
+          width: 50px;
+          color: white;
+          font:bold Arial;
+          font-size: 11px;
+          text-align: center;
+          text-shadow: black 0.1em 0.1em 0.2em;
+          margin-left:30px;
+      }
+      li1 a:hover{
+          float: left;
+          width: 50px;
+          color: rgb(131, 131, 128);
+          font:bold Arial;
+          font-size: 12px;
+          text-align: center;
+          text-shadow: black 0.1em 0.1em 0.2em;
+          margin-left:30px;
+      }
+  </style>
+
 
 
   <title>Experience Of London</title>
 </head>
 <body>
+  <ul1 style='position:fixed; z-index:999; top:0;'>
+      <li1>
+        <a href="#firstPage">Introduction</a>
+        <a href="#secondPage">Pay Gap</a>
+        <a href="#thirdPage">Transport</a>
+        <a href="#fourthPage">Events</a>
+        <a href="#fifthPage">Pubs</a>
+      </li1>
+
+
+  </ul1>
   <div id="fullpage">
   	<div class="section active" id="section0">
       <iframe id="intro" src="intro/firstpage.html" height="100%" width="100%" frameBorder="0" scrolling="no"></iframe>
@@ -75,9 +117,11 @@
   		sectionsColor: ['#f2f2f2', 'rgb(175, 175, 175)', '#7BAABE', 'rgb(54, 99, 176)', '#ccddff'],
 
 
-
+      menu: '#menu',
+      lockAnchors: false,
+	    anchors:['firstPage', 'secondPage', 'thirdPage','fourthPage','fifthPage','sixthPage'],
       navigation: true,
-      navigationPosition: 'left',
+      navigationPosition: 'right',
 
       showActiveTooltip: true,
       slidesNavigation: true,

@@ -18,7 +18,7 @@ rect:hover {  fill:blue; }
 
 .x.axis path {  display: none; }
 .legend{
-    margin-bottom:76px;
+    margin-bottom:6px;
     display:inline-block;
     border-collapse: collapse;
     border-spacing: 0px;

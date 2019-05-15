@@ -6,7 +6,10 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
+<!--   <script src="http://d3js.org/d3.v3.min.js"></script>-->
+        <script src="index.js"></script>
     <link rel="stylesheet" href="index.css">
+    
     
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
@@ -175,9 +178,7 @@
     
  <div id='map'></div>
     <div id='dashboard' class="legend1" style="width: 1200px; height: 280px;">
-</div>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-        <script src="index.js"></script>
+        <script src="d3.v3.min.js"></script>
         <script>
         var freqData=[
         {category_name:'B&P',freq:{Westminster:9, Camden:2, Hackney:3, Islington:5, Southwark:0}}
@@ -199,7 +200,7 @@
 
         dashboard('#dashboard',freqData);
         </script>
-  
+    </div>
     
     <div id="container" class='legend1'  opacity='0.1'  style="width: 860px; height: 280px;">
   <script>

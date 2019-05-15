@@ -9,9 +9,9 @@
   <style>
     body { margin:0; padding:0; }
     #map { position:absolute; top:0; bottom:0; width:100%; }
-    h2 { margin: 10px;font-size: 1.2em; font-family: Arial, sans-serif;}
+    h2 { margin: 10px;font-size: 2em; font-family: Arial, sans-serif;}
     h3 {font-size: 1em; font-family: Arial, sans-serif;}
-    p {font-size: 0.90em; margin: 10px; text-align: left; font-family: Arial, sans-serif;}
+    p {font-size: 1em; margin: 10px; text-align: left; font-family: Arial, sans-serif;}
     p.italic {
       font-style: italic;
     }
@@ -30,7 +30,7 @@
       left: 0;
       margin-left: 20px;
       top: 0;
-      height: 170px;
+      height:220px;
       margin-top: 20px;
       width: 400px;
     }
@@ -84,7 +84,7 @@ map.on('load', function() {
   // rest of the code goes here
   // creating a list of the 'styling stops' to be used to generate a legend later on
   var layers = ['GPG favouring men', 'GPG favouring women', 'No GPG'];
-  var colors = ['#2F66FF', '#DF7DF5', '#43D0AA'];
+  var colors = ['#2F66FF', '#F5644D', '#43D0AA'];
   //add legend: iterates through the list of layers defined above and adds a legend element for each one based on name of the layer and its color.
   for (i = 0; i < layers.length; i++) {
     var layer = layers[i];

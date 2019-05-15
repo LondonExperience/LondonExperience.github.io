@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Display a map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
+    
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css?hcode=be5162d915534272a57d0bb781d27f2b" type="text/css" rel="stylesheet">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css?hcode=be5162d915534272a57d0bb781d27f2b" type="text/css" rel="stylesheet">
+  <style type="text/css">
+
+   
+  
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        h2,
+        h3 {
+          margin: 10px;
+          font-size: 1.2em;
+        }
+
+        h3 {
+          font-size: 1em;
+        }
+
+        p {
+          font-size: 0.85em;
+          margin: 10px;
+          text-align: left;
+        }
+
+        /**
+        * Create a position for the map
+        * on the page */
+        #map {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 80%;
+        }
+        .map-overlay-2{
+          position: absolute;
+          top: 20px;
+          left: 310px;
+          bottom: 0;
+          width: 100%;
+        }
+        
+        .map-overlay-right {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.8);
+          margin-right: 10px;
+          font-family: Arial, sans-serif;
+          overflow: auto;
+          border-radius: 3px;
+        }
+
+        #features {
+          top: 0;
+          height: 120px;
+          margin-top: 20px;
+          width: 250px;
+        }
+
+        
+        .map-overlay {
+		    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		    position: absolute;
+		    width: 17%;
+		    top: 0;
+		    left: 15px;
+		    padding: 10px;
+		}
+
+		.map-overlay .map-overlay-inner {
+		    background-color:  rgba(255, 255, 255, 0.8);
+		    box-shadow:0 2px 2px rgba(0, 0, 0, 0.10);
+		    border-radius: 10px;
+		    padding: 10px;
+		    margin-bottom: 10px;
+		}
+        .map-overlay-inner fieldset {
+        border: none;
+        padding: 0;
+        margin: 0 0 10px;
+        }
+        .map-overlay-inner select {
+        width: 100%;
+        }
+
+        .map-overlay-inner button {
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        border: none;
+        cursor: pointer;
+        }
+
+
+		.map-overlay h2 {
+		    line-height: 22px;
+		    display: block;
+		    margin: 0 0 10px;
+            
+}
+    #container {
+    width: 10%;
+    height: 10%;
+    opacity: 10%;
+    margin: 0;
+    padding: 0;
+    bottom: 20px;
+}
+       
+    </style>
+</head>
+<body>
+
+<style>
+    
+    
+     .legend1 {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 3px;
+        bottom: 20px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 10px;
+        position: absolute;
+        left: 20px;
+        z-index: 1;
+        
+            }
+
+     .legend2 {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 4px;
+        bottom: 20px;
+        box-shadow: 0;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 10px;
+        position: absolute;
+        right: 50px;
+        z-index: 1;
+        
+            }
+        
+        .legend2 h2 {
+        margin: 10px 10px 10px;
+        }
+
+        .legend2 div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-right: 10px;
+        width: 10px;
+        }
+    
+        path {  stroke: #fff; }
+        path:hover {  opacity:0.9; }
+        rect:hover {  fill:blue; }
+        .axis {  font: 9px sans-serif; }
+        .legend tr{    border-bottom:1px solid grey; }
+        .legend tr:first-child{    border-top:1px solid grey; }
+
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+
+        .x.axis path {  display: none; }
+        
+        .legend{
+            margin-bottom:6px;
+            display:inline-block;
+            border-collapse: collapse;
+            border-spacing: 0px;
+        }
+        .legend td{
+            padding:4px 5px;
+            vertical-align:bottom;
+        }
+        .legendFreq, .legendPerc{
+            align:right;
+            width:30px;
+        }
+    </style>
+    
+
+    
+ <div id='map'></div>
+    
+    <div id="container" class='legend1'  opacity='0.1'  style="width: 860px; height: 280px;">
+  <script>
+anychart.onDocumentReady(function () {
+    // create data set on our data
+    chartData = {
+        title: 'Event count by time in a week',
+        header: ['#', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'],
+        rows: [
+    ["8:00-10:00", 0,6,1,2,3,1,7],
+    ["10:00-12:00", 1,1,4,3,6,9,2],
+    ["12:00-14:00", 3,2,2,5,6,5,11,4],
+    ["14:00-16:00", 3,4,0,5,12,3],
+    ["16:00-18:00", 5,8,7,2,4,2,6],
+    ["18:00-20:00", 37,27,26,15,5,15,27],
+    ["20:00-22:00", 0,2,7,11,5,3,1],
+    ["22:00-24:00", 0,0,1,7,10,0,0]
+
+        ]
+    };
+
+    // create column chart
+    var chart = anychart.column();
+
+    // set chart data
+    chart.data(chartData);
+
+    // turn on chart animation
+    chart.animation(true);
+
+    chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
+
+    // set titles for Y-axis
+    chart.yAxis().title('event count');
+
+    chart.labels()
+            .enabled(true)
+            .position('center-top')
+            .anchor('center-bottom')
+            .format('{%Value}{groupsSeparator: }');
+    chart.hovered().labels(false);
+
+    // turn on legend and tune it
+    chart.legend()
+            .enabled(true)
+            .fontSize(10)
+            .padding([0, 0, 20, 0]);
+
+    // interactivity settings and tooltip position
+    chart.interactivity().hoverMode('single');
+
+    chart.tooltip()
+            .positionMode('point')
+            .position('center-top')
+            .anchor('center-bottom')
+            .offsetX(0)
+            .offsetY(5)
+            .titleFormat('{%X}')
+            .format('{%SeriesName} : {%Value}{groupsSeparator: }');
+
+    // set container id for the chart
+    chart.container('container');
+
+    // initiate chart drawing
+    chart.draw();
+});
+        </script>
+    </div>
+     
+<div id='dashboard' class='legend1' style="width: 800; height: 250px;">
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+function dashboard(id, fData){
+    var barColor = 'steelblue';
+    function segColor(c){ return {Westminster:"#807dba", Camden:"#e08214",Hackney:"#41ab5d", Islington:"#FFD700", Southwark:"#E6E6FA"}[c]; }
+  
+    // compute total for each category_name.
+    fData.forEach(function(d){d.total=d.freq.Westminster+d.freq.Camden+d.freq.Hackney+d.freq.Islington+d.freq.Southwark;});
+    
+    // function to handle histogram.
+    function histoGram(fD){
+        var hG={},    hGDim = {t: 50, r: 0, b: 20, l: 0};
+        hGDim.w = 470 - hGDim.l - hGDim.r, 
+        hGDim.h = 250 - hGDim.t - hGDim.b;
+            
+        //create svg for histogram.
+        var hGsvg = d3.select(id).append("svg")
+            .attr("width", hGDim.w + hGDim.l + hGDim.r)
+            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
+            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+
+        // create function for x-axis mapping.
+        var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
+                .domain(fD.map(function(d) { return d[0]; }));
+
+        // Add x-axis to the histogram svg.
+        hGsvg.append("g").attr("class", "x axis")
+            .attr("transform", "translate(0," + hGDim.h + ")")
+            .call(d3.svg.axis().scale(x).orient("bottom"));
+
+        // Create function for y-axis map.
+        var y = d3.scale.linear().range([hGDim.h, 0])
+                .domain([0, d3.max(fD, function(d) { return d[1]; })]);
+
+        // Create bars for histogram to contain rectangles and freq labels.
+        var bars = hGsvg.selectAll(".bar").data(fD).enter()
+                .append("g").attr("class", "bar");
+        
+        //create the rectangles.
+        bars.append("rect")
+            .attr("x", function(d) { return x(d[0]); })
+            .attr("y", function(d) { return y(d[1]); })
+            .attr("width", x.rangeBand())
+            .attr("height", function(d) { return hGDim.h - y(d[1]); })
+            .attr('fill',barColor)
+            .on("mouseover",mouseover)// mouseover is defined below.
+            .on("mouseout",mouseout);// mouseout is defined below.
+            
+        //Create the frequency labels above the rectangles.
+        bars.append("text").text(function(d){ return d3.format(",")(d[1])})
+            .attr("x", function(d) { return x(d[0])+x.rangeBand()/2; })
+            .attr("y", function(d) { return y(d[1])-5; })
+            .attr("text-anchor", "middle");
+        
+        function mouseover(d){  // utility function to be called on mouseover.
+            // filter for selected category_name.
+            var st = fData.filter(function(s){ return s.category_name == d[0];})[0],
+                nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
+               
+            // call update functions of pie-chart and legend.    
+            pC.update(nD);
+            leg.update(nD);
+        }
+        
+        function mouseout(d){    // utility function to be called on mouseout.
+            // reset the pie-chart and legend.    
+            pC.update(tF);
+            leg.update(tF);
+        }
+        
+        // create function to update the bars. This will be used by pie-chart.
+        hG.update = function(nD, color){
+            // update the domain of the y-axis map to reflect change in frequencies.
+            y.domain([0, d3.max(nD, function(d) { return d[1]; })]);
+            
+            // Attach the new data to the bars.
+            var bars = hGsvg.selectAll(".bar").data(nD);
+            
+            // transition the height and color of rectangles.
+            bars.select("rect").transition().duration(500)
+                .attr("y", function(d) {return y(d[1]); })
+                .attr("height", function(d) { return hGDim.h - y(d[1]); })
+                .attr("fill", color);
+
+            // transition the frequency labels location and change value.
+            bars.select("text").transition().duration(500)
+                .text(function(d){ return d3.format(",")(d[1])})
+                .attr("y", function(d) {return y(d[1])-5; });            
+        }        
+        return hG;
+    }
+    
+    // function to handle pieChart.
+    function pieChart(pD){
+        var pC ={},    pieDim ={w:200, h: 200};
+        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
+                
+        // create svg for pie chart.
+        var piesvg = d3.select(id).append("svg")
+            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
+            .attr("transform", "translate("+pieDim.w/2+","+pieDim.h/2+")");
+        
+        // create function to draw the arcs of the pie slices.
+        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
+
+        // create a function to compute the pie slice angles.
+        var pie = d3.layout.pie().sort(null).value(function(d) { return d.freq; });
+
+        // Draw the pie slices.
+        piesvg.selectAll("path").data(pie(pD)).enter().append("path").attr("d", arc)
+            .each(function(d) { this._current = d; })
+            .style("fill", function(d) { return segColor(d.data.type); })
+            .on("mouseover",mouseover).on("mouseout",mouseout);
+
+        // create function to update pie-chart. This will be used by histogram.
+        pC.update = function(nD){
+            piesvg.selectAll("path").data(pie(nD)).transition().duration(500)
+                .attrTween("d", arcTween);
+        }        
+        // Utility function to be called on mouseover a pie slice.
+        function mouseover(d){
+            // call the update function of histogram with new data.
+            hG.update(fData.map(function(v){ 
+                return [v.category_name,v.freq[d.data.type]];}),segColor(d.data.type));
+        }
+        //Utility function to be called on mouseout a pie slice.
+        function mouseout(d){
+            // call the update function of histogram with all data.
+            hG.update(fData.map(function(v){
+                return [v.category_name,v.total];}), barColor);
+        }
+        // Animating the pie-slice requiring a custom function which specifies
+        // how the intermediate paths should be drawn.
+        function arcTween(a) {
+            var i = d3.interpolate(this._current, a);
+            this._current = i(0);
+            return function(t) { return arc(i(t));    };
+        }    
+        return pC;
+    }
+    
+    // function to handle legend.
+    function legend(lD){
+        var leg = {};
+            
+        // create table for legend.
+        var legend = d3.select(id).append("table").attr('class','legend');
+        
+        // create one row per segment.
+        var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
+            
+        // create the first column for each segment.
+        tr.append("td").append("svg").attr("width", '15').attr("height", '16').append("rect")
+            .attr("width", '16').attr("height", '16')
+			.attr("fill",function(d){ return segColor(d.type); });
+            
+        // create the second column for each segment.
+        tr.append("td").text(function(d){ return d.type;});
+
+        // create the third column for each segment.
+        tr.append("td").attr("class",'legendFreq')
+            .text(function(d){ return d3.format(",")(d.freq);});
+
+        // create the fourth column for each segment.
+        tr.append("td").attr("class",'legendPerc')
+            .text(function(d){ return getLegend(d,lD);});
+
+        // Utility function to be used to update the legend.
+        leg.update = function(nD){
+            // update the data attached to the row elements.
+            var l = legend.select("tbody").selectAll("tr").data(nD);
+
+            // update the frequencies.
+            l.select(".legendFreq").text(function(d){ return d3.format(",")(d.freq);});
+
+            // update the percentage column.
+            l.select(".legendPerc").text(function(d){ return getLegend(d,nD);});        
+        }
+        
+        function getLegend(d,aD){ // Utility function to compute percentage.
+            return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
+        }
+
+        return leg;
+    }
+    
+    // calculate total frequency by segment for all category_name.
+    var tF = ['Westminster','Camden','Hackney','Islington','Southwark'].map(function(d){ 
+        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
+    });    
+    
+    // calculate total frequency by category_name for all segment.
+    var sF = fData.map(function(d){return [d.category_name,d.total];});
+
+    var hG = histoGram(sF), // create the histogram.
+        pC = pieChart(tF), // create the pie-chart.
+        leg= legend(tF);  // create the legend.
+}
+</script>
+
+<script>
+var freqData=[
+{category_name:'B&P',freq:{Westminster:9, Camden:2, Hackney:3, Islington:5, Southwark:0}}
+,{category_name:'S&T',freq:{Westminster:2, Camden:6, Hackney:1, Islington:2, Southwark:0}}
+,{category_name:'music',freq:{Westminster:7, Camden:8, Hackney:15, Islington:7, Southwark:3}}
+,{category_name:'film',freq:{Westminster:7, Camden:3, Hackney:2, Islington:0, Southwark:3}}
+,{category_name:'P&V',freq:{Westminster:6, Camden:5, Hackney:5, Islington:4, Southwark:3}}
+,{category_name:'F&B',freq:{Westminster:3, Camden:0, Hackney:1, Islington:0, Southwark:0}}
+,{category_name:'health',freq:{Westminster:3, Camden:1, Hackney:0, Islington:6, Southwark:3}}
+,{category_name:'sports',freq:{Westminster:0, Camden:0, Hackney:0, Islington:1, Southwark:0}}
+,{category_name:'food',freq:{Westminster:0, Camden:0, Hackney:1, Islington:1, Southwark:2}}
+,{category_name:'charity',freq:{Westminster:1, Camden:3, Hackney:0, Islington:0, Southwark:0}}
+,{category_name:'G&P',freq:{Westminster:2, Camden:4, Hackney:0, Islington:0, Southwark:0}}
+,{category_name:'community',freq:{Westminster:5, Camden:5, Hackney:1, Islington:3, Southwark:1}}
+,{category_name:'R&S',freq:{Westminster:0, Camden:0, Hackney:0, Islington:0, Southwark:1}}
+,{category_name:'family',freq:{Westminster:3, Camden:0, Hackney:0, Islington:0, Southwark:0}}
+,{category_name:'other',freq:{Westminster:17, Camden:8, Hackney:7, Islington:2, Southwark:3}}
+];
+dashboard('#dashboard',freqData);
+    </script>
+    </div>
+    
+        <div id='list' class='legend2'>
+        <h2>Event categories </h2>
+            <div><span style='background-color: #FFC0CB'></span>Business & Professional</div>
+            <div><span style='background-color: #FFA07A'></span>Science & Technology</div>
+            <div><span style='background-color: #DB7093'></span>Music</div>
+            <div><span style='background-color: #CD5C5C'></span>Film, Media & Entertainment</div>
+            <div><span style='background-color: #FF4500'></span>Performing & Visual Arts</div>
+            <div><span style='background-color: #FFD700'></span>Fashion & Beauty</div>
+            <div><span style='background-color: #FFFF00'></span>Health & Wellness</div>
+            <div><span style='background-color: #FAFAD2'></span>Sports & Fitness</div>
+            <div><span style='background-color: #EEE8AA'></span>Travel & Outdoor</div>
+            <div><span style='background-color: #BDB76B'></span>Food & Drink</div>
+            <div><span style='background-color: #8FBC8B'></span>Charity & Causes</div>
+            <div><span style='background-color: #20B2AA'></span>Government & Politics</div>
+            <div><span style='background-color: #AFEEEE'></span>Community & Culture</div>
+            <div><span style='background-color: #B0C4DE'></span>Religion & Spirituality</div>
+            <div><span style='background-color: #E6E6FA'></span>Family & Education</div>
+            <div><span style='background-color: #DAA520'></span>Hobbies & Special Interest</div>
+            <div><span style='background-color: #708090'></span>Other</div>   
+            
+        </div>
+<!--
+<form id='category' class="legend2">
+     <table><tr><td>
+         <div><input type='radio' id='layer5' value='week_count' name = "layers" > Business & Professional</div>
+  <div><input type='radio' id='101' value='101' name = "layers" > Business & Professional    <span style='background-color: #dbf7a6'></span></div>
+  <div><input type='radio' id='102' value='102' name = "layers"> Science & Technology</div>
+  <div><input type='radio' id='103' value='103' name = "layers"> Music</div>
+  <div><input type='radio' id='104' value='104' name = "layers"> Film, Media & Entertainment</div>
+  <div><input type='radio' id='105' value='105' name = "layers"> Performing & Visual Arts</div>
+         </td></tr></table>
+</form>
+-->
+    
+<div class='map-overlay-right' id='features'><h2>Weekly borough events</h2><div id='laname'><p>Hover over a borough</p></div>
+    
+    </div>
+    
+<!--
+    <div id='worddata' class='map-overlay-2'>
+    
+    <h2>word event </h2><img src="Word%20Art.svg" alt="wardart" align = middle width="800"/>
+        </div>
+-->
+    
+<div class='map-overlay'>
+    <div class='map-overlay-inner'>
+    <div id='week_event'>
+    <h1>Weekly New Added Events in London</h1>
+    <p>Data:<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite</a> for London, May 2019</p>
+        <table><tr><td>
+        <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
+        <input type="radio" name="layers" id="layer1" value="week_totoal"checked><label>weekly event count<br></label>
+        <input type="radio" name="layers" id="layer2" value="week_category"><label>Click to see the category<br></label>
+        <input type="radio" name="layers" id="layer3" value="event"><label>Day of May<br></label>
+        </td>
+        </tr>
+        </table>
+        
+        
+<div id='sliderbar' class='legend'>
+    <h2>May: <label id='active-week'>1</label></h2>
+    <input id='slider' class='row' type='range' min='1' max='7' step='1' value='1' />
+        
+</div>
+    <div id = "layer4" name="layers"> 
+    <h2>select categery</h2>
+    <fieldset> 
+    <select id='category' class='legend'>
+        
+        <option value='101'>Business & Professional</option>
+        <option value='102'>Science & Technology</option>
+        <option value='103'>Music</option>
+        <option value='104'>Film, Media & Entertainment</option>
+        <option value='105'>Performing & Visual Arts</option>
+        <option value='106'>Fashion & Beauty</option>
+        <option value='107'>Health & Wellness</option>
+        <option value='108'>Sports & Fitness</option>
+        <option value='109'>Travel & Outdoor</option>
+        <option value='110'>Food & Drink</option>
+        <option value='111'>Charity & Causes</option>
+        <option value='112'>Government & Politics</option>
+        <option value='113'>Community & Culture</option>
+        <option value='114'>Religion & Spirituality</option>
+        <option value='115'>Family & Education</option>
+        <option value='119'>Hobbies & Special Interest</option>
+        <option value='199'>Others</option>
+        
+    </select>
+     
+    </fieldset>
+        </div> 
+        
+            
+	</div>
+</div> 
+    </div>
+    
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFkYW8yMzMzIiwiYSI6ImNqYzh5aXk0cjA0cDAyd281cm0wc3J0YzAifQ.9dICOu1KU_JZdW8tBxNChg'; // Put your Mapbox Public Access token here
+
+   
+    var sliderbarLegendEl = document.getElementById('sliderbar');
+    var categoryLegendEl = document.getElementById('layer4');
+    var chartLegendEl = document.getElementById('container');
+     var graphLegendEl = document.getElementById('dashboard');
+    
+    graphLegendEl.style.display = 'none';
+    chartLegendEl.style.display = 'none';
+    categoryLegendEl.style.display = 'none';
+    sliderbarLegendEl.style.display = 'none';
+    
+    // Load a new map in the 'map' HTML div
+    var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/madao2333/cjvaugf6104yb1gqfszwbm259', // stylesheet location
+    center: [-0.083098, 51.499274], // starting position [lng, lat]
+    zoom: 9.3 // starting zoom
+    });
+    
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+    closeButton: false
+    });
+    
+    
+    
+map.on('load', function() {
+      // Add the circle layer to the map
+ 
+map.addLayer({
+      id:'week_total',
+      type:'circle',
+      source:{
+            type:'vector',
+            url:'mapbox://madao2333.bfv6nlak'//my url of the tilesets
+
+            },
+        'source-layer':'MayWeek1borough2-70dg7q', //name of the tilesets
+        
+        paint: {
+          "circle-radius":{ // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
+              stops: [
+                [9, 5],
+                [22, 180]
+              ],
+              base: 5
+            },
+          "circle-color":  [
+              "step",
+            ["get", "category_id"],
+            "#FFC0CB",
+            101,
+            "#FFC0CB",
+            102,
+            "#FFA07A",
+            103,
+            "#DB7093",
+            104,
+            "#CD5C5C",
+            105,
+            "#FF4500",
+            106,
+            "#FFD700",
+            107,
+            "#FFFF00",
+            108,
+            "#FAFAD2",  
+            109,
+            "#EEE8AA",
+            110,
+            "#BDB76B",
+            111,
+            "#8FBC8B",
+            112,
+            "#20B2AA",
+            113,
+            "#AFEEEE",
+            114,
+            "#B0C4DE",
+            115,
+            "#E6E6FA",
+            119,
+            "#DAA520",
+            199,
+            "#708090",
+           
+            
+            ],
+        
+          'circle-opacity': 0.9,
+        'circle-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 0
+             },
+        },
+          
+      });
+    
+map.addLayer({
+      id:'week_category',
+      type:'circle',
+      source:{
+            type:'vector',
+            url:'mapbox://madao2333.bfv6nlak'//my url of the tilesets
+
+            },
+        'source-layer':'MayWeek1borough2-70dg7q', //name of the tilesets
+        
+        paint: {
+          "circle-radius":{ // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
+              stops: [
+                [9, 5],
+                [22, 180]
+              ],
+              base: 5
+            },
+          "circle-color":  [
+              "step",
+            ["get", "category_id"],
+            "#FFC0CB",
+            101,
+            "#FFC0CB",
+            102,
+            "#FFA07A",
+            103,
+            "#DB7093",
+            104,
+            "#CD5C5C",
+            105,
+            "#FF4500",
+            106,
+            "#FFD700",
+            107,
+            "#FFFF00",
+            108,
+            "#FAFAD2",  
+            109,
+            "#EEE8AA",
+            110,
+            "#BDB76B",
+            111,
+            "#8FBC8B",
+            112,
+            "#20B2AA",
+            113,
+            "#AFEEEE",
+            114,
+            "#B0C4DE",
+            115,
+            "#E6E6FA",
+            119,
+            "#DAA520",
+            199,
+            "#708090",
+           
+            
+            ],
+        
+          'circle-opacity': 0,
+        'circle-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 0
+             },
+        },'filter': ['==', ['number', ['get', 'category_id']],101],
+          
+      });
+    
+    document.getElementById('category').addEventListener('input', function(e) {
+      var categories = parseInt(e.target.value);
+      // update the map
+      map.setFilter('week_category', ['==', ['number', ['get', 'category_id']], categories]);
+    })
+    //var filters = document.getElementById('category').filters;
+
+      // update text in the UI
+ 
+    map.addLayer({
+      id:'event',
+      type:'circle',
+      source:{
+            type:'vector',
+            url:'mapbox://madao2333.bfv6nlak'//my url of the tilesets
+
+            },
+        'source-layer':'MayWeek1borough2-70dg7q', //name of the tilesets
+        layout: {
+                        'visibility': 'none'
+                    },
+        
+        paint: {
+          "circle-radius":{ // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
+              stops: [
+                [12, 8],
+                [22, 20]
+              ],
+              base: 7
+            },
+          "circle-color":  [
+              
+              "step",
+            ["get", "category_id"],
+            "#FFC0CB",
+            101,
+            "#FFC0CB",
+            102,
+            "#FFA07A",
+            103,
+            "#DB7093",
+            104,
+            "#CD5C5C",
+            105,
+            "#FF4500",
+            106,
+            "#FFD700",
+            107,
+            "#FFFF00",
+            108,
+            "#FAFAD2",  
+            109,
+            "#EEE8AA",
+            110,
+            "#BDB76B",
+            111,
+            "#8FBC8B",
+            112,
+            "#20B2AA",
+            113,
+            "#AFEEEE",
+            114,
+            "#B0C4DE",
+            115,
+            "#E6E6FA",
+            119,
+            "#DAA520",
+            199,
+            "#708090",
+            ],
+
+        'circle-opacity': 0.6,
+        'circle-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+                 duration: 1000,
+                 delay: 0
+             },
+        },
+
+          'filter': ['==', ['number', ['get', 'Day_of_May']], 1]
+      });
+        
+      document.getElementById('slider').addEventListener('input', function(e) {
+      var week = parseInt(e.target.value);
+      // update the map
+      map.setFilter('event', ['==', ['number', ['get', 'Day_of_May']],week]);
+
+      // update text in the UI
+      document.getElementById('active-week').innerText = week;
+    });
+    
+
+
+
+            var mypopup = new mapboxgl.Popup({closeButton: false});
+
+            // Assign the event listener of popup
+            //the popup of value columns will turn up when users move their mouse to the target area
+            map.on('mouseover', 'event', function (e) {
+                    mypopup
+                        .setLngLat(e.features[0].geometry.coordinates)
+                        .setHTML("<h3>" + e.features[0].properties.name_text + "</h3>")
+                        .addTo(map);
+                });
+
+            // When the mouse is over the traffic_count layer, show the popup.
+            map.on('mouseenter', 'event', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // When mouse leave the traffic_count layer, remove the popup window.
+            map.on('mouseleave', 'event', function () {
+                map.getCanvas().style.cursor = '';
+                mypopup.remove();
+            });
+          
+
+
+map.addLayer({
+        id: 'LocalAuthorities',
+        type: 'fill',
+        source: {
+          type: 'vector',
+          url: 'mapbox://madao2333.a4na0jju' // Your Mapbox tileset Map ID
+        },
+        'source-layer': 'borough_count-d18859', // name of tilesets
+        'layout': {
+            'visibility': 'visible'
+        },
+        paint: {
+            'fill-color': '#fff',
+            'fill-opacity': 0
+            }
+      });
+
+map.addLayer({
+        id: 'lahighlight',
+        type: 'line',
+        source: {
+          type: 'vector',
+          url: 'mapbox://madao2333.a4na0jju' // Your Mapbox tileset Map ID
+        },
+        'source-layer': 'borough_count-d18859', // name of tilesets
+        'layout': {
+            'visibility': 'visible'
+        },
+        paint: {
+            'line-color': '#adf',
+            'line-width': 4
+            },
+        filter: ['==','NAME','empty']
+      });
+    
+
+
+map.on('mousemove', function(e) {
+  var la = map.queryRenderedFeatures(e.point, {
+    layers: ['LocalAuthorities']
+  });
+
+
+if (la.length==1) {
+
+map.setFilter('lahighlight', ['==','NAME',la[0].properties.NAME]);
+console.log(la[0].properties.NAME);
+document.getElementById('laname').innerHTML = '<h3><strong>' + la[0].properties.NAME + '</strong></h3><p> Totally <strong><em>' + la[0].properties.count + '</strong> events in borough form 1st-7th May 2019</em></p>'; 
+console.log(la[0].id);
+console.log(la);
+
+} else {
+map.setFilter('lahighlight', ['==','NAME','null']);
+console.log('No features');
+document.getElementById('laname').innerHTML = 'No features' 
+
+}
+
+
+});
+    
+
+
+});
+//var markerHeight = 50, markerRadius = 10, linearOffset = 25;
+//var popupOffsets = {
+// 'top': [0, 0],
+// 'top-left': [0,0],
+// 'top-right': [0,0],
+// 'bottom': [0, -markerHeight],
+// 'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+// 'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+// 'left': [markerRadius, (markerHeight - markerRadius) * -1],
+// 'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+// };
+//    
+//
+//var popup = new mapboxgl.Popup({
+//    offset: popupOffsets,
+//    closeButton: false,
+//    closeOnClick: false
+//});
+//    map.on('mouseenter', 'week_count', function(e) {
+//    map.getCanvas().style.cursor = 'pointer';
+//      var pop = map.queryRenderedFeatures(e.point, {
+//        layers: ['week_count']
+//      });
+//    popup.setLngLat(e.lngLat)
+//      .setHTML(pop[0].properties.name_text)
+//      .setMaxWidth("300px")
+//      .addTo(map);
+//        
+//    
+//});
+//   map.on('mouseleave','week_count', function(e) {
+//        map.getCanvas().style.cursor = '';
+//       
+//       popup.remove();
+// 
+//    
+//}) 
+    document.getElementById("layer1").addEventListener("click",function(){
+            map.setPaintProperty('week_total','circle-opacity',0.9);
+            map.setPaintProperty('week_category','circle-opacity',0);
+            map.setLayoutProperty('event','visibility','none');
+           
+            sliderbarLegendEl.style.display = 'none';
+        categoryLegendEl.style.display = 'none';
+        chartLegendEl.style.display = 'none';
+        graphLegendEl.style.display = 'none';
+//            publicLegendEl.style.display = 'none';
+            map.flyTo({
+                        center: [-0.121126,51.494914],
+                        zoom: 9.3, speed: 0.6
+                    });
+
+        
+        });
+document.getElementById("layer2").addEventListener("click",function(){
+        map.setPaintProperty('week_total','circle-opacity',0);
+        map.setPaintProperty('week_category','circle-opacity',0.9);
+        map.setLayoutProperty('event','visibility','none');
+       
+            sliderbarLegendEl.style.display = 'none';
+            categoryLegendEl.style.display = 'block';
+            chartLegendEl.style.display = 'none';
+            graphLegendEl.style.display = 'block';
+            
+            map.flyTo({
+                        center: [-0.211596, 51.415673],
+                        zoom: 9.0, speed: 0.4
+                    });
+
+})
+
+document.getElementById("layer3").addEventListener("click",function(){
+         map.setPaintProperty('week_category','circle-opacity',0);
+        map.setPaintProperty('week_total','circle-opacity',0);
+        map.setLayoutProperty('event','visibility','visible');;
+   
+            sliderbarLegendEl.style.display = 'block';
+            categoryLegendEl.style.display = 'none';
+            chartLegendEl.style.display = 'block';
+            graphLegendEl.style.display = 'none';
+            
+        map.flyTo({
+                        center: [-0.211596, 51.415673],
+                        zoom: 9.0, speed: 0.5
+                    });
+
+})
+    
+
+
+
+//
+//map.on('mousemove', function(e) {
+//  var borough = map.queryRenderedFeatures(e.point, {
+//    layers: ['LocalAuthorities']
+//  });
+//
+//  if (states.length > 0) {
+//    document.getElementById('laname').innerHTML = '<h3><strong>' + borough[0].properties.NAME + '</strong></h3><p><strong><em>' + borough[0].properties.bike_numbe + '</strong> people per square mile</em></p>';
+//  } else {
+//    document.getElementById('laname').innerHTML = '<p>Hover over a state!</p>';
+//  }
+//});
+//            map.transition({  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
+//                 duration: 1000,
+//                 delay: 5
+//             });
+</script>
+
+</body>
+</html>

@@ -10,10 +10,6 @@
     body { margin:0; padding:0; }
     #map { position:absolute; top:0; bottom:0; width:100%; }
       
-    .mapboxgl-popup {
-        max-width: 250px;
-        font: 12px/20px 'Helvetica';
-        } 
   </style>
 </head>
 <body>
@@ -28,7 +24,9 @@ width: 25%;
 margin-left: 75%;
 font-family: 'Helvetica';
 overflow-y: scroll;
-background-color: #fafafa;
+background-color: #808080;
+color: white;
+text-align:justify;
 }
 section {
 padding:  25px 50px;
@@ -43,6 +41,7 @@ opacity: 1;
 
 .legend {
 background-color: #808080;
+color: white;
 border-radius: 3px; 
 bottom: 30px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -63,6 +62,29 @@ margin-right: 5px;
 width: 10px;
 }
 
+
+.map-heading {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; 
+        color: white;
+        top: -3px;
+        padding: 10px;
+        position: fixed;
+        margin-left: -3px;
+		}
+    
+      
+.map-heading .map-heading-inner {
+        background-color: #808080;
+        box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+ .mapboxgl-popup {
+        max-width: 250px;
+        font: 12px/20px 'Helvetica';
+        } 
     
 
 </style>   
@@ -71,35 +93,35 @@ width: 10px;
 <div id='map'></div>
 <div id='features'>
 <section id='london' class='active'>
-<h3>All Work and No Play Makes London a Dull City...</h3>
+    <h3><center>All Work and No Play Makes London a Dull City...</center></h3>
 <p>As of 2018, London had nearly 4,100 pubs throughout the boroughs. As a unique and intrisic part of British living, the London Mayor's New Draft Plan includes a policy protecting public houses as cultural, social, and economic heritage sites comparable to a Parisian cafe or Neapolitan pizza. </p>
 </section>
 <section id='london-top'>
-<h3>"To write of the English inn is to write of England itself..."<br>  - Thomas Burke (1930) </h3>
+    <h3><center>"To write of the English inn is to write of England itself..."<br>  - Thomas Burke (1930) </center></h3>
 <p>Pubs are one of Britain's oldest and most valued social institutions; an integral part of an area's day, evening, and night culture with few institutions so central to its culture. London pubs, in particular, played important roles throughout history - from Marx and Engel drafting their Manifesto at the Red Lion, the French Resistance meeting at the French House, and SoHo's Newman House inspiring the underclass pub in George Orwell's 1984. <br><br> Pubs continue to play a role in daily life and the experience of London's city living. Five tube stops are named after pubs, and according to one survey, the pub is the most popular place for people of all ages and classes to relax and socialise. </p>
 </section>
 <section id='west'>
-<h3>Westminster</h3>
+<h3><center>Westminster</center></h3>
 <p> With 457 pubs, the City of Westminster significantly has the most pubs in the city. Tourism likely plays a part - a recent survey of international visitors to London revealed 54% visited a pub during their stay in the capital. This further highlights the importantance of pubs in the London experience for both locals and visitors. </p>
 </section>
 <section id='city'>
-<h3>The City</h3>
+<h3><center>The City</center></h3>
 <p>However, if a tourist wants a spatially-dense pub experience, the City is the place to be. With the highest number of pubs per capita (182 per 10,000 people), the City might just be the epicenter of England's pubs. Many pubs in the City also have historic cache, from Ye Olde Watling being built in 1666 for St. Paul's Cathedral construction workers to Twain and Dickens frequenting Ye Olde Cheshire Cheese. </p>
 </section>
 <section id='hack'>
-<h3>Build it, and they will come...?</h3>
+<h3><center>Build it, and they will come...?</center></h3>
 <p>One of London's largest population increases of the last decade is occuring in Hackney. As the population increased, so did the pubs. Between 2001-2017 Hackney had the greatest percentage increase in pubs (12.9%) of all the boroughs. Shoreditch, in particular, is a focal point of Hackney's pubs. The increase of liveability have spurred much of the growth.</p>
 </section>
 <section id='soho'>
-<h3>SoHo</h3>
+<h3><center>SoHo</center></h3>
 <p>Of course, the traditional center of London's nightlife is still a vibrant area for pubs. Pubs in SoHo exist on seemingly every street, corner, and even alley! For better or worse, a night in SoHo is a spectacle to behold and very much a part of the London experience.</p>
 </section>
 <section id='outer'>
-<h3>Outer Boroughs</h3>
+<h3><center>Outer Boroughs</center></h3>
 <p>Despite the great extent of pubs across the city, it is not an even spread. While central London seemingly packs pubs into every nook and cranny, outer London's pub locations are more spread out. There are fewer in general, and they mostly cluster along high streets. </p>
 </section>
 <section id='dag'>
-<h3>Last Call?</h3>
+<h3><center>Last Call?</center></h3>
 <p>However, all is not well with London's pubs. Between 2001-2016 over 25% of London's pubs have closed. One of the hardest hit, Barking and Dagenham, have the fewest amount of open pubs (20) and pubs per capita (0.96 per 10,000) than any London borough. It has experienced a 55.6% decrease in pubs since 2001. The spatial paucity of pubs is quite drastic.<br><br>Dwindling pub numbers will likely affect the cultural experience of London. Changes in drinking habits, tastes, and demographics all have a role in the decline, and London's pub heritage is under threat. Although virtually all boroughs experienced declines, their degree varies geographically...
  </p>
 </section>
@@ -118,6 +140,15 @@ width: 10px;
 <div><span style='background-color: #cccccc'></span>2.6</div>
 <div><span style='background-color: #f7f7f7'></span>Less than 1</div>
 </div>
+    
+<div class='map-heading'>
+    <div class='map-heading-inner'>
+    <div id='heading'>
+    <h1>London's Public Houses</h1>
+        </div>
+        <div align="left">Data: <a href=https://www.camra.org.uk/>Campaign for Real Ale (CAMRA)</a></div> fill fill
+        </div>
+    </div>
     
     
     
@@ -235,7 +266,7 @@ map.on('load', function() {
   // Create a popup, but don't add it to the map yet.
   var popup = new mapboxgl.Popup({
     closeButton: false,
-    closeOnClick: false
+    closeOnClick: false,
   });
 
   function showPopup(e) {

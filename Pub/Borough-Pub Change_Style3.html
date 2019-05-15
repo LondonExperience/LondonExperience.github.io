@@ -6,15 +6,14 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
-  <script type='text/javascript' src='http://code.jquery.com/jquery-1.10.2.min.js?ver=1.10.2'></script>
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/highcharts-more.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+ <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
   
   <style>
     body { margin:0; padding:0; }
     #map { position:absolute; top:0; bottom:0; width:100%; }
-      
       
       
 h2,
@@ -33,7 +32,21 @@ p {
   text-align: left;
 }  
 
+#container {
+	width: 500px;
+	opacity: 0.8;
+	height: 280px;
+	margin-left: 60%;
+    margin-top:20px;
+}
 
+#container2 {
+	width: 500px;
+	opacity: 0.8;
+	height: 280px;
+	margin-left: 60%;
+}
+     
 #features {
   top: 0;
   height: 100px;
@@ -44,9 +57,10 @@ p {
       
 .map-overlay {
 		    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            color: white;
 		    position: absolute;
 		    width: 17%;
-		    top: 0;
+		    top: 30%;
 		    left: 0;
 		    padding: 10px;
 		}
@@ -59,14 +73,35 @@ p {
 		    margin-bottom: 10px;
 		}
       
+    
+.map-heading {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        color: white;
+        position: absolute;
+        width: 300px;
+        top: -190px;
+        left: 0;
+        padding: 10px;
+		}
+    
+      
+.map-heading .map-heading-inner {
+        background-color: #808080;
+        box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+      
 .legend {
 background-color: #808080;
+color: white;
 border-radius: 3px; 
 bottom: 30px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 padding: 10px;
 position: fixed;
-margin-left: 10px;
+margin-left: 3px;
 }
 
 .legend h4 {
@@ -81,27 +116,39 @@ margin-right: 5px;
 width: 10px;
 }
       
+      
+
+      
   </style>
 </head>
 <body>
     
 
 <div id='map'></div>
-<div id="container" style="width: 500px; height: 280px;opacity: 0.8; margin-left: 60%;" ></div> 
-<div id="container2" style="width: 500px; height: 280px;opacity: 0.8; margin-left: 60%;" ></div>  
+<div id="container"></div>
+<div id="container2"></div>
 <div class='map-overlay'>
     <div class='map-overlay-inner'>
         <h2 id="laname">Hover over a borough</h2>
-	</div>  
+	</div> 
 <div id='change-legend' class='legend'>
-<h4>Percentage Change - 2001 - 2017</h4>
+<h4>Percentage Change (2001 - 2017)</h4>
 <div><span style='background-color: #fd5230'></span>>-55%</div>
 <div><span style='background-color: #fd5230'></span>-30%</div>
 <div><span style='background-color: #fea695'></span>-15%</div>
 <div><span style='background-color: #fed5cd'></span>-5%</div>
 <div><span style='background-color: #f0f7ff'></span>0%</div>
-<div><span style='background-color: #2787fc'></span>>10%</div>
+<div><span style='background-color: #2787fc'></span>>10%</div> 
 </div>
+    
+<div class='map-heading'>
+    <div class='map-heading-inner'>
+    <div id='heading'>
+    <h1>London's Pub Decline</h1>
+        <div align="left">Data: <a href=https://data.london.gov.uk/dataset/pubs-clubs-restaurants-takeaways-borough>Office for National Statistics (ONS)</a></div> fill fill
+        </div>
+        </div>
+    </div>
 
 
 <script>
@@ -109,7 +156,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicnVzc2hvd2QiLCJhIjoiY2puOTJpNmh5MHZjdTNwbXNxd
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/russhowd/cjv87akky0dso1got7z5ot3dq',
-  center: [0.269602, 51.524188],
+  center: [0.169602, 51.524188],
   zoom: 8.8,
   bearing: 0,
   pitch: 0
@@ -151,11 +198,11 @@ if (cn.length==1) {
 
 map.setFilter('Boundary-lines', ['==','NAME',cn[0].properties.NAME]);
 document.getElementById('laname').innerHTML = 
-    '<h3><strong><em>' + cn[0].properties['NAME'] + '</strong></h3></em>' 
-    + '<p><em>2001-2017 Change: &nbsp' + cn[0].properties['PC_ALL'] + '%</p></em>' 
+    '<h3><strong><em>' + cn[0].properties['NAME'] + '</strong></h3></em>'  
     + '<p><em>2001 Pubs: &nbsp' + cn[0].properties['2001'] + '</p></em>' 
     + '<p><em>2017 Pubs: &nbsp' + cn[0].properties['2017'] + '</p></em>' 
-    + '<p><em>Net Change: &nbsp' + cn[0].properties['C_ALL'] + '</p></em>';
+    + '<p><em>Net Change: &nbsp' + cn[0].properties['C_ALL'] + '</p></em>'
+    + '<p><em>Percentage Change: &nbsp' + cn[0].properties['PC_ALL'] + '%</p></em>';
 
     
 
@@ -171,17 +218,10 @@ document.getElementById('laname').innerHTML = "Hover over a borough";
  });   
     
     
-    
-    
-// Highchart 1 with jquery
-$(function() {
-    var chart1 = Highcharts.chart({
-        chart: {
-            renderTo: 'container',
-            type: 'line'
-        },
-       title: {
-        text: 'Pub Count by Size, 2001-2017'
+Highcharts.chart('container', {
+
+    title: {
+        text: 'Pub Count by Size (2001-2017)'
     },
 
     subtitle: {
@@ -207,13 +247,15 @@ $(function() {
             pointStart: 2001
         }
     },
+
     series: [{
-        name: 'Medium-Large',
+        name: 'Medium-Large (10+ Employees)',
         data: [1450,1410,1410,1375,1435,1430,1505,1460,1475,1445,1450,1555,1635,1735,1810,1845,1850]
     }, {
-        name: 'Small',
-        data: [3390,3465,3120,3080,3015,2905,2795,2750,2555,2440,2320,2215,2025,1875,1860,1770,1680]
-    }], 
+        name: 'Small (1-10 Employees)',
+        data:  [3390,3465,3120,3080,3015,2905,2795,2750,2555,2440,2320,2215,2025,1875,1860,1770,1680]
+    }],
+
     responsive: {
         rules: [{
             condition: {
@@ -229,19 +271,12 @@ $(function() {
         }]
     }
 
-});
+});    
     
-    
-// Second chart
-    
-$(function() {
-    var chart1 = Highcharts.chart({
-        chart: {
-            renderTo: 'container2',
-            type: 'line'
-        },
-       title: {
-        text: 'Pub Closures by Year (2001-2017) - Inner vs Outer Boroughs'
+Highcharts.chart('container2', {
+
+    title: {
+        text: 'Pub Count by Borough - Inner vs Outer London (2001-2017)'
     },
 
     subtitle: {
@@ -267,13 +302,15 @@ $(function() {
             pointStart: 2001
         }
     },
+
     series: [{
         name: 'Inner London',
-        data: [-10,-180,			-50,			0,			-65,			-5,			-55,			-55,			-70,			-70,			-5,			-50,			0,			0,			30,			-20]
+        data: [2785,2775,2595,2545,2545,2480,2475,2420,2365,2295,2225,2220,2170,2170,2170,2200,2180]
     }, {
         name: 'Outer London',
-        data: [35,			-160,			-20,			-5,			-50,			-45,			-15,			-130,			-75,			-30,			-5,			-70,			-45,			55,			-85,			-70]
-    }], 
+        data:  [2055,2090,1930,1910,1905,1855,1810,1795,1665,1590,1560,1555,1485,1440,1495,1410,1340]
+    }],
+
     responsive: {
         rules: [{
             condition: {
@@ -289,190 +326,9 @@ $(function() {
         }]
     }
 
-});
-    
-});
+});      
 
     
-// Bubble chart - doesn't really work visually
-/*
-Highcharts.chart('container2', {
-    chart: {
-        type: 'packedbubble',
-        height: '100%'
-    },
-    title: {
-        text: 'Pub Closures by Borough (2001-2002)'
-    },
-    tooltip: {
-        useHTML: true,
-        pointFormat: '<b>{point.name}:</b> {point.value}m CO<sub>2</sub>'
-    },
-    plotOptions: {
-        packedbubble: {
-            minSize: '30%',
-            maxSize: '120%',
-            zMin: 0,
-            zMax: 1000,
-            layoutAlgorithm: {
-                splitSeries: false,
-                gravitationalConstant: 0.02
-            },
-            dataLabels: {
-                enabled: true,
-                format: '{point.name}',
-                filter: {
-                    property: 'y',
-                    operator: '>',
-                    value: 250
-                },
-                style: {
-                    color: 'black',
-                    textOutline: 'none',
-                    fontWeight: 'normal'
-                }
-            }
-        }
-    },
-    series: [{
-        name: 'Inner',
-        data: [{
-            name: 'Newham',
-            value: -55
-        }, {
-            name: 'Tower Hamlets',
-            value: -85
-        },
-        {
-            name: "Haringey",
-            value: -45
-        },
-        {
-            name: "Lewisham",
-            value: -40
-        },
-        {
-            name: "Hammersmith and Fulham",
-            value: -40
-        },
-        {
-            name: "Lambeth",
-            value: -50
-        },
-        {
-            name: "Southwark",
-            value: -45
-        },
-        {
-            name: "Camden",
-            value: -60
-        },
-        {
-            name: "City of London",
-            value: -40
-        },
-        {
-            name: "Westminster",
-            value: -90
-        },
-        {
-            name: "Islington",
-            value: -35
-        }, {
-            name: "Kensington and Chelsea",
-            value: -20
-        }, {
-            name: "Wandsworth",
-            value: -20
-        },
-        {
-            name: "Hackney",
-            value: 20
-        }]
-    }, {
-        name: 'Outer',
-        data: [{
-            name: "Hillingdon",
-            value: -50
-        },
-        {
-            name: "Greenwich",
-            value: -40
-        },
-        {
-            name: "Barking and Dagenham",
-            value: -25
-        },
-        {
-            name: "Waltham Forest",
-            value: -45
-        },
-        {
-            name: "Croydon",
-            value: -80
-        },
-        {
-            name: "Enfield",
-            value: -55
-        },
-        {
-            name: "Brent",
-            value: -50
-        },
-        {
-            name: "Barnet",
-            value: -55
-        },
-        {
-            name: "Harrow",
-            value: -30
-        },
-        {
-            name: "Merton",
-            value: -30
-        },
-        {
-            name: "Hounslow",
-            value: -50
-        },
-        {
-            name: "Bexley",
-            value: 0
-        },
-        {
-            name: "Sutton",
-            value: -15
-        },
-        {
-            name: "Redbridge",
-            value: -15
-        },
-        {
-            name: "Richmond upon Thames",
-            value: -35
-        },
-        {
-            name: "Bromley",
-            value: -35
-        },
-        {
-            name: "Havering",
-            value: -25
-        }, {
-            name: "Kingston upon Thames",
-            value: -30
-        }, {
-            name: "Ealing",
-            value: -50
-       }]
-    }]
-});    
-    
- */   
-    
-    
-    
-});  
 </script>
 
 </body>

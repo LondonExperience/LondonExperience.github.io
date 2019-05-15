@@ -6,17 +6,211 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
-    
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
   <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
   <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css?hcode=be5162d915534272a57d0bb781d27f2b" type="text/css" rel="stylesheet">
   <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css?hcode=be5162d915534272a57d0bb781d27f2b" type="text/css" rel="stylesheet">
-
+    
       
-      <script src="http://d3js.org/d3.v3.min.js"></script>
-      <script>
-function dashboard(id, fData){
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        h2,
+        h3 {
+          margin: 10px;
+          font-size: 1.2em;
+        }
+
+        h3 {
+          font-size: 1em;
+        }
+
+        p {
+          font-size: 0.85em;
+          margin: 10px;
+          text-align: left;
+        }
+
+        /**
+        * Create a position for the map
+        * on the page */
+        #map {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 100%;
+        }
+        .map-overlay-2{
+          position: absolute;
+          top: 20px;
+          left: 310px;
+          bottom: 0;
+          width: 100%;
+        }
+        
+        .map-overlay-right {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.8);
+          margin-right: 10px;
+          font-family: Arial, sans-serif;
+          overflow: auto;
+          border-radius: 3px;
+        }
+
+        #features {
+          top: 0;
+          height: 120px;
+          margin-top: 20px;
+          width: 250px;
+        }
+
+        
+        .map-overlay {
+		    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		    position: absolute;
+		    width: 17%;
+		    top: 0;
+		    left: 15px;
+		    padding: 10px;
+		}
+
+		.map-overlay .map-overlay-inner {
+		    background-color:  rgba(255, 255, 255, 0.8);
+		    box-shadow:0 2px 2px rgba(0, 0, 0, 0.10);
+		    border-radius: 10px;
+		    padding: 10px;
+		    margin-bottom: 10px;
+		}
+        .map-overlay-inner fieldset {
+        border: none;
+        padding: 0;
+        margin: 0 0 10px;
+        }
+        .map-overlay-inner select {
+        width: 100%;
+        }
+
+        .map-overlay-inner button {
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        border: none;
+        cursor: pointer;
+        }
+
+
+		.map-overlay h2 {
+		    line-height: 22px;
+		    display: block;
+		    margin: 0 0 10px;
+            
+}
+       
+        path {  stroke: #fff; }
+        path:hover {  opacity:0.9; }
+        rect:hover {  fill:blue; }
+        .axis {  font: 9px sans-serif; }
+        .legend tr{    border-bottom:1px solid grey; }
+        .legend tr:first-child{    border-top:1px solid grey; }
+
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+
+        .x.axis path {  display: none; }
+        
+        .legend{
+            margin-bottom:6px;
+            display:inline-block;
+            border-collapse: collapse;
+            border-spacing: 0px;
+        }
+        .legend td{
+            padding:4px 5px;
+            vertical-align:bottom;
+        }
+        .legendFreq, .legendPerc{
+            align:right;
+            width:30px;
+        }
+        
+    #container {
+    width: 100%;
+    height: 100%;
+    opacity: 80%;
+    margin: 0;
+    padding: 0;
+    bottom: 20px;
+}
+        
+    </style>
+</head>
+<body>
+
+<style>
+    
+    
+     .legend1 {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 3px;
+        bottom: 20px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 10px;
+        position: absolute;
+        left: 20px;
+        z-index: 1;
+        
+            }
+
+     .legend2 {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 4px;
+        bottom: 20px;
+        box-shadow: 0;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 10px;
+        position: absolute;
+        right: 50px;
+        z-index: 1;
+        
+            }
+        
+        .legend2 h2 {
+        margin: 10px 10px 10px;
+        }
+
+        .legend2 div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-right: 10px;
+        width: 10px;
+        }
+    
+
+    </style>
+    
+
+    
+ <div id='map'></div>
+    <div id='dashboard' class= 'legend1' style="width: 800; height: 250px;">
+</div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+
+    function dashboard(id, fData){
     var barColor = 'steelblue';
     function segColor(c){ return {Westminster:"#807dba", Camden:"#e08214",Hackney:"#41ab5d", Islington:"#FFD700", Southwark:"#E6E6FA"}[c]; }
   
@@ -212,202 +406,8 @@ function dashboard(id, fData){
         pC = pieChart(tF), // create the pie-chart.
         leg= legend(tF);  // create the legend.
 }
-</script>
 
-   
-  
-    <style>
-        body {
-          margin: 0;
-          padding: 0;
-        }
-
-        h2,
-        h3 {
-          margin: 10px;
-          font-size: 1.2em;
-        }
-
-        h3 {
-          font-size: 1em;
-        }
-
-        p {
-          font-size: 0.85em;
-          margin: 10px;
-          text-align: left;
-        }
-
-        /**
-        * Create a position for the map
-        * on the page */
-        #map {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 100%;
-        }
-        .map-overlay-2{
-          position: absolute;
-          top: 20px;
-          left: 310px;
-          bottom: 0;
-          width: 100%;
-        }
-        
-        .map-overlay-right {
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          background: rgba(255, 255, 255, 0.8);
-          margin-right: 10px;
-          font-family: Arial, sans-serif;
-          overflow: auto;
-          border-radius: 3px;
-        }
-
-        #features {
-          top: 0;
-          height: 120px;
-          margin-top: 20px;
-          width: 250px;
-        }
-
-        
-        .map-overlay {
-		    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-		    position: absolute;
-		    width: 17%;
-		    top: 0;
-		    left: 15px;
-		    padding: 10px;
-		}
-
-		.map-overlay .map-overlay-inner {
-		    background-color:  rgba(255, 255, 255, 0.8);
-		    box-shadow:0 2px 2px rgba(0, 0, 0, 0.10);
-		    border-radius: 10px;
-		    padding: 10px;
-		    margin-bottom: 10px;
-		}
-        .map-overlay-inner fieldset {
-        border: none;
-        padding: 0;
-        margin: 0 0 10px;
-        }
-        .map-overlay-inner select {
-        width: 100%;
-        }
-
-        .map-overlay-inner button {
-        display: inline-block;
-        width: 36px;
-        height: 20px;
-        border: none;
-        cursor: pointer;
-        }
-
-
-		.map-overlay h2 {
-		    line-height: 22px;
-		    display: block;
-		    margin: 0 0 10px;
-            
-}
-    #container {
-    width: 10%;
-    height: 10%;
-    opacity: 10%;
-    margin: 0;
-    padding: 0;
-    bottom: 20px;
-}
-      
-        path {  stroke: #fff; }
-        path:hover {  opacity:0.9; }
-        rect:hover {  fill:blue; }
-        .axis {  font: 9px sans-serif; }
-        .legend tr{    border-bottom:1px solid grey; }
-        .legend tr:first-child{    border-top:1px solid grey; }
-
-        .axis path,
-        .axis line {
-          fill: none;
-          stroke: #000;
-          shape-rendering: crispEdges;
-        }
-
-        .x.axis path {  display: none; }
-        
-        .legend{
-            margin-bottom:6px;
-            display:inline-block;
-            border-collapse: collapse;
-            border-spacing: 0px;
-        }
-        .legend td{
-            padding:4px 5px;
-            vertical-align:bottom;
-        }
-        .legendFreq, .legendPerc{
-            align:right;
-            width:30px;
-        }
-       
-    </style>
-</head>
-<body>
-
-<style>
-    
-    
-     .legend1 {
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 3px;
-        bottom: 20px;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        padding: 10px;
-        position: absolute;
-        left: 20px;
-        z-index: 1;
-        
-            }
-
-     .legend2 {
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 4px;
-        bottom: 20px;
-        box-shadow: 0;
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        padding: 10px;
-        position: absolute;
-        right: 50px;
-        z-index: 1;
-        
-            }
-        
-        .legend2 h2 {
-        margin: 10px 10px 10px;
-        }
-
-        .legend2 div span {
-        border-radius: 50%;
-        display: inline-block;
-        height: 10px;
-        margin-right: 10px;
-        width: 10px;
-        }
-    
-
-    </style>
-    
-
-    
- <div id='map'></div>
-    <div id='dashboard' class='legend1' style="width: 800; height: 250px;">
-
+        </script>
 
 <script>
 var freqData=[
@@ -429,8 +429,8 @@ var freqData=[
 ];
 dashboard('#dashboard',freqData);
     </script>
-    </div>
     
+  
     
     <div id="container" class='legend1'  opacity='0.1'  style="width: 860px; height: 280px;">
   <script>
@@ -949,7 +949,6 @@ document.getElementById('laname').innerHTML = 'No features'
 
 });
     
-
 
 });
 //var markerHeight = 50, markerRadius = 10, linearOffset = 25;

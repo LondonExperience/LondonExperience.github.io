@@ -6,19 +6,70 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+ <script src="https://code.highcharts.com/modules/series-label.js"></script>
+ <script src="https://code.highcharts.com/modules/exporting.js"></script>
+ <script src="https://code.highcharts.com/modules/export-data.js"></script>
   <style>
     body { margin:0; padding:0; }
+
     #map { position:absolute; top:0; bottom:0; width:100%; }
     .map-overlay-2{
       position: absolute;
-      top: 0;
-      left: 310px;
-      bottom: 0;
-      width: 100%;
+
+      margin-right:10px;
+      margin-bottom:0;
+
+
     }
 
+    #container {
+      width: 800px;
+    	opacity: 0.9;
+    	height: 280px;
+    	margin-left: 10px;
+      margin-bottom:5px;
+
+      z-index:2;
+    }
+    #container2 {
+      width: 800px;
+      opacity: 0.9;
+      height: 280px;
+      margin-left: 10px;
+      margin-bottom:5px;
+
+      z-index:2;
+    }
+    #container3 {
+      width: 800px;
+      opacity: 0.9;
+      height: 280px;
+      margin-left: 10px;
+      margin-bottom:5px;
+
+      z-index:2;
+    }
+    #container4 {
+      width: 800px;
+      opacity: 0.9;
+      height: 280px;
+      margin-left: 10px;
+      margin-bottom:5px;
+
+      z-index:2;
+    }
+    .overlayc {
+
+    position: absolute;
+    width: 17%;
+    padding-top: 160px;
+
+    opacity: 0.9;
+}
+
     .map-overlay-right {
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font: 12px/24px 'Helvetica Neue', Arial, Helvetica, sans-serif;
       position: absolute;
       bottom: 0;
       right: 0;
@@ -32,7 +83,7 @@
     #features {
       top: 0;
       height: 120px;
-      margin-top: 20px;
+      margin-top: 10px;
       width: 250px;
     }
 
@@ -67,7 +118,7 @@
 
 
     .map-overlay {
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font: 12px/24px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     position: absolute;
     width: 17%;
     top: 0;
@@ -125,7 +176,7 @@
     position: absolute;
     right: 10px;
     z-index: 1;
-    opacity: 0.7;
+    opacity: 0.9;
         }
 
     .legend h2 {
@@ -139,14 +190,25 @@
     margin-right: 5px;
     width: 10px;
     }
+    .legend div span2 {
+    border-radius: 50%;
+    display: inline-block;
+    height: 20px;
+    margin-right: 5px;
+    width: 20px;
+    }
   </style>
 </head>
 <body>
+
+
 
 <div id='map'></div>
 
 <div id='alls1' class='legend'>
 <h2>2017 Sum of Entry & Exit  </h2>
+<div><span2 style='background-color: rgb(163, 81, 245)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(163, 81, 245)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(233, 220, 246)'></span>0 - 5 million</div>
 <div><span style='background-color: rgb(196, 149, 244)'></span>5 - 20 million</div>
 <div><span style='background-color: rgb(163, 81, 245)'></span>20 - 50 million</div>
@@ -155,6 +217,8 @@
 </div>
 <div id='wdin' class='legend'>
 <h2>Average Weekdays Entry  </h2>
+<div><span2 style='background-color: rgb(8, 134, 237)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(8, 134, 237)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(192, 221, 245)'></span>0 - 1500 people</div>
 <div><span style='background-color: rgb(89, 171, 238)'></span>1500 - 7500 people</div>
 <div><span style='background-color: rgb(8, 134, 237)'></span>7500 - 75000 people</div>
@@ -163,6 +227,8 @@
 </div>
 <div id='wdout' class='legend'>
 <h2>Average Weekdays Exit  </h2>
+<div><span2 style='background-color: rgb(241, 62, 14)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(241, 62, 14)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(249, 209, 199)'></span>0 - 1500 people</div>
 <div><span style='background-color: rgb(246, 125, 92)'></span>1500 - 7500 people</div>
 <div><span style='background-color: rgb(241, 62, 14)'></span>7500 - 75000 people</div>
@@ -171,6 +237,8 @@
 </div>
 <div id='stin' class='legend'>
 <h2>Average Saturdays Entry  </h2>
+<div><span2 style='background-color: rgb(8, 134, 237)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(8, 134, 237)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(192, 221, 245)'></span>0 - 1500 people</div>
 <div><span style='background-color: rgb(89, 171, 238)'></span>1500 - 7500 people</div>
 <div><span style='background-color: rgb(8, 134, 237)'></span>7500 - 75000 people</div>
@@ -179,6 +247,8 @@
 </div>
 <div id='stout' class='legend'>
 <h2>Average Saturdays Exit  </h2>
+<div><span2 style='background-color: rgb(241, 62, 14)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(241, 62, 14)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(249, 209, 199)'></span>0 - 1500 people</div>
 <div><span style='background-color: rgb(246, 125, 92)'></span>1500 - 7500 people</div>
 <div><span style='background-color: rgb(241, 62, 14)'></span>7500 - 75000 people</div>
@@ -187,6 +257,8 @@
 </div>
 <div id='sdin' class='legend'>
 <h2>Average Sundays Entry  </h2>
+<div><span2 style='background-color: rgb(8, 134, 237)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(8, 134, 237)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(192, 221, 245)'></span>0 - 1500 people</div>
 <div><span style='background-color: rgb(89, 171, 238)'></span>1500 - 7500 people</div>
 <div><span style='background-color: rgb(8, 134, 237)'></span>7500 - 75000 people</div>
@@ -195,6 +267,8 @@
 </div>
 <div id='sdout' class='legend'>
 <h2>Average Sundays Exit  </h2>
+<div><span2 style='background-color: rgb(241, 62, 14)'></span2>larger radius means interchange station</div>
+<div><span style='background-color: rgb(241, 62, 14)'></span>smaller radius means no interchange</div>
 <div><span style='background-color: rgb(249, 209, 199)'></span>0 - 1500 people</div>
 <div><span style='background-color: rgb(246, 125, 92)'></span>1500 - 7500 people</div>
 <div><span style='background-color: rgb(241, 62, 14)'></span>7500 - 75000 people</div>
@@ -206,7 +280,7 @@
     <div class='map-overlay-inner'>
     <div id='week_event'>
     <h1>Entry and Exit People Flow of London Underground Stations, 2017</h1>
-    <p>Datasource: <a href='https://tfl.gov.uk/info-for/open-data-users/'>TfL</a> of London</p>
+    <p>Datasource: <a href='https://tfl.gov.uk/info-for/open-data-users/'>Transport for London</a></p>
         <table><tr><td>
         <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
         <input type="radio" name="layers" id="layer1" value="allstationEE"checked><label>All Entry<br></label>
@@ -221,9 +295,15 @@
         </tr>
         </table>
 
+        <div class='overlayc' id='container'></div>
+        <div class='overlayc' id='container2'></div>
+        <div class='overlayc' id='container3'></div>
+        <div class='overlayc' id='container4'></div>
 
 
 <script>
+
+
 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3o4ODg4OCIsImEiOiJjanF6M2swOGwwOWV4NDNsaHdhZ3MzbTFoIn0.ievxxD6kN_LI6EcayNO1UA';
@@ -241,12 +321,17 @@ stin.style.display = 'none';
 stout.style.display = 'none';
 sdin.style.display = 'none';
 sdout.style.display = 'none';
+container.style.display ='block';
+container2.style.display ='none';
+container3.style.display ='none';
+container4.style.display ='none';
 var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/sz88888/cjv4zxezs1h181fthospm26aq',
-  center: [-0.117029, 51.547908],
-  zoom: 10.2,
-  pitch: 60,
+  center: [-0.234191, 51.473386],
+  zoom: 10.23,
+  pitch: 54.50,
+  bearing:11.37
 });
 
 map.on('load', function(){
@@ -376,9 +461,7 @@ map.on('load', function(){
           property: 'Weekday_En',
           type: 'interval',
           stops: [
-              // all values that had string "Below 5" were in python set to 0.
-              // only showing colour from 5 onwards
-              // http://www.0to255.com/17146E for scale
+
               [0, 'rgb(249, 209, 199)'],
               [1500, 'rgb(246, 125, 92)'],
               [7500, 'rgb(241, 62, 14)'],
@@ -695,6 +778,10 @@ document.getElementById("layer1").addEventListener("click",function(){
         stout.style.display = 'none';
         sdin.style.display = 'none';
         sdout.style.display = 'none';
+        container.style.display ='block';
+        container2.style.display ='none';
+        container3.style.display ='none';
+        container4.style.display ='none';
 
 
         map.off('click', as1);
@@ -709,8 +796,8 @@ document.getElementById("layer1").addEventListener("click",function(){
         map.on('click',as2);
 
         map.flyTo({
-                    center: [-0.102714,51.522579],
-                    zoom: 9.3, bearing:-38.4,pitch:60,speed: 0.5
+                    center: [-0.104653, 51.528058],
+                    zoom: 10.64, bearing:-8.0,pitch:34.5,speed: 0.5
                 });
         });
 document.getElementById("layer2").addEventListener("click",function(){
@@ -728,6 +815,10 @@ document.getElementById("layer2").addEventListener("click",function(){
         stout.style.display = 'none';
         sdin.style.display = 'none';
         sdout.style.display = 'none';
+        container.style.display ='none';
+        container2.style.display ='block';
+        container3.style.display ='none';
+        container4.style.display ='none';
 
        map.off('click', as1);
        map.off('click', as2);
@@ -737,6 +828,10 @@ document.getElementById("layer2").addEventListener("click",function(){
        map.off('click', sdi);
        map.off('click', sdo);
         map.on('click',wki);
+        map.flyTo({
+                    center: [-0.161630, 51.503919],
+                    zoom: 11.12, bearing:0,pitch:60,speed: 0.5
+                });
 
 
         });
@@ -755,6 +850,10 @@ document.getElementById("layer2").addEventListener("click",function(){
                 stout.style.display = 'none';
                 sdin.style.display = 'none';
                 sdout.style.display = 'none';
+                container.style.display ='none';
+                container2.style.display ='block';
+                container3.style.display ='none';
+                container4.style.display ='none';
 
                map.off('click', as1);
                map.off('click', wki);
@@ -780,6 +879,10 @@ document.getElementById("layer4").addEventListener("click",function(){
         stout.style.display = 'none';
         sdin.style.display = 'none';
         sdout.style.display = 'none';
+        container.style.display ='none';
+        container2.style.display ='none';
+        container3.style.display ='block';
+        container4.style.display ='none';
 
         map.off('click', as1);
         map.off('click', wki);
@@ -789,6 +892,10 @@ document.getElementById("layer4").addEventListener("click",function(){
         map.off('click', sdi);
         map.off('click', sdo);
         map.on('click',sti );
+        map.flyTo({
+                    center: [-0.128935, 51.491952],
+                    zoom: 11.80, bearing:-20,pitch:53.5,speed: 0.5
+                });
 });
 document.getElementById("layer5").addEventListener("click",function(){
         map.setPaintProperty('allstationEE','fill-extrusion-opacity',0);
@@ -805,6 +912,10 @@ document.getElementById("layer5").addEventListener("click",function(){
         stout.style.display = 'block';
         sdin.style.display = 'none';
         sdout.style.display = 'none';
+        container.style.display ='none';
+        container2.style.display ='none';
+        container3.style.display ='block';
+        container4.style.display ='none';
 
        map.off('click', as1);
        map.off('click', wki);
@@ -830,6 +941,14 @@ document.getElementById("layer6").addEventListener("click",function(){
         stout.style.display = 'none';
         sdin.style.display = 'block';
         sdout.style.display = 'none';
+        container.style.display ='none';
+        container2.style.display ='none';
+        container3.style.display ='none';
+        container4.style.display ='block';
+        map.flyTo({
+                    center: [-0.082962, 51.507445],
+                    zoom: 11.8, bearing:-40.9,pitch:54,speed: 0.5
+                });
 
         map.off('click', as1);
         map.off('click', wki);
@@ -855,7 +974,10 @@ document.getElementById("layer7").addEventListener("click",function(){
         stout.style.display = 'none';
         sdin.style.display = 'none';
         sdout.style.display = 'block';
-
+        container.style.display ='none';
+        container2.style.display ='none';
+        container3.style.display ='none';
+        container4.style.display ='block';
        map.off('click', as1);
        map.off('click', wki);
        map.off('click', wko);
@@ -871,7 +993,523 @@ document.getElementById("layer7").addEventListener("click",function(){
 
 
 
+
 </script>
+
+
+
+
+<script>
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Sum of Station Exit & Entry People Count in Each Borough, 2017'
+    },
+    subtitle: {
+        text: 'Source: TfL and London Datastore.com'
+    },
+    xAxis: {
+        categories: [
+          'Barking and Dagenham',
+           'Barnet',
+           'Brent',
+           'Camden',
+           'Chiltern',
+           'City of London',
+           'City of Westminster',
+           'Ealing',
+           'Enfield',
+           'Epping Forest',
+           'Greenwich',
+           'Hackney',
+           'Hammersmith and Fulham',
+           'Haringey',
+           'Harrow',
+           'Havering',
+           'Hillingdon',
+           'Hounslow',
+           'Islington',
+           'Kensington and Chelsea',
+           'Lambeth',
+           'Merton',
+           'Newham',
+           'Redbridge',
+           'Richmond',
+           'Southwark',
+           'Three Rivers',
+           'Tower Hamlets',
+           'Waltham Forest',
+           'Wandsworth',
+           'Watford'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Count'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Station People Flow (Million People)',
+        color:'rgb(163, 81, 245)',
+        data: [33.62,63.56,98.09,308.83,5.12,242.4,655.29,67.71,15.02,14.14,28.15,8.69,125.59,66.69,36.2,12.19,46.19,25.57,145.75,151.16,194.88,36.77,110.1,39.77,
+          157.75,5.53,146.81,43.06,59.45,1.86]
+
+    }]
+});
+
+Highcharts.chart('container2', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Weekdays Station Exit & Entry People Count in Each Borough, 2017'
+    },
+    subtitle: {
+        text: 'Source: TfL and London Datastore.com'
+    },
+    xAxis: {
+        categories: [
+          'Barking and Dagenham',
+           'Barnet',
+           'Brent',
+           'Camden',
+           'Chiltern',
+           'City of London',
+           'City of Westminster',
+           'Ealing',
+           'Enfield',
+           'Epping Forest',
+           'Greenwich',
+           'Hackney',
+           'Hammersmith and Fulham',
+           'Haringey',
+           'Harrow',
+           'Havering',
+           'Hillingdon',
+           'Hounslow',
+           'Islington',
+           'Kensington and Chelsea',
+           'Lambeth',
+           'Merton',
+           'Newham',
+           'Redbridge',
+           'Richmond',
+           'Southwark',
+           'Three Rivers',
+           'Tower Hamlets',
+           'Waltham Forest',
+           'Wandsworth',
+           'Watford'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Count'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Entry Count (People)',
+        color:'rgb(8, 134, 237)',
+        data: [54948,
+  105022,
+  156470,
+  486780,
+  8671,
+  424168,
+  1002122,
+  110353,
+  23521,
+  23324,
+  40613,
+  13539,
+  203866,
+  106792,
+  58342,
+  20380,
+  74422,
+  41000,
+  240252,
+  230476,
+  311788,
+  57781,
+  169736,
+  65207,
+  18507,
+  235857,
+  10058,
+  236531,
+  64383,
+  95084,
+  3307]
+
+    },
+    {
+      name:'Exit Count (People)',
+      color:'rgb(241, 62, 14)',
+      data:[52289,
+  99655,
+  150211,
+  475064,
+  8810,
+  429092,
+  1010051,
+  105322,
+  22654,
+  23070,
+  42343,
+  12569,
+  194099,
+  100298,
+  58309,
+  20375,
+  67785,
+  40544,
+  227376,
+  224693,
+  304148,
+  56108,
+  158954,
+  62193,
+  18723,
+  224568,
+  9037,
+  233997,
+  68117,
+  91175,
+  2873]
+    }
+  ]
+});
+
+
+
+
+
+Highcharts.chart('container3', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Saturday Station Exit & Entry People Count in Each Borough, 2017'
+    },
+    subtitle: {
+        text: 'Source: TfL and London Datastore.com'
+    },
+    xAxis: {
+        categories: [
+          'Barking and Dagenham',
+           'Barnet',
+           'Brent',
+           'Camden',
+           'Chiltern',
+           'City of London',
+           'City of Westminster',
+           'Ealing',
+           'Enfield',
+           'Epping Forest',
+           'Greenwich',
+           'Hackney',
+           'Hammersmith and Fulham',
+           'Haringey',
+           'Harrow',
+           'Havering',
+           'Hillingdon',
+           'Hounslow',
+           'Islington',
+           'Kensington and Chelsea',
+           'Lambeth',
+           'Merton',
+           'Newham',
+           'Redbridge',
+           'Richmond',
+           'Southwark',
+           'Three Rivers',
+           'Tower Hamlets',
+           'Waltham Forest',
+           'Wandsworth',
+           'Watford'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Count'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Entry Count (People)',
+        color:'rgb(8, 134, 237)',
+        data: [36441,
+  64984,
+  113815,
+  343616,
+  4173,
+  142797,
+  792199,
+  73293,
+  18555,
+  14683,
+  35817,
+  11134,
+  141575,
+  77563,
+  36981,
+  11949,
+  54499,
+  26530,
+  155763,
+  194671,
+  216527,
+  43812,
+  150647,
+  42361,
+  19438,
+  161477,
+  4127,
+  145397,
+  49911,
+  70445,
+  1654]
+
+    },
+    {
+      name:'Exit Count (People)',
+      color:'rgb(241, 62, 14)',
+      data:[36441,
+  64984,
+  113815,
+  343616,
+  4173,
+  142797,
+  792199,
+  73293,
+  18555,
+  14683,
+  35817,
+  11134,
+  141575,
+  77563,
+  36981,
+  11949,
+  54499,
+  26530,
+  155763,
+  194671,
+  216527,
+  43812,
+  150647,
+  42361,
+  19438,
+  161477,
+  4127,
+  145397,
+  49911,
+  70445,
+  1654]
+    }
+  ]
+});
+
+Highcharts.chart('container4', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Sunday Station Exit & Entry People Count in Each Borough, 2017'
+    },
+    subtitle: {
+        text: 'Source: TfL and London Datastore.com'
+    },
+    xAxis: {
+        categories: [
+          'Barking and Dagenham',
+           'Barnet',
+           'Brent',
+           'Camden',
+           'Chiltern',
+           'City of London',
+           'City of Westminster',
+           'Ealing',
+           'Enfield',
+           'Epping Forest',
+           'Greenwich',
+           'Hackney',
+           'Hammersmith and Fulham',
+           'Haringey',
+           'Harrow',
+           'Havering',
+           'Hillingdon',
+           'Hounslow',
+           'Islington',
+           'Kensington and Chelsea',
+           'Lambeth',
+           'Merton',
+           'Newham',
+           'Redbridge',
+           'Richmond',
+           'Southwark',
+           'Three Rivers',
+           'Tower Hamlets',
+           'Waltham Forest',
+           'Wandsworth',
+           'Watford'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Count'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Entry Count (People)',
+        color:'rgb(8, 134, 237)',
+        data: [24748,
+  45487,
+  79224,
+  263976,
+  2592,
+  99112,
+  545856,
+  49431,
+  12554,
+  8161,
+  28314,
+  8587,
+  92830,
+  55959,
+  24589,
+  5758,
+  43947,
+  19004,
+  101366,
+  138418,
+  142862,
+  29691,
+  102767,
+  27053,
+  11644,
+  103600,
+  2371,
+  108759,
+  35223,
+  45583,
+  1067]
+
+    },
+    {
+      name:'Exit Count (People)',
+      color:'rgb(241, 62, 14)',
+      data:[23318,
+  44891,
+  75672,
+  247580,
+  2258,
+  95781,
+  527854,
+  48736,
+  12584,
+  7973,
+  29738,
+  8442,
+  90068,
+  54514,
+  24544,
+  5790,
+  38845,
+  18744,
+  97815,
+  131001,
+  143186,
+  29738,
+  96909,
+  27368,
+  11079,
+  100022,
+  2329,
+  108232,
+  37639,
+  45772,
+  1001]
+    }
+  ]
+});
+
+
+
+
+
+</script>
+
+
+
+
+
+
 
 </body>
 </html>

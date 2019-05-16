@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Pub Count Change Over Time</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+ <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+  <style>
+    body { margin:0; padding:0; }
+
+
+#container {
+	width: 500px;
+	opacity: 0.8;
+	height: 280px;
+	margin-left: 60%;
+    margin-top:20px;
+}
+
+
+
+
+
+  </style>
+</head>
+<body>
+
+
+
+<div id="container"></div>
+
+
+
+
+
+
+<script>
+Highcharts.chart('container', {
+
+    title: {
+        text: 'Pub Count by Size (2001-2017)'
+    },
+
+    subtitle: {
+        text: 'Source: ONS'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Number of Pubs'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 2001
+        }
+    },
+
+    series: [{
+        name: 'Medium-Large (10+ Employees)',
+        data: [1450,1410,1410,1375,1435,1430,1505,1460,1475,1445,1450,1555,1635,1735,1810,1845,1850]
+    }, {
+        name: 'Small (1-10 Employees)',
+        data:  [3390,3465,3120,3080,3015,2905,2795,2750,2555,2440,2320,2215,2025,1875,1860,1770,1680]
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+
+
+
+
+</script>
+
+</body>
+</html>

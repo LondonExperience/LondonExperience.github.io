@@ -1,3 +1,6 @@
+// this D3 Javascrit was built from the reference of Naushad Pasha Puliyambalath (2014). 
+// Naushad Pasha Puliyambalath (2014) Interactive HTML Reporting Using D3 [Online] http://www.mwsug.org/proceedings/2014/DV/MWSUG-2014-DV09.pdf (Accessed: 10th May 2019)
+
 function dashboard(id, fData){
     var barColor = 'steelblue';
     function segColor(c){ return {Westminster:"#807dba", Camden:"#e08214",Hackney:"#41ab5d", Islington:"#FFD700", Southwark:"#E6E6FA"}[c]; }
@@ -8,7 +11,7 @@ function dashboard(id, fData){
     // function to handle histogram.
     function histoGram(fD){
         var hG={},    hGDim = {t: 30, r: 0, b: 20, l: 0};
-        hGDim.w = 520 - hGDim.l - hGDim.r, 
+        hGDim.w = 550 - hGDim.l - hGDim.r, 
         hGDim.h = 250 - hGDim.t - hGDim.b;
             
         //create svg for histogram.

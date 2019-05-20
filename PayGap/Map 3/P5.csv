@@ -1,9 +1,0 @@
-,Sector,Sector Name,Median improvement,Mean Improvement,Sector Size,Median GPG 2017,Median GPG 2018,Mean GPG 2017,Mean GPG 2018,pop1,pop2,pop3,pop4,pop5
-0,2,Mining,0.05,2.5,116,6.75,5.95,11.79,9.29,Mean improvement: 2.5,Mean GPG 2017/2018: 11.79/9.29,Sector size: 116,Median improvement: 0.05,Median GPG 2017/2018: 6.75/5.95
-1,5,Manufacturing,0.2,0.34,422,10.95,11,13.45,13.11,Mean improvement: 0.34,Mean GPG 2017/2018: 13.45/13.11,Sector size: 422,Median improvement: 0.2,Median GPG 2017/2018: 10.95/11.0
-2,6,"Trans., Comm., Elec., Gas and San.",0,-0.18,517,6.4,6.3,13.27,13.45,Mean improvement: -0.18,Mean GPG 2017/2018: 13.27/13.45,Sector size: 517,Median improvement: 0.0,Median GPG 2017/2018: 6.4/6.3
-3,8,Retail Trade,0,0.69,297,1,1.8,8.28,7.59,Mean improvement: 0.69,Mean GPG 2017/2018: 8.28/7.59,Sector size: 297,Median improvement: 0.0,Median GPG 2017/2018: 1.0/1.8
-4,9,"Finance, Insurance and Real Estate",0.1,0.27,345,19.7,19.6,22.4,22.13,Mean improvement: 0.27,Mean GPG 2017/2018: 22.4/22.13,Sector size: 345,Median improvement: 0.1,Median GPG 2017/2018: 19.7/19.6
-5,10,Services,0,0.24,1168,5.5,5.5,12.03,11.79,Mean improvement: 0.24,Mean GPG 2017/2018: 12.03/11.79,Sector size: 1168,Median improvement: 0.0,Median GPG 2017/2018: 5.5/5.5
-6,11,Public Administration,0,-0.55,192,5.05,5.95,18.61,19.17,Mean improvement: -0.55,Mean GPG 2017/2018: 18.61/19.17,Sector size: 192,Median improvement: 0.0,Median GPG 2017/2018: 5.05/5.95
-7,12,Nonclassifiable,0,0.26,1477,14.5,15.1,16.13,15.87,Mean improvement: 0.26,Mean GPG 2017/2018: 16.13/15.87,Sector size: 1477,Median improvement: 0.0,Median GPG 2017/2018: 14.5/15.1

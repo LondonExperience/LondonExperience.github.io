@@ -2,32 +2,44 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Display a map</title>
+    <title>Event map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
-<!--   <script src="http://d3js.org/d3.v3.min.js"></script>-->
+    <!--   <script src="http://d3js.org/d3.v3.min.js"></script>-->
         <script src="index.js"></script>
     <link rel="stylesheet" href="index.css">
-    
-    
-    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
-  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
-  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js?hcode=be5162d915534272a57d0bb781d27f2b"></script>
-  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css?hcode=be5162d915534272a57d0bb781d27f2b" type="text/css" rel="stylesheet">
-  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css?hcode=be5162d915534272a57d0bb781d27f2b" type="text/css" rel="stylesheet">
-    
+
+  <script src="https://cdn.anychart.com/releases/8.6.0/js/anychart-base.min.js" type="text/javascript"></script>
+   <style type="text/css">
+ #container {
+    width: 1000px;
+    height: 330px;
+    margin: 0;
+    padding: 0;
+    opacity: 0.9
+}
+       
+       
+</style>    
       
     <style>
         body {
           margin: 0;
           padding: 0;
         }
+        h1{
+          margin: 10px;
+          font-size: 2em;
+            left: 10px;
+        }
+
 
         h2,
         h3 {
           margin: 10px;
           font-size: 1.2em;
+            left: 10px;
         }
 
         h3 {
@@ -35,8 +47,9 @@
         }
 
         p {
-          font-size: 0.85em;
-          margin: 10px;
+          font-size: 0.85em;  
+            
+          margin: 5px;
           text-align: left;
         }
 
@@ -49,54 +62,54 @@
           bottom: 0;
           width: 100%;
         }
-        .map-overlay-2{
-          position: absolute;
-          top: 20px;
-          left: 310px;
-          bottom: 0;
-          width: 100%;
-        }
-        
+
         .map-overlay-right {
         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
           position: absolute;
-          bottom: 0;
-          right: 0;
+          width: 15%;
+          bottom: 20px;
+          right: 10px;
           background: rgba(255, 255, 255, 0.8);
-          margin-right: 10px;
+          margin-right: 20px;
           font-family: Arial, sans-serif;
           overflow: auto;
           border-radius: 3px;
         }
 
         #features {
-          top: 0;
-          height: 120px;
-          margin-top: 20px;
-          width: 250px;
+            background-color:  rgba(255, 255, 255, 0.8);
+		    box-shadow:0 2px 2px rgba(0, 0, 0, 0.10);
+		    border-radius: 10px;
+		    padding: 10px;
+		    margin-bottom: 10px;
+          top: 10px;
+          height: 110px;
+          margin-top: 10px;
+          width: 15%;
+            
         }
 
         
         .map-overlay {
-		    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		    font: 12px/24px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 		    position: absolute;
-		    width: 17%;
-		    top: 0;
+		    width: 20%;
+		    top: 10px;
 		    left: 15px;
-		    padding: 10px;
+		    padding: 15px;
 		}
 
 		.map-overlay .map-overlay-inner {
 		    background-color:  rgba(255, 255, 255, 0.8);
 		    box-shadow:0 2px 2px rgba(0, 0, 0, 0.10);
 		    border-radius: 10px;
-		    padding: 10px;
+		    padding: 15px;
 		    margin-bottom: 10px;
 		}
         .map-overlay-inner fieldset {
         border: none;
-        padding: 0;
-        margin: 0 0 10px;
+        padding: 0px;
+        margin: 10 0 10px;
         }
         .map-overlay-inner select {
         width: 100%;
@@ -112,19 +125,14 @@
 
 
 		.map-overlay h2 {
-		    line-height: 22px;
+		    line-height: 15px;
 		    display: block;
 		    margin: 0 0 10px;
+            left:10px;
             
 }
-    #container {
-    width: 100%;
-    height: 100%;
-    opacity: 80%;
-    margin: 0;
-    padding: 0;
-    bottom: 20px;
-}
+        
+
         
     </style>
 </head>
@@ -134,33 +142,39 @@
     
     
      .legend1 {
+
         background: rgba(255, 255, 255, 0.8);
-        border-radius: 3px;
-        bottom: 20px;
+        border-radius: 4px;
+        bottom: 30px;
         box-shadow: 0 1px 2px rgba(0,0,0,0.10);
         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        padding: 10px;
+        padding: 20px;
         position: absolute;
-        left: 20px;
+        left: 30px;
         z-index: 1;
+         display:none;
         
             }
+        .legend1 h2 {
+        margin: 0px 0px 10px;
+        }
 
      .legend2 {
         background: rgba(255, 255, 255, 0.8);
         border-radius: 4px;
-        bottom: 20px;
+        bottom: 30px;
         box-shadow: 0;
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font: 12px/24px 'Helvetica Neue', Arial, Helvetica, sans-serif;
         padding: 10px;
         position: absolute;
-        right: 50px;
+        right: 30px;
+
         z-index: 1;
         
             }
         
         .legend2 h2 {
-        margin: 10px 10px 10px;
+        margin: 0px 0px 10px;
         }
 
         .legend2 div span {
@@ -171,13 +185,14 @@
         width: 10px;
         }
     
-
     </style>
     
 
     
  <div id='map'></div>
-    <div id='dashboard' class="legend1" style="width: 1200px; height: 280px;">
+    <div id='dashboard' class="legend1" style="width:960px; height: 290px;"><div id='week_event'>
+        <h2>Category Distribution in Top 5 Active Boroughs, first week of May</h2></div>
+        <p> Part of code refernce from: <a href = http://bl.ocks.org/NPashaP/96447623ef4d342ee09b> Pasha's block on d3 </a></p>
         <script src="d3.v3.min.js"></script>
         <script>
         var freqData=[
@@ -201,74 +216,9 @@
         dashboard('#dashboard',freqData);
         </script>
     </div>
-    
-    <div id="container" class='legend1'  opacity='0.1'  style="width: 860px; height: 280px;">
-  <script>
-anychart.onDocumentReady(function () {
-    // create data set on our data
-    chartData = {
-        title: 'Event count by time in a week',
-        header: ['#', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'],
-        rows: [
-    ["8:00-10:00", 0,6,1,2,3,1,7],
-    ["10:00-12:00", 1,1,4,3,6,9,2],
-    ["12:00-14:00", 3,2,2,5,6,5,11,4],
-    ["14:00-16:00", 3,4,0,5,12,3],
-    ["16:00-18:00", 5,8,7,2,4,2,6],
-    ["18:00-20:00", 37,27,26,15,5,15,27],
-    ["20:00-22:00", 0,2,7,11,5,3,1],
-    ["22:00-24:00", 0,0,1,7,10,0,0]
-
-        ]
-    };
-
-    // create column chart
-    var chart = anychart.column();
-
-    // set chart data
-    chart.data(chartData);
-
-    // turn on chart animation
-    chart.animation(true);
-
-    chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
-
-    // set titles for Y-axis
-    chart.yAxis().title('event count');
-
-    chart.labels()
-            .enabled(true)
-            .position('center-top')
-            .anchor('center-bottom')
-            .format('{%Value}{groupsSeparator: }');
-    chart.hovered().labels(false);
-
-    // turn on legend and tune it
-    chart.legend()
-            .enabled(true)
-            .fontSize(10)
-            .padding([0, 0, 20, 0]);
-
-    // interactivity settings and tooltip position
-    chart.interactivity().hoverMode('single');
-
-    chart.tooltip()
-            .positionMode('point')
-            .position('center-top')
-            .anchor('center-bottom')
-            .offsetX(0)
-            .offsetY(5)
-            .titleFormat('{%X}')
-            .format('{%SeriesName} : {%Value}{groupsSeparator: }');
-
-    // set container id for the chart
-    chart.container('container');
-
-    // initiate chart drawing
-    chart.draw();
-});
-        </script>
-    </div>
+     
+    <div id="container" class='legend1'></div>
+    <script src="daily_index.js"></script>
      
 
     
@@ -293,46 +243,26 @@ anychart.onDocumentReady(function () {
             <div><span style='background-color: #708090'></span>Other</div>   
             
         </div>
-<!--
-<form id='category' class="legend2">
-     <table><tr><td>
-         <div><input type='radio' id='layer5' value='week_count' name = "layers" > Business & Professional</div>
-  <div><input type='radio' id='101' value='101' name = "layers" > Business & Professional    <span style='background-color: #dbf7a6'></span></div>
-  <div><input type='radio' id='102' value='102' name = "layers"> Science & Technology</div>
-  <div><input type='radio' id='103' value='103' name = "layers"> Music</div>
-  <div><input type='radio' id='104' value='104' name = "layers"> Film, Media & Entertainment</div>
-  <div><input type='radio' id='105' value='105' name = "layers"> Performing & Visual Arts</div>
-         </td></tr></table>
-</form>
--->
-    
+
 <div class='map-overlay-right' id='features'><h2>Weekly borough events</h2><div id='laname'><p>Hover over a borough</p></div>
-    
     </div>
     
-<!--
-    <div id='worddata' class='map-overlay-2'>
-    
-    <h2>word event </h2><img src="Word%20Art.svg" alt="wardart" align = middle width="800"/>
-        </div>
--->
     
 <div class='map-overlay'>
     <div class='map-overlay-inner'>
     <div id='week_event'>
-    <h1>Weekly New Added Events in London</h1>
-    <p>Data:<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite</a> for London, May 2019</p>
-        <table><tr><td>
+        <h1>Weekly Social Experiences: Events in London</h1>
+    Data: <a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite API</a> weekly new added events 1st-7th May 2019
+       <table><tr><td>
         <!--the default button is "traffic counts", that means every time when the user get into this web, the radio bar always choose "Jobs" as defaut set-->
-        <input type="radio" name="layers" id="layer1" value="week_totoal"checked><label>weekly event count<br></label>
-        <input type="radio" name="layers" id="layer2" value="week_category"><label>Click to see the category<br></label>
-        <input type="radio" name="layers" id="layer3" value="event"><label>Day of May<br></label>
-        </td>
+        <input type="radio" name="layers" id="layer1" value="week_totoal" checked><label>weekly event count<br></label>
+        <input type="radio" name="layers" id="layer2" value="week_category"><label>Click to see category details<br></label>
+        <input type="radio" name="layers" id="layer3" value="event"><label>Click to see daily event details<br></label>
+        <p class="boroughfly">Zoom To Top 5 Event areas: <a href="#" class="boroughlink" id="Westminster">Westminster</a> &nbsp;<a href="#" class="boroughlink" id="Camden">Camden</a> &nbsp;<a href="#" class="boroughlink" id="Hackney">Hackney</a> &nbsp;<a href="#" class="boroughlink" id="Islington">Islington</a> &nbsp;<a href="#" class="boroughlink" id="Southwark">Southwark</a></p>
+         </td>
         </tr>
         </table>
-        
-        
-<div id='sliderbar' class='legend'>
+<div id='sliderbar' >
     <h2>May: <label id='active-week'>1</label></h2>
     <input id='slider' class='row' type='range' min='1' max='7' step='1' value='1' />
         
@@ -340,8 +270,7 @@ anychart.onDocumentReady(function () {
     <div id = "layer4" name="layers"> 
     <h2>select categery</h2>
     <fieldset> 
-    <select id='category' class='legend'>
-        
+    <select id='category' >
         <option value='101'>Business & Professional</option>
         <option value='102'>Science & Technology</option>
         <option value='103'>Music</option>
@@ -388,9 +317,9 @@ anychart.onDocumentReady(function () {
     // Load a new map in the 'map' HTML div
     var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/madao2333/cjvaugf6104yb1gqfszwbm259', // stylesheet location
+    style: 'mapbox://styles/madao2333/cjvqwe66c0h021cnkps5pxpku', // stylesheet location
     center: [-0.083098, 51.499274], // starting position [lng, lat]
-    zoom: 9.3 // starting zoom
+    zoom: 9.8 // starting zoom
     });
     
     // Create a popup, but don't add it to the map yet.
@@ -471,6 +400,26 @@ map.addLayer({
         },
           
       });
+            var x = document.getElementsByClassName("boroughlink"); 
+            var i; //new loop of variable i, switch（）by different case (with ID), and then output 'lat and long' of specific id by users click
+            for (i=0;i<x.length;i++){
+                x[i].addEventListener('click',function(e){
+                    var lat,long;
+                    switch(e.target.id) {
+                        case "Westminster": long=-0.158638; lat=51.506599; break; 
+                        case "Camden": long=-0.153124; lat=51.543900; break; 
+                        case "Hackney": long=-0.072034; lat=51.532308; break; 
+                        case "Islington": long=-0.106791; lat=51.544488; break; 
+                        case "Southwark": long=-0.076119; lat=51.467409; break; 
+                            
+                       
+                            }
+                    map.flyTo({
+                        center: [long,lat],
+                        zoom: 12.7, speed: 0.6, pitch: 50 
+                    });
+			});
+		}
     
 map.addLayer({
       id:'week_category',
@@ -481,7 +430,9 @@ map.addLayer({
 
             },
         'source-layer':'MayWeek1borough2-70dg7q', //name of the tilesets
-        
+         layout: {
+                        'visibility': 'none'
+                    },
         paint: {
           "circle-radius":{ // Set the radius of each circle, as well as its size at each zoom level: https://docs.mapbox.com/mapbox-gl-js/style-spec/#paint-circle-circle-radius
               stops: [
@@ -532,7 +483,7 @@ map.addLayer({
             
             ],
         
-          'circle-opacity': 0,
+          'circle-opacity': 0.9,
         'circle-opacity-transition': {  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
                  duration: 1000,
                  delay: 0
@@ -641,7 +592,7 @@ map.addLayer({
             map.on('mouseover', 'event', function (e) {
                     mypopup
                         .setLngLat(e.features[0].geometry.coordinates)
-                        .setHTML("<h3>" + e.features[0].properties.name_text + "</h3>")
+                        .setHTML("<h3>" + e.features[0].properties.name_text + "</h3><p>Category: "+e.features[0].properties.category_name+"</p>")
                         .addTo(map);
                 });
 
@@ -656,7 +607,23 @@ map.addLayer({
                 mypopup.remove();
             });
           
+            map.on('mouseover', 'week_category', function (e) {
+                    mypopup
+                        .setLngLat(e.features[0].geometry.coordinates)
+                        .setHTML("<h3>" + e.features[0].properties.name_text + "</h3>"+"<p>Date of May: "+e.features[0].properties.Day_of_May+"</p>")
+                        .addTo(map);
+                });
 
+            // When the mouse is over the traffic_count layer, show the popup.
+            map.on('mouseenter', 'week_category', function () {
+                  map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // When mouse leave the traffic_count layer, remove the popup window.
+            map.on('mouseleave', 'week_category', function () {
+                map.getCanvas().style.cursor = '';
+                mypopup.remove();
+            });
 
 map.addLayer({
         id: 'LocalAuthorities',
@@ -712,7 +679,7 @@ console.log(la);
 } else {
 map.setFilter('lahighlight', ['==','NAME','null']);
 console.log('No features');
-document.getElementById('laname').innerHTML = 'No features' 
+document.getElementById('laname').innerHTML = '<p><h3>Totally 345 events in a week</h3></p>' 
 
 }
 
@@ -721,46 +688,10 @@ document.getElementById('laname').innerHTML = 'No features'
     
 
 });
-//var markerHeight = 50, markerRadius = 10, linearOffset = 25;
-//var popupOffsets = {
-// 'top': [0, 0],
-// 'top-left': [0,0],
-// 'top-right': [0,0],
-// 'bottom': [0, -markerHeight],
-// 'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-// 'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-// 'left': [markerRadius, (markerHeight - markerRadius) * -1],
-// 'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-// };
-//    
-//
-//var popup = new mapboxgl.Popup({
-//    offset: popupOffsets,
-//    closeButton: false,
-//    closeOnClick: false
-//});
-//    map.on('mouseenter', 'week_count', function(e) {
-//    map.getCanvas().style.cursor = 'pointer';
-//      var pop = map.queryRenderedFeatures(e.point, {
-//        layers: ['week_count']
-//      });
-//    popup.setLngLat(e.lngLat)
-//      .setHTML(pop[0].properties.name_text)
-//      .setMaxWidth("300px")
-//      .addTo(map);
-//        
-//    
-//});
-//   map.on('mouseleave','week_count', function(e) {
-//        map.getCanvas().style.cursor = '';
-//       
-//       popup.remove();
-// 
-//    
-//}) 
+
     document.getElementById("layer1").addEventListener("click",function(){
-            map.setPaintProperty('week_total','circle-opacity',0.9);
-            map.setPaintProperty('week_category','circle-opacity',0);
+        map.setLayoutProperty('week_total','visibility','visible');
+        map.setLayoutProperty('week_category','visibility','none');
             map.setLayoutProperty('event','visibility','none');
            
             sliderbarLegendEl.style.display = 'none';
@@ -770,14 +701,19 @@ document.getElementById('laname').innerHTML = 'No features'
 //            publicLegendEl.style.display = 'none';
             map.flyTo({
                         center: [-0.121126,51.494914],
-                        zoom: 9.3, speed: 0.6
+                        zoom: 9.8, 
+                pitch:0,
+                bearing:0,
+                
+                speed: 0.6
+                
                     });
 
         
         });
 document.getElementById("layer2").addEventListener("click",function(){
-        map.setPaintProperty('week_total','circle-opacity',0);
-        map.setPaintProperty('week_category','circle-opacity',0.9);
+        map.setLayoutProperty('week_total','visibility','none');
+        map.setLayoutProperty('week_category','visibility','visible');
         map.setLayoutProperty('event','visibility','none');
        
             sliderbarLegendEl.style.display = 'none';
@@ -785,16 +721,19 @@ document.getElementById("layer2").addEventListener("click",function(){
             chartLegendEl.style.display = 'none';
             graphLegendEl.style.display = 'block';
             
-            map.flyTo({
-                        center: [-0.211596, 51.415673],
-                        zoom: 9.0, speed: 0.4
+        map.flyTo({
+                center: [-0.211145, 51.412684],
+                zoom: 10.1, 
+                bearing:11.26,
+                pitch:50,
+                speed: 0.4
                     });
 
 })
 
 document.getElementById("layer3").addEventListener("click",function(){
-         map.setPaintProperty('week_category','circle-opacity',0);
-        map.setPaintProperty('week_total','circle-opacity',0);
+        map.setLayoutProperty('week_category','visibility','none');
+        map.setLayoutProperty('week_total','visibility','none');
         map.setLayoutProperty('event','visibility','visible');;
    
             sliderbarLegendEl.style.display = 'block';
@@ -803,31 +742,16 @@ document.getElementById("layer3").addEventListener("click",function(){
             graphLegendEl.style.display = 'none';
             
         map.flyTo({
-                        center: [-0.211596, 51.415673],
-                        zoom: 9.0, speed: 0.5
+                center: [-0.211145, 51.412684],
+                zoom: 10.1, 
+                bearing:11.26,
+                pitch:50,
+                speed: 0.4
                     });
-
-})
     
 
+})
 
-
-//
-//map.on('mousemove', function(e) {
-//  var borough = map.queryRenderedFeatures(e.point, {
-//    layers: ['LocalAuthorities']
-//  });
-//
-//  if (states.length > 0) {
-//    document.getElementById('laname').innerHTML = '<h3><strong>' + borough[0].properties.NAME + '</strong></h3><p><strong><em>' + borough[0].properties.bike_numbe + '</strong> people per square mile</em></p>';
-//  } else {
-//    document.getElementById('laname').innerHTML = '<p>Hover over a state!</p>';
-//  }
-//});
-//            map.transition({  //Opacity transition adds a delay when changing the opacity for a smooth layer change effect
-//                 duration: 1000,
-//                 delay: 5
-//             });
 </script>
 
 </body>

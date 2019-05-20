@@ -1,0 +1,668 @@
+<html>
+    <head>
+            <meta charset='utf-8' />
+    <title>Event map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+       
+
+
+<style>       
+    body {
+          margin: 0;
+          padding: 0;
+        }
+        /**
+        * Create a position for the map
+        * on the page */
+
+        #map {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 100%;
+        }
+  
+    #title{
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    top: 20px;
+    left:20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    font: 20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 5px;
+    position:absolute;
+    height: 100px;
+    width:550px;
+        
+    }
+    
+    #wordle {
+    
+    top: 5%;
+    left:10%;
+  
+    padding: 0;
+    width: 60%;
+    height: 60%;
+   
+    margin: 10px;
+    opacity:1;
+    position:relative;
+        
+        
+            }
+    
+    
+#legend {
+    background: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    top: 55%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0);
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 0px;
+    position:relative;
+    right:3%;
+    z-index: 1;
+    height: auto;
+    width:80%;
+   
+	margin: 0 auto;
+            }
+
+    
+    .map-overlay{
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          position: absolute;
+          width: 25%;
+          height: 100%;
+          bottom: 0px;
+          right: 0;
+          background: rgba(255, 255, 255, 1);
+          margin-right: 0px;
+          font-family: Arial, sans-serif;
+          overflow: auto;
+          border-radius: 3px;
+        }
+        
+    .intro {
+        background-color: rgba(255, 255, 255, 0);
+        font: 12px/24px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        position:absolute;
+        
+        padding: 10px;
+        margin-bottom: 10px;
+        top: 10px;
+        height: 160px;
+        margin-top: 20px;
+        width: 400px;
+        left:10%;
+        }
+    .intro h1 {
+        margin: 10px 10px 10px;
+        font: 24px
+        }
+ 
+    
+        
+
+
+        </style>
+    </head>
+    <body>
+         
+         <div id='map'></div>
+        <div id='title'><p>Most Popular Words of London Events in first week of May<p style="font-size:60%">Data Generated from<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite API</a> weekly new added events 1st-7th May 2019
+            </p></div>
+        <div id="wordle">
+        <img src="Word_Art_london_1.svg" with=60%>
+        </div>
+                   
+               
+        <div class='map-overlay'> 
+     <div class='intro'>
+                <h1>The Social Experience by Events</h1>
+         <p style="font-size:120%">Societal and cultural characteristics of places draw an intangible image of the city and brings citizens a sense of place. In this part, we use 'social and recreational oppotunities' to describe social and cultural liveability of London. Here we use daily public events to represent social opportunities, while venues of music, cinema and community centre to define the recreational opportunities.</p>
+             
+         <p style="font-size:120%">
+         City daily events play as a medium to connect people and city. It brings a chance not only for interactions between people and people, but also for interactions between people and place. From gathering citizens with same hobbies or skills, the variety categories of event provide a quality and efficient platform of social activities. 
+         </p>
+         <br>
+         <br>
+         <br>
+         <p>Here is one week live events of May from eventbrite.com 
+         </p>
+            </div>
+           
+            <div id ='legend'></div>
+            
+            </div>
+        
+        
+ 
+<script>
+     mapboxgl.accessToken = 'pk.eyJ1IjoibWFkYW8yMzMzIiwiYSI6ImNqYzh5aXk0cjA0cDAyd281cm0wc3J0YzAifQ.9dICOu1KU_JZdW8tBxNChg'; // Put your Mapbox Public Access token here
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/madao2333/cjvr58n1t064m1cmlhflpxzmw', // stylesheet location
+    center: [0.141476, 51.488563], // starting position [lng, lat]
+    zoom: 9.7 // starting zoom
+    });
+    
+    map.on('load', function() {
+      // Add the circle layer to the map
+// 
+//var data = [{
+//    "name": "London",
+//    "weight": 25
+//  },
+//  {
+//    "name": "May",
+//    "weight": 20
+//  },
+//  {
+//    "name": "Party",
+//    "weight": 19
+//  },
+//  {
+//    "name": "Bank",
+//    "weight": 18
+//  },
+//  {
+//    "name": "Day",
+//    "weight": 16
+//  },
+//  {
+//    "name": "Holiday",
+//    "weight": 16
+//  },
+//  {
+//    "name": "Live",
+//    "weight": 15
+//  },
+//  {
+//    "name": "Night",
+//    "weight": 13
+//  },
+//  {
+//    "name": "Present",
+//    "weight": 13
+//  },
+//  {
+//    "name": "Free",
+//    "weight": 13
+//  },
+//  {
+//    "name": "Health",
+//    "weight": 11
+//  },
+//  {
+//    "name": "Launch",
+//    "weight": 10
+//  },
+//  {
+//    "name": "Event",
+//    "weight": 10
+//  },
+//  {
+//    "name": "Open",
+//    "weight": 9
+//  },
+//  {
+//    "name": "Art",
+//    "weight": 9
+//  },
+//  {
+//    "name": "Special",
+//    "weight": 9
+//  },
+//  {
+//    "name": "Talk",
+//    "weight": 8
+//  },
+//  {
+//    "name": "Session",
+//    "weight": 8
+//  },
+//  {
+//    "name": "World",
+//    "weight": 7
+//  },
+//  {
+//    "name": "Film",
+//    "weight": 7
+//  },
+//  {
+//    "name": "Summer",
+//    "weight": 7
+//  },
+//  {
+//    "name": "Club",
+//    "weight": 7
+//  },
+//  {
+//    "name": "Network",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Conference",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Exhibition",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Series",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Fair",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Soul",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Comedy",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Concert",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Friday",
+//    "weight": 6
+//  },
+//  {
+//    "name": "Conversation",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Business",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Lecture",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Investing",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Future",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Screening",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Showcase",
+//    "weight": 5
+//  },
+//  {
+//    "name": "First",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Meet",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Class",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Up",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Women's",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Sunday",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Celebrating",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Pm",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Saturday",
+//    "weight": 5
+//  },
+//  {
+//    "name": "Book",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Professor",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Tech",
+//    "weight": 4
+//  },
+//  {
+//    "name": "New",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Seminar",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Pitch",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Building",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Carnival",
+//    "weight": 4
+//  },
+//  {
+//    "name": "St",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Anniversary",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Evening",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Friends",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Black",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Ramadan",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Festival",
+//    "weight": 4
+//  },
+//  {
+//    "name": "Season",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Young",
+//    "weight": 3
+//  },
+//  {
+//    "name": "South",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Funds",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Dream",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Culture",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Design",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Artist",
+//    "weight": 3
+//  },
+//  {
+//    "name": "People",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Pre",
+//    "weight": 3
+//  },
+//  {
+//    "name": "School",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Research",
+//    "weight": 3
+//  },
+//  {
+//    "name": "African",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Beyond",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Introduction",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Beer",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Pickle",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Factory",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Vibe",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Boat",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Park",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Monday",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Birthday",
+//    "weight": 3
+//  },
+//  {
+//    "name": "International",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Football",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Vs",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Years",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Training",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Social",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Grace",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Disco",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Band",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Hackney",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Experience",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Bar",
+//    "weight": 3
+//  },
+//  {
+//    "name": "De",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Women",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Paint",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Music",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Conscious",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Power",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Two",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Reggaeton",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Kate",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Ucl",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Square",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Garden",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Show",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Late",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Creative",
+//    "weight": 3
+//  },
+//  {
+//    "name": "House",
+//    "weight": 3
+//  },
+//  {
+//    "name": "Age",
+//    "weight": 3
+//  }
+//];
+
+//Highcharts.chart('wordle', {
+//  series: [{
+//    colors: ['#87CEFA', '#808080', '#00FF7F', '#FFA500', '#9370DB','#FF1493','#F0E68C','#66CDAA','#FF4500','#E0FFFF'],
+//    rotation: {
+//      from: 0,
+//      to: 90,
+//      orientations: 2
+//    },
+//    type: 'wordcloud',
+//    data: data
+//  }],
+//  title: {
+//    text: 'Most Popular Words of London Events in first week of May'
+//  },
+//  tooltip: {
+//    enabled: true
+//  },
+//  subtitle: {
+//    text: '<a href="https://www.eventbrite.co.uk/platform/docs/by-date">Source: Eventbrite</a>'
+//  }
+//});
+    
+    
+    
+    var chart = Highcharts.chart('legend', {
+
+    title: {
+        text: 'Chart of Top 15 Event Words'
+    },
+
+    subtitle: {
+        text: 'first week of May'
+    },
+
+    xAxis: {
+        categories: ['London', 'May', 'Party', 'Bank', 'Day', 'Holiday', 'Live', 'Night', 'Present', 'Free', 'Health', 'Launch','Event','Open','Art','Special','Talk']
+    },
+
+    series: [{
+        type: 'bar',
+        colorByPoint: true,
+        data: [25, 20, 19, 18, 16, 16, 15, 13, 13, 13, 11, 10,10, 9, 9, 9, 8],
+        showInLegend:false
+    }]
+
+});
+    })
+
+
+
+        </script>
+    </body>
+</html>

@@ -1,7 +1,7 @@
 body{
     width:800px;
-    height:300px;
-    margin:15px auto;
+    height:260px;
+    margin:10px auto;
 }
 path {  stroke: #fff; }
 path:hover {  opacity:0.9; }

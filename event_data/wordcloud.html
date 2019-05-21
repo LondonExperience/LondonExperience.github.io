@@ -1,15 +1,12 @@
 <html>
     <head>
-            <meta charset='utf-8' />
+    <meta charset='utf-8' />
     <title>Event map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
-       
-
-
 <style>       
     body {
           margin: 0;
@@ -27,88 +24,74 @@
         }
   
     #title{
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-    top: 20px;
-    left:20px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    font: 20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    padding: 5px;
-    position:absolute;
-    height: 100px;
-    width:550px;
-        
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+        top: 20px;
+        left:20px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        font: 20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 5px;
+        position:absolute;
+        height: 100px;
+        width:550px;    
     }
     
     #wordle {
-    
-    top: 5%;
-    left:10%;
-  
-    padding: 0;
-    width: 60%;
-    height: 60%;
-   
-    margin: 10px;
-    opacity:1;
-    position:relative;
-        
-        
-            }
+        top: 10%;
+        left:10%;
+        padding: 10px;
+        width: 850px;
+        height: 600px;
+        margin: 10px;
+        opacity:1;
+        position:relative;   
+    }
     
     
-#legend {
-    background: rgba(255, 255, 255, 0);
-    border-radius: 3px;
-    top: 55%;
-    box-shadow: 0 1px 2px rgba(0,0,0,0);
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    padding: 0px;
-    position:relative;
-    right:3%;
-    z-index: 1;
-    height: auto;
-    width:80%;
-   
-	margin: 0 auto;
-            }
+    #legend {
+        top: 430px;
+        font: 10px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 0px;
+        position:relative;
+        right:10px;
+        left: 10px;
+        height: auto;
+        width:70%;
+        margin: 0 auto;
+    }
 
     
     .map-overlay{
         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-          position: absolute;
-          width: 25%;
-          height: 100%;
-          bottom: 0px;
-          right: 0;
-          background: rgba(255, 255, 255, 1);
-          margin-right: 0px;
-          font-family: Arial, sans-serif;
-          overflow: auto;
-          border-radius: 3px;
+        position: absolute;
+        width: 25%;
+        height: 100%;
+        bottom: 0px;
+        right: 0;
+        background: rgba(255, 255, 255, 1);
+        margin-right: 0px;
+        font-family: Arial, sans-serif;
+        overflow: auto;
+        border-radius: 3px;
         }
         
     .intro {
         background-color: rgba(255, 255, 255, 0);
         font: 12px/24px 'Helvetica Neue', Arial, Helvetica, sans-serif;
         position:absolute;
-        
         padding: 10px;
         margin-bottom: 10px;
         top: 10px;
         height: 160px;
         margin-top: 20px;
-        width: 400px;
-        left:10%;
+        width: 280px;
+        left:20px;
+        right: 10px
         }
     .intro h1 {
-        margin: 10px 10px 10px;
+        margin: 0px 0px 10px;
         font: 24px
         }
- 
-    
-        
-
 
         </style>
     </head>
@@ -118,31 +101,21 @@
         <div id='title'><p>Most Popular Words of London Events in first week of May<p style="font-size:60%">Data Generated from<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite API</a> weekly new added events 1st-7th May 2019
             </p></div>
         <div id="wordle">
-        <img src="Word_Art_london_1.svg" with=60%>
-        </div>
-                   
+        <img src="Word_Art_london_1.svg" >
+        </div> 
                
         <div class='map-overlay'> 
      <div class='intro'>
-                <h1>The Social Experience by Events</h1>
-         <p style="font-size:120%">Societal and cultural characteristics of places draw an intangible image of the city and brings citizens a sense of place. In this part, we use 'social and recreational oppotunities' to describe social and cultural liveability of London. Here we use daily public events to represent social opportunities, while venues of music, cinema and community centre to define the recreational opportunities.</p>
+        <h1>The Social Experience by Events</h1>
+         <p style="font-size:1em">Societal and cultural characteristics draw an intangible city image and bring citizens a sense of place. In this part, we use 'social and cultural experience in a week' to evaluate city liveability of London. To measure such experience, here we use the data of weekly public events</p>
              
-         <p style="font-size:120%">
-         City daily events play as a medium to connect people and city. It brings a chance not only for interactions between people and people, but also for interactions between people and place. From gathering citizens with same hobbies or skills, the variety categories of event provide a quality and efficient platform of social activities. 
-         </p>
-         <br>
-         <br>
-         <br>
-         <p>Here is one week live events of May from eventbrite.com 
+         <p style="font-size:1em">
+         City daily events play as a medium which connects people and city. It brings a chance for interactions between not only people and people but also people and place. There is a broad category of events, and citizens with the same hobbies or skills can get together to share knowledge and have social interactions.
          </p>
             </div>
-           
             <div id ='legend'></div>
-            
             </div>
         
-        
- 
 <script>
      mapboxgl.accessToken = 'pk.eyJ1IjoibWFkYW8yMzMzIiwiYSI6ImNqYzh5aXk0cjA0cDAyd281cm0wc3J0YzAifQ.9dICOu1KU_JZdW8tBxNChg'; // Put your Mapbox Public Access token here
 var map = new mapboxgl.Map({
@@ -636,7 +609,8 @@ var map = new mapboxgl.Map({
 //});
     
     
-    
+    // use javascrit of "Highchart" to build an interactive chart
+    // the chart summarise event words with top 15 highest frequency 
     var chart = Highcharts.chart('legend', {
 
     title: {
@@ -646,11 +620,13 @@ var map = new mapboxgl.Map({
     subtitle: {
         text: 'first week of May'
     },
-
+    
+    // set the x label with top 15 words
     xAxis: {
         categories: ['London', 'May', 'Party', 'Bank', 'Day', 'Holiday', 'Live', 'Night', 'Present', 'Free', 'Health', 'Launch','Event','Open','Art','Special','Talk']
     },
-
+    
+    // set a series of y label with values of frequency
     series: [{
         type: 'bar',
         colorByPoint: true,

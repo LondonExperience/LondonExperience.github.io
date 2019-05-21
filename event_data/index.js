@@ -1,18 +1,22 @@
-// this D3 Javascrit was built from the reference of Naushad Pasha Puliyambalath (2014). 
-// Naushad Pasha Puliyambalath (2014) Interactive HTML Reporting Using D3 [Online] http://www.mwsug.org/proceedings/2014/DV/MWSUG-2014-DV09.pdf (Accessed: 10th May 2019)
+/* 
+* this D3 Javascrit refernce from Naushad Pasha(2014) 
+* There is a link of Pasha's block in the main html file 
+*/
 
-function dashboard(id, fData){
-    var barColor = 'steelblue';
-    function segColor(c){ return {Westminster:"#807dba", Camden:"#e08214",Hackney:"#41ab5d", Islington:"#FFD700", Southwark:"#E6E6FA"}[c]; }
+function comparingchart (id, fData) {
+    var barColor = '#87CEEB';
+    function segColor (c) { 
+        return {Westminster:"#f38181", Camden:"#fce38a",Hackney:"#eaffd0", Islington:"#95e1d3", Southwark:"#E6E6FA"}[c]; 
+    }
   
-    // compute total for each category_name.
-    fData.forEach(function(d){d.total=d.freq.Westminster+d.freq.Camden+d.freq.Hackney+d.freq.Islington+d.freq.Southwark;});
+    // compute total for each borough.
+    fData.forEach(function (d){d.total=d.freq.Westminster+d.freq.Camden+d.freq.Hackney+d.freq.Islington+d.freq.Southwark;});
     
     // function to handle histogram.
     function histoGram(fD){
-        var hG={},    hGDim = {t: 30, r: 0, b: 20, l: 0};
-        hGDim.w = 550 - hGDim.l - hGDim.r, 
-        hGDim.h = 250 - hGDim.t - hGDim.b;
+        var hG={}, hGDim = {t: 30, r: 0, b: 20, l: 0};
+        hGDim.w = 530 - hGDim.l - hGDim.r, 
+        hGDim.h = 220 - hGDim.t - hGDim.b;
             
         //create svg for histogram.
         var hGsvg = d3.select(id).append("svg")
@@ -44,8 +48,8 @@ function dashboard(id, fData){
             .attr("width", x.rangeBand())
             .attr("height", function(d) { return hGDim.h - y(d[1]); })
             .attr('fill',barColor)
-            .on("mouseover",mouseover)// mouseover is defined below.
-            .on("mouseout",mouseout);// mouseout is defined below.
+            .on("mouseover",mouseover)
+            .on("mouseout",mouseout);
             
         //Create the frequency labels above the rectangles.
         bars.append("text").text(function(d){ return d3.format(",")(d[1])})
@@ -53,7 +57,8 @@ function dashboard(id, fData){
             .attr("y", function(d) { return y(d[1])-5; })
             .attr("text-anchor", "middle");
         
-        function mouseover(d){  // utility function to be called on mouseover.
+        // function on mouseover.
+        function mouseover(d){  
             // filter for selected category_name.
             var st = fData.filter(function(s){ return s.category_name == d[0];})[0],
                 nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
@@ -63,7 +68,8 @@ function dashboard(id, fData){
             leg.update(nD);
         }
         
-        function mouseout(d){    // utility function to be called on mouseout.
+        // function on mouse move out of this area
+        function mouseout(d){   
             // reset the pie-chart and legend.    
             pC.update(tF);
             leg.update(tF);
@@ -178,14 +184,14 @@ function dashboard(id, fData){
             l.select(".legendPerc").text(function(d){ return getLegend(d,nD);});        
         }
         
-        function getLegend(d,aD){ // Utility function to compute percentage.
+        // Compute percentage
+        function getLegend(d,aD){ 
             return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
         }
-
         return leg;
     }
     
-    // calculate total frequency by segment for all category_name.
+    // calculate total frequency for all borough.
     var tF = ['Westminster','Camden','Hackney','Islington','Southwark'].map(function(d){ 
         return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
     });    
@@ -197,3 +203,5 @@ function dashboard(id, fData){
         pC = pieChart(tF), // create the pie-chart.
         leg= legend(tF);  // create the legend.
 }
+
+// Reference: Naushad Pasha Puliyambalath (2014) Interactive HTML Reporting Using D3 [Online] http://www.mwsug.org/proceedings/2014/DV/MWSUG-2014-DV09.pdf (Accessed: 10th May 2019)

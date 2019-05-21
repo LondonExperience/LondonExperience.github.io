@@ -9,9 +9,9 @@
   <style>
     body { margin:0; padding:0; }
     #map { position:absolute; top:0; bottom:0; width:100%; }
-    h2 { margin: 10px;font-size: 2em; font-family: Arial, sans-serif;}
+    h2 { margin: 10px;font-size: 1.2em; font-family: Arial, sans-serif;}
     h3 {font-size: 1em; font-family: Arial, sans-serif;}
-    p {font-size: 1em; margin: 10px; text-align: left; font-family: Arial, sans-serif;}
+    p {font-size: 0.90em; margin: 10px; text-align: left; font-family: Arial, sans-serif;}
     p.italic {
       font-style: italic;
     }
@@ -30,7 +30,7 @@
       left: 0;
       margin-left: 20px;
       top: 0;
-      height:220px;
+      height: 170px;
       margin-top: 20px;
       width: 400px;
     }
@@ -67,7 +67,7 @@
 
 <div class='map-overlay' id='features'><h2>Gender Pay Gap</h2><div id='pd'><p>London 2018</p><p>GPG is the difference in average hourly wage of all men and women across a workforce and refers to the uneven distribution of men and women in high/low income positions/hourly wage across a company.</p><p class="italic">Click on the bottom of the columns for further information.</p></div></div>
 <div class='map-overlay' id='legend'></div>
-<div class='map-overlay' id='info'><h2>Data</h2><div id='pd'><p>The data used in this map is the official <a href="https://gender-pay-gap.service.gov.uk/viewing/download">UK GPG reports from 2018-19.</a></p><p>The median GPG is used because identifying the wage of the middle earner is the best representation of the ‘typical’ gender difference as the median is less influenced by outliers than the mean.</p><p>The median hourly GPG reflects the hourly pay as a percentage of men's pay (i.e. if the GPG is 22% it means that women on average earn 22% less than men). Remuneration provided otherwise than in money (e.g. vouchers, shares) are excluded from the ordinary pay measures. Yet salary sacrifice vouchers (e.g. childcare) is calculated into the ordinary pay. Furthermore, compenensation such as bonus is also excluded from the hourly pay calculation. Lastly, equity partners do not count as employees in the calculations and are therefore not included in the calculations.</p></div></div>
+<div class='map-overlay' id='info'><h2>Data</h2><div id='pd'><p>The data used in for this map is the official <a href="https://gender-pay-gap.service.gov.uk/viewing/download">UK GPG reports from 2018-19.</a></p><p>The median GPG is used as identifying the wage of the middle earner is the best representation of the ‘typical’ gender difference because the median is less influenced by outliers than the mean.</p><p>The median hourly GPG reflects the hourly pay as percentage of men's pay (i.e. if the GPG is 22% it means that women on average earn 22% less than men). Remuneration provided otherwise than in money (e.g. vouchers) are excluded from the ordinary pay measures. Yet salary sacrifice vouchers (e.g. childcare) is calculated into the ordinary pay.</p></div></div>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGFnbWFyZWxsZWZzZW4iLCJhIjoiY2puMzl0YW5qMGN3bTN2cXl1ZXRlZW00ciJ9.GqugaBwmdd6ftAxMN7WFfw';
@@ -84,7 +84,7 @@ map.on('load', function() {
   // rest of the code goes here
   // creating a list of the 'styling stops' to be used to generate a legend later on
   var layers = ['GPG favouring men', 'GPG favouring women', 'No GPG'];
-  var colors = ['#2F66FF', '#F5644D', '#43D0AA'];
+  var colors = ['#2F66FF', '#DF7DF5', '#43D0AA'];
   //add legend: iterates through the list of layers defined above and adds a legend element for each one based on name of the layer and its color.
   for (i = 0; i < layers.length; i++) {
     var layer = layers[i];

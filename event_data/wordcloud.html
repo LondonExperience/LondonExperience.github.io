@@ -5,16 +5,17 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet'/>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
+    <script src='https://cdn.bootcss.com/echarts/3.7.2/echarts.simple.js'></script>
+    <script type="text/javascript" src="./lib/echarts-wordcloud.js"></script>
+    <script src='./lib/echarts-wordcloud.min.js'></script>   
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
 <style>       
     body {
           margin: 0;
           padding: 0;
         }
-        /**
-        * Create a position for the map
-        * on the page */
+        /* Create a position for the backgroud map*/
 
         #map {
           position: absolute;
@@ -36,17 +37,16 @@
         width:550px;    
     }
     
-    #wordle {
-        top: 10%;
-        left: 6%;
-        padding: 10px;
-        width: 1000px;
-        height: 700px;
-        margin: 10px;
-        opacity:1;
-        position:relative;   
-    }
-    
+        
+    #main {
+            width: 80%;
+            height: 100%;
+            margin: 0;
+            object-position: center;
+    }   
+        /**
+        * Create a position for the the word cloud map
+        * on the page */
     
     #legend {
         top: 55%;
@@ -82,10 +82,10 @@
         padding: 10px;
         margin-bottom: 10px;
         top: 10px;
-        height: 160px;
+        
         margin-top: 20px;
-        width: 310px;
-        left:20px;
+        width: 350px;
+        left:30px;
         right: 10px
         }
     .intro h1 {
@@ -100,517 +100,38 @@
          <div id='map'></div>
         <div id='title'><p>Most Popular Words of London Events in first week of May<p style="font-size:60%">Data Generated from<a href='https://www.eventbrite.co.uk/platform/docs/by-date'>Eventbrite API</a> weekly new added events 1st-7th May 2019
             </p></div>
-        <div id="wordle">
-        <img src="Word_Art_london_1.svg" >
-        </div> 
-               
+        
+<!--this call the script of word cloud function by ID "main".
+This is a separate file which I build through Echart-->
+    <div id='main'>
+    <script src="word_cloud.js"></script>
+        </div>
+    
         <div class='map-overlay'> 
      <div class='intro'>
         <h1>Social and Cultural Experience by Events</h1>
-         <p style="font-size:1.2em">Societal and cultural characteristics draw an intangible city image and bring citizens a sense of place. In this part, we use 'social and cultural experience in a week' to evaluate city liveability of London. To measure such experience, here we use the data of weekly public events</p>
+         <p style="font-size:1.2em">Societal and cultural events create an invisible city structure that brings individuals a sense of place. In these visualisations, we explore the liveability of London through a week’s worth of social and cultural experiences. To investigate these experiences, we look at weekly public events throughout the city.</p>
              
          <p style="font-size:1.2em">
-         City daily events play as a medium which connects people and city. It brings a chance for interactions between not only people and people but also people and place. There is a broad category of events, and citizens with the same hobbies or skills can get together to share knowledge and have social interactions.
+         Daily events create a medium which connects people to their city. It brings a chance for interactions between not only people and people but also people and place. There are broad categories of events, and individuals with the same hobbies or skills can get together to share knowledge and have social interactions.
          </p>
             </div>
             <div id ='legend'></div>
             </div>
         
 <script>
-     mapboxgl.accessToken = 'pk.eyJ1IjoibWFkYW8yMzMzIiwiYSI6ImNqYzh5aXk0cjA0cDAyd281cm0wc3J0YzAifQ.9dICOu1KU_JZdW8tBxNChg'; // Put your Mapbox Public Access token here
+     mapboxgl.accessToken = 'pk.eyJ1IjoibWFkYW8yMzMzIiwiYSI6ImNqYzh5aXk0cjA0cDAyd281cm0wc3J0YzAifQ.9dICOu1KU_JZdW8tBxNChg'; 
+    
+// from mapbox load a simple map as †he background of wordcloud 
 var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/madao2333/cjvr58n1t064m1cmlhflpxzmw', // stylesheet location
-    center: [0.141476, 51.488563], // starting position [lng, lat]
-    zoom: 9.7 // starting zoom
+    container: 'map', 
+    style: 'mapbox://styles/madao2333/cjvr58n1t064m1cmlhflpxzmw', 
+    center: [0.141476, 51.488563], 
+    zoom: 9.7 
     });
     
     map.on('load', function() {
-      // Add the circle layer to the map
-// 
-//var data = [{
-//    "name": "London",
-//    "weight": 25
-//  },
-//  {
-//    "name": "May",
-//    "weight": 20
-//  },
-//  {
-//    "name": "Party",
-//    "weight": 19
-//  },
-//  {
-//    "name": "Bank",
-//    "weight": 18
-//  },
-//  {
-//    "name": "Day",
-//    "weight": 16
-//  },
-//  {
-//    "name": "Holiday",
-//    "weight": 16
-//  },
-//  {
-//    "name": "Live",
-//    "weight": 15
-//  },
-//  {
-//    "name": "Night",
-//    "weight": 13
-//  },
-//  {
-//    "name": "Present",
-//    "weight": 13
-//  },
-//  {
-//    "name": "Free",
-//    "weight": 13
-//  },
-//  {
-//    "name": "Health",
-//    "weight": 11
-//  },
-//  {
-//    "name": "Launch",
-//    "weight": 10
-//  },
-//  {
-//    "name": "Event",
-//    "weight": 10
-//  },
-//  {
-//    "name": "Open",
-//    "weight": 9
-//  },
-//  {
-//    "name": "Art",
-//    "weight": 9
-//  },
-//  {
-//    "name": "Special",
-//    "weight": 9
-//  },
-//  {
-//    "name": "Talk",
-//    "weight": 8
-//  },
-//  {
-//    "name": "Session",
-//    "weight": 8
-//  },
-//  {
-//    "name": "World",
-//    "weight": 7
-//  },
-//  {
-//    "name": "Film",
-//    "weight": 7
-//  },
-//  {
-//    "name": "Summer",
-//    "weight": 7
-//  },
-//  {
-//    "name": "Club",
-//    "weight": 7
-//  },
-//  {
-//    "name": "Network",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Conference",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Exhibition",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Series",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Fair",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Soul",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Comedy",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Concert",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Friday",
-//    "weight": 6
-//  },
-//  {
-//    "name": "Conversation",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Business",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Lecture",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Investing",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Future",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Screening",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Showcase",
-//    "weight": 5
-//  },
-//  {
-//    "name": "First",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Meet",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Class",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Up",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Women's",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Sunday",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Celebrating",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Pm",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Saturday",
-//    "weight": 5
-//  },
-//  {
-//    "name": "Book",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Professor",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Tech",
-//    "weight": 4
-//  },
-//  {
-//    "name": "New",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Seminar",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Pitch",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Building",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Carnival",
-//    "weight": 4
-//  },
-//  {
-//    "name": "St",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Anniversary",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Evening",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Friends",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Black",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Ramadan",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Festival",
-//    "weight": 4
-//  },
-//  {
-//    "name": "Season",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Young",
-//    "weight": 3
-//  },
-//  {
-//    "name": "South",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Funds",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Dream",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Culture",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Design",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Artist",
-//    "weight": 3
-//  },
-//  {
-//    "name": "People",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Pre",
-//    "weight": 3
-//  },
-//  {
-//    "name": "School",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Research",
-//    "weight": 3
-//  },
-//  {
-//    "name": "African",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Beyond",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Introduction",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Beer",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Pickle",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Factory",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Vibe",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Boat",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Park",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Monday",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Birthday",
-//    "weight": 3
-//  },
-//  {
-//    "name": "International",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Football",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Vs",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Years",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Training",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Social",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Grace",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Disco",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Band",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Hackney",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Experience",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Bar",
-//    "weight": 3
-//  },
-//  {
-//    "name": "De",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Women",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Paint",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Music",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Conscious",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Power",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Two",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Reggaeton",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Kate",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Ucl",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Square",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Garden",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Show",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Late",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Creative",
-//    "weight": 3
-//  },
-//  {
-//    "name": "House",
-//    "weight": 3
-//  },
-//  {
-//    "name": "Age",
-//    "weight": 3
-//  }
-//];
-
-//Highcharts.chart('wordle', {
-//  series: [{
-//    colors: ['#87CEFA', '#808080', '#00FF7F', '#FFA500', '#9370DB','#FF1493','#F0E68C','#66CDAA','#FF4500','#E0FFFF'],
-//    rotation: {
-//      from: 0,
-//      to: 90,
-//      orientations: 2
-//    },
-//    type: 'wordcloud',
-//    data: data
-//  }],
-//  title: {
-//    text: 'Most Popular Words of London Events in first week of May'
-//  },
-//  tooltip: {
-//    enabled: true
-//  },
-//  subtitle: {
-//    text: '<a href="https://www.eventbrite.co.uk/platform/docs/by-date">Source: Eventbrite</a>'
-//  }
-//});
-    
-    
-    // use javascrit of "Highchart" to build an interactive chart
-    // the chart summarise event words with top 15 highest frequency 
+ 
     var chart = Highcharts.chart('legend', {
 
     title: {
@@ -623,22 +144,19 @@ var map = new mapboxgl.Map({
     
     // set the x label with top 15 words
     xAxis: {
-        categories: ['London', 'May', 'Party', 'Bank', 'Day', 'Holiday', 'Live', 'Night', 'Present', 'Free', 'Health', 'Launch','Event','Open','Art','Special','Talk']
+        categories: ['London', 'Party', 'Bank', 'Day', 'Holiday', 'Live', 'Free', 'Present', 'Night', 'Health', 'Event','Launch','Art','Special','Talk']
     },
     
     // set a series of y label with values of frequency
     series: [{
         type: 'bar',
         colorByPoint: true,
-        data: [25, 20, 19, 18, 16, 16, 15, 13, 13, 13, 11, 10,10, 9, 9, 9, 8],
+        data: [41, 18, 17, 16, 15, 14, 13, 13, 13, 11, 10, 10, 9, 9, 8],
         showInLegend:false
     }]
 
 });
     })
-
-
-
         </script>
     </body>
 </html>

@@ -1,0 +1,22 @@
+id,name,name_localized,resource_uri,short_name,short_name_localized
+103,Music,Music,https://www.eventbriteapi.com/v3/categories/103/,Music,Music
+101,Business & Professional,Business & Professional,https://www.eventbriteapi.com/v3/categories/101/,Business,Business
+110,Food & Drink,Food & Drink,https://www.eventbriteapi.com/v3/categories/110/,Food & Drink,Food & Drink
+113,Community & Culture,Community & Culture,https://www.eventbriteapi.com/v3/categories/113/,Community,Community
+105,Performing & Visual Arts,Performing & Visual Arts,https://www.eventbriteapi.com/v3/categories/105/,Arts,Arts
+104,"Film, Media & Entertainment","Film, Media & Entertainment",https://www.eventbriteapi.com/v3/categories/104/,Film & Media,Film & Media
+108,Sports & Fitness,Sports & Fitness,https://www.eventbriteapi.com/v3/categories/108/,Sports & Fitness,Sports & Fitness
+107,Health & Wellness,Health & Wellness,https://www.eventbriteapi.com/v3/categories/107/,Health,Health
+102,Science & Technology,Science & Technology,https://www.eventbriteapi.com/v3/categories/102/,Science & Tech,Science & Tech
+109,Travel & Outdoor,Travel & Outdoor,https://www.eventbriteapi.com/v3/categories/109/,Travel & Outdoor,Travel & Outdoor
+111,Charity & Causes,Charity & Causes,https://www.eventbriteapi.com/v3/categories/111/,Charity & Causes,Charity & Causes
+114,Religion & Spirituality,Religion & Spirituality,https://www.eventbriteapi.com/v3/categories/114/,Spirituality,Spirituality
+115,Family & Education,Family & Education,https://www.eventbriteapi.com/v3/categories/115/,Family & Education,Family & Education
+116,Seasonal & Holiday,Seasonal & Holiday,https://www.eventbriteapi.com/v3/categories/116/,Holiday,Holiday
+112,Government & Politics,Government & Politics,https://www.eventbriteapi.com/v3/categories/112/,Government,Government
+106,Fashion & Beauty,Fashion & Beauty,https://www.eventbriteapi.com/v3/categories/106/,Fashion,Fashion
+117,Home & Lifestyle,Home & Lifestyle,https://www.eventbriteapi.com/v3/categories/117/,Home & Lifestyle,Home & Lifestyle
+118,"Auto, Boat & Air","Auto, Boat & Air",https://www.eventbriteapi.com/v3/categories/118/,"Auto, Boat & Air","Auto, Boat & Air"
+119,Hobbies & Special Interest,Hobbies & Special Interest,https://www.eventbriteapi.com/v3/categories/119/,Hobbies,Hobbies
+199,Other,Other,https://www.eventbriteapi.com/v3/categories/199/,Other,Other
+120,School Activities,School Activities,https://www.eventbriteapi.com/v3/categories/120/,School Activities,School Activities
